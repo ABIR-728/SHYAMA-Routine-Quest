@@ -1255,11 +1255,20 @@ async function renderToday(){
       if(ev.target.closest(".proof-btn")) return;
       const idx = parseInt(el.dataset.idx,10);
       const t=todayRoutine[idx];
-      const proofRequired = ["4th Sem","GATE/NET","Govt Job","Fitness"].includes(t[3]);
-      if(proofRequired && !(await getProof(day,idx))){
-        toast(t[3]==="Fitness" ? "Upload a workout photo before completing this task." : "Upload a study PDF before completing this task.");
+            const proofRequired = ["4th Sem","GATE/NET","Govt Job","Fitness"].includes(t[3]);
+      const alreadyDone = await isDone(day, idx);
+
+      // Proof is required only when COMPLETING a locked task.
+      // If the task was accidentally ticked, allow it to be unticked.
+      if(proofRequired && !alreadyDone && !(await getProof(day,idx))){
+        toast(
+          t[3]==="Fitness"
+            ? "Upload a workout photo before completing this task."
+            : "Upload a study PDF before completing this task."
+        );
         return;
       }
+
       await toggleTask(day, idx);
       await renderToday(); await renderHome(); await renderStats();
     });
