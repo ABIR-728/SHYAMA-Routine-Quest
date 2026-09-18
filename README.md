@@ -1,7 +1,37 @@
-# SHYAMA Routine Quest V15 — Stable
+# SHYAMA Routine Quest
 
-Stable build based on the working V13 task-folder version.
+## Current Version
+**V21 — GitHub Pages + Supabase Sync + Automatic SSD Mirror**
 
-Includes dark/light themes, compact UI, live date/time, modern icons, proof uploads, Media task-name folders, XP rewards, quotes, Spotify, history, routine, stats, timer, alarms and local IndexedDB storage.
+### Current system
 
-The experimental phone/laptop sync layer is intentionally excluded from this stable build.
+- GitHub Pages hosted PWA
+- Dark / Light themes
+- Daily routine and task tracking
+- XP, streaks, statistics and history
+- Study PDF proof system
+- Workout photo proof system
+- Media organized by task
+- Supabase cloud synchronization
+- Automatic laptop → SSD mirror
+- PWA installation on phone and laptop
+- Locked proof-required tasks can be safely unticked if accidentally completed
+
+### Sync architecture
+
+Phone / Laptop PWA
+→ Supabase
+→ Laptop automatic sync service
+→ `JARVIS_SSD/SHYAMA_DATA`
+
+### SSD structure
+
+```text
+SHYAMA_DATA/
+├── Database/
+│   ├── alarms.json
+│   ├── proofs_manifest.json
+│   ├── task_log.json
+│   └── task_overrides.json
+├── Tasks/
+└── last_sync.json
