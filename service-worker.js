@@ -1,4 +1,4 @@
-const CACHE = "shyama-rq-v19-auto-ssd-sync";
+const CACHE = "shyama-rq-v30-add-task-today";
 const ASSETS = [
   "./",
   "./index.html",
@@ -10,7 +10,12 @@ const ASSETS = [
   "./icons/icon-152.png",
   "./icons/icon-192.png",
   "./icons/icon-384.png",
-  "./icons/icon-512.png"
+  "./icons/icon-512.png",
+  "./assets/inspiration/lowest.jpg",
+  "./assets/inspiration/consistency.jpg",
+  "./assets/inspiration/confidence.jpg",
+  "./assets/inspiration/self-respect.jpg",
+  "./assets/inspiration/warrior.jpg"
 ];
 
 self.addEventListener("install", (e) => {

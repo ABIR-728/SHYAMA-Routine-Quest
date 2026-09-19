@@ -178,7 +178,7 @@ button.primary:hover{box-shadow:0 0 22px rgba(32,220,255,0.7);}
 
 /* hero */
 .hero{position:relative;border-radius:16px;overflow:hidden;height:220px;margin-bottom:12px;border:1px solid var(--border);}
-.hero .layer{position:absolute;inset:0;background-size:cover;background-position:center;animation:kenburns 16s ease-in-out infinite alternate;transition:opacity 1.4s ease;}
+.hero .layer{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:center;background-position:center;animation:kenburns 16s ease-in-out infinite alternate;transition:opacity 1.4s ease;}
 .hero .layer.a{z-index:1;}
 .hero .layer.b{z-index:2;opacity:0;}
 .hero .overlay{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg, rgba(4,10,20,0.15) 0%, rgba(4,10,20,0.88) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:16px 18px;}
@@ -325,6 +325,31 @@ body.theme-historical .panel{box-shadow:0 10px 25px rgba(0,0,0,.30),inset 0 1px 
 .reward-bar{height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:6px;}
 .reward-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .35s ease;}
 .reward-status{font-size:9px;margin-top:4px;}
+
+
+/* Settings appearance switch */
+.settings-theme-panel{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:12px 14px;border-radius:14px;margin-bottom:10px;
+  background:rgba(10,24,42,.46);border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 10px 28px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter:blur(16px) saturate(135%);
+  -webkit-backdrop-filter:blur(16px) saturate(135%);
+}
+.settings-theme-info{min-width:0;}
+.settings-theme-info b{display:block;font-size:12px;margin-bottom:2px;}
+.settings-theme-info span{font-size:10px;color:var(--muted);}
+.settings-theme-switch{display:flex;gap:4px;padding:3px;border-radius:999px;
+  background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.10);flex:none;}
+.settings-theme-switch .theme-choice{min-width:76px;padding:7px 10px;border-radius:999px;font-size:10px;}
+.settings-theme-switch .theme-choice:not(.primary){background:transparent;box-shadow:none;animation:none;}
+body.theme-light .settings-theme-panel{background:rgba(255,255,255,.76);border-color:rgba(30,70,105,.14);}
+body.theme-light .settings-theme-switch{background:rgba(30,70,105,.06);border-color:rgba(30,70,105,.12);}
+@media(max-width:520px){
+  .settings-theme-panel{align-items:flex-start;flex-direction:column;}
+  .settings-theme-switch{width:100%;}
+  .settings-theme-switch .theme-choice{flex:1;}
+}
 
 /* --- Top theme selector --- */
 .top-theme-bar{
@@ -486,7 +511,7 @@ body{
 .card:nth-child(2) .val{background:linear-gradient(90deg,#ff4fd8,#ffc4f3);-webkit-background-clip:text;background-clip:text;}
 .card:nth-child(3) .val{background:linear-gradient(90deg,#ffd35a,#fff0aa);-webkit-background-clip:text;background-clip:text;}
 .card:nth-child(4) .val{background:linear-gradient(90deg,#9b6cff,#e4d8ff);-webkit-background-clip:text;background-clip:text;}
-.hero{height:205px;border-color:rgba(53,231,255,.30);box-shadow:0 16px 40px rgba(0,0,0,.30),0 0 25px rgba(53,231,255,.07);}
+.hero{height:auto;aspect-ratio:16/7;min-height:175px;border-color:rgba(53,231,255,.30);box-shadow:0 16px 40px rgba(0,0,0,.30),0 0 25px rgba(53,231,255,.07);}
 .hero .overlay{background:linear-gradient(180deg,rgba(3,7,16,.08) 18%,rgba(3,6,15,.90) 100%);padding:18px;}
 .hero-logo{position:absolute;right:22px;top:22px;width:110px;height:110px;object-fit:contain;z-index:2;opacity:.78;filter:drop-shadow(0 0 13px rgba(53,231,255,.35)) drop-shadow(0 0 18px rgba(255,79,216,.22));}
 .hero .eyebrow{color:#35e7ff;letter-spacing:2px;}
@@ -530,7 +555,7 @@ body.theme-light .current-datetime-panel{background:linear-gradient(135deg,rgba(
  .brand-logo{width:40px;height:40px;}
  .brand .name{font-size:19px;letter-spacing:3px;}
  .brand .sub{font-size:7px;letter-spacing:1.1px;}
- .hero{height:175px;}
+ .hero{aspect-ratio:16/7;min-height:150px;}
  .hero-logo{width:78px;height:78px;right:13px;top:15px;opacity:.58;}
  .hero .quote{max-width:80%;font-size:12px;}
  .top-stats{font-size:8px;}
@@ -544,58 +569,136 @@ body.theme-light .current-datetime-panel{background:linear-gradient(135deg,rgba(
 }
 </style>
 
+
+<style id="shyama-v23-challenges">
+.challenge-panel{border-color:rgba(255,211,90,.24);}
+.challenge-help{font-size:10px;line-height:1.45;margin:4px 0 10px;}
+.challenge-card{display:flex;gap:9px;align-items:center;padding:9px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.025);margin:7px 0;}
+.challenge-card.earned{border-color:rgba(67,230,170,.45);background:linear-gradient(135deg,rgba(67,230,170,.08),rgba(255,211,90,.04));}
+.challenge-badge{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(255,211,90,.12);font-size:14px;flex:none;}
+.challenge-card.earned .challenge-badge{background:rgba(67,230,170,.14);color:var(--good);}
+.challenge-main{min-width:0;flex:1;}
+.challenge-main b{font-size:11px;}
+.challenge-state{font-size:9px;font-weight:900;color:var(--warn);letter-spacing:.5px;}
+.challenge-card.earned .challenge-state{color:var(--good);}
+.challenge-status,.challenge-next,.challenge-complete{font-size:9px;margin-top:5px;}
+.challenge-complete{font-weight:900;color:var(--good);}
+.danger-outline{border-color:rgba(255,93,135,.45)!important;color:#ff6c91!important;background:rgba(255,93,135,.06)!important;}
+.danger-outline:hover{border-color:#ff5d87!important;background:rgba(255,93,135,.12)!important;}
+</style>
+<style>.hero .layer{background-size:contain!important;background-repeat:no-repeat!important;background-position:center!important;background-color:#070b14;}</style>
+<style id="shyama-v23-inspiration">
+.inspiration-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:8px;}
+.inspiration-grid img{width:100%;aspect-ratio:4/5;object-fit:contain;background:#070b14;border:1px solid var(--border);border-radius:11px;display:block;}
+.inspiration-panel{border-color:rgba(255,211,90,.20);}
+@media(max-width:800px){.inspiration-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media(max-width:480px){.inspiration-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;}}
+</style>
+<style id="shyama-v24-ui">
+:root{--shy-gold:#e7b85c;--shy-bg:#080c0d;--shy-line:rgba(255,255,255,.12)}
+body{background:radial-gradient(circle at 50% -20%,rgba(231,184,92,.06),transparent 35%),#080c0d;color:#f2eee6}
+.app{max-width:1100px;padding:8px 18px 104px}.top{border:0;background:transparent;box-shadow:none;border-radius:0;padding:6px 18px 12px;margin-bottom:4px;flex-wrap:nowrap}.brand-vibe{gap:12px}.brand-logo{width:48px;height:48px;filter:none}.brand .name{font-family:Georgia,"Times New Roman",serif;font-size:34px;letter-spacing:5px;color:var(--shy-gold);background:none;-webkit-text-fill-color:initial;text-shadow:0 1px 0 #000}.brand .sub{font-family:Georgia,"Times New Roman",serif;color:var(--shy-gold);font-size:9px;letter-spacing:3px}.top-stats{display:none}.top-theme-bar{display:none}
+.shy-header-tools{display:flex;align-items:center;gap:12px;margin-left:auto}.shy-date-pill{min-width:170px;border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:8px 15px;text-align:center;background:rgba(10,14,15,.72);font-family:Georgia,"Times New Roman",serif;line-height:1.15}.shy-date-pill .date{font-size:13px;color:#f1ede6}.shy-date-pill .time{font-size:15px;font-weight:700;color:#fff;margin-top:2px}.shy-profile{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;background:#111719;color:#eee;font-size:20px}
+.home-shell{display:flex;flex-direction:column;gap:18px}.shy-hero{position:relative;height:auto;aspect-ratio:16/6.5;border-radius:22px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0b1012;box-shadow:0 20px 50px rgba(0,0,0,.35)}.shy-hero .layer{position:absolute;inset:0;background-size:contain!important;background-repeat:no-repeat!important;background-position:center!important;background-color:#0b1012;transition:opacity .7s ease}.shy-hero .layer::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,7,8,.18),rgba(4,7,8,.02) 42%,rgba(4,7,8,.52))}.shy-hero .overlay{position:absolute;inset:0;padding:22px 28px;display:flex;flex-direction:column;justify-content:space-between;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.28))}.shy-hero .eyebrow{font-family:Georgia,"Times New Roman",serif;color:#fff;font-size:25px;letter-spacing:0;text-transform:none;font-weight:700}.shy-hero h1{font-family:Georgia,"Times New Roman",serif;color:#fff!important;background:none!important;-webkit-text-fill-color:initial!important;font-size:16px!important;font-weight:400!important;margin:0!important}.shy-hero .quote-wrap{margin-left:auto;width:min(42%,360px);text-align:center;margin-top:auto;margin-bottom:10px}.shy-hero .quote{font-family:Georgia,"Times New Roman",serif;font-size:24px;line-height:1.25;color:#fff;max-width:none}.shy-hero .quote-refresh{display:none}.shy-hero .quote-source{color:#fff;font-family:Georgia,"Times New Roman",serif;font-size:16px;margin-top:14px}.shy-hero .refresh,.shy-next{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:52px;height:52px;border-radius:50%;font-size:27px;background:rgba(0,0,0,.52);border:1px solid rgba(255,255,255,.16);padding:0}.shy-hero .refresh{left:16px}.shy-next{right:16px}.shy-hero .hero-logo,.shy-hero .credit{display:none}.shy-dots{position:absolute;z-index:4;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:9px}.shy-dots span{width:10px;height:10px;border-radius:50%;background:#8f9697;display:block}.shy-dots span.active{background:var(--shy-gold)}
+.shy-quote-bar{display:flex;align-items:center;justify-content:space-between;gap:15px;border:1px solid var(--shy-line);border-radius:20px;padding:16px 22px;background:rgba(11,16,18,.72)}.shy-quote-bar .q{font-family:Georgia,"Times New Roman",serif;font-size:20px;font-style:italic}.shy-view{border:1px solid var(--shy-gold);color:var(--shy-gold);border-radius:24px;background:transparent;padding:11px 18px;white-space:nowrap}
+#homeCards{grid-template-columns:repeat(4,1fr)!important;gap:16px}#homeCards .card{min-height:105px;text-align:left;padding:17px 18px;border-radius:18px;background:linear-gradient(145deg,#0d1416,#0a1012);border:1px solid var(--shy-line);box-shadow:none}#homeCards .card::before{display:none}#homeCards .stat-icon{justify-content:flex-start;height:30px;margin:0;color:var(--shy-gold)}#homeCards .stat-icon .icon-svg{width:30px;height:30px}#homeCards .card .val{font-family:Georgia,"Times New Roman",serif;font-size:20px;color:#fff;background:none;-webkit-text-fill-color:initial;margin-top:2px}#homeCards .card .lbl{font-family:Georgia,"Times New Roman",serif;color:#b8b4ad;font-size:13px;text-transform:none;letter-spacing:0;margin-top:2px}#homeCards .mini-progress{height:6px;background:#252b2d;border-radius:10px;overflow:hidden;margin-top:8px}.mini-progress span{display:block;height:100%;background:#e7b85c;border-radius:10px}.card:nth-child(2) .stat-icon{color:#ff7a43}#homeCards .card:nth-child(3) .stat-icon{color:#22c9db}#homeCards .card:nth-child(4) .stat-icon{color:#ffd05b}
+.shy-quick,.shy-challenges,.shy-inspiration{border:1px solid var(--shy-line);border-radius:20px;padding:18px 20px;background:rgba(11,16,18,.58)}.shy-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}.shy-section-head h3{font-family:Georgia,"Times New Roman",serif;font-size:23px;margin:0;color:#f5f1e9}.shy-section-head span{font-family:Georgia,"Times New Roman",serif;color:#aaa69f;font-size:15px}.shy-actions{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}.shy-action{min-height:112px;border-radius:18px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;border:1px solid rgba(255,255,255,.16);font-family:Georgia,"Times New Roman",serif;font-size:15px;line-height:1.1}.shy-action .aicon{font-size:34px;line-height:1}.shy-action.blue{background:linear-gradient(145deg,#152a42,#101d2b)}.shy-action.green{background:linear-gradient(145deg,#123128,#0e201b)}.shy-action.purple{background:linear-gradient(145deg,#30234a,#211932)}.shy-action.red{background:linear-gradient(145deg,#3b2021,#291819)}.shy-action.teal{background:linear-gradient(145deg,#123a3b,#0d2829)}.shy-action.cyan{background:linear-gradient(145deg,#123747,#0d2731)}
+.challenge-hub{padding-bottom:22px}.challenge-hub h2{margin:0;font-family:Georgia,"Times New Roman",serif}.challenge-hub-help{font-size:12px;line-height:1.6;max-width:760px}.challenge-rules{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:14px 0 18px}.challenge-rules>div{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 4px;text-align:center;background:rgba(255,255,255,.025)}.challenge-rules b{display:block;font-size:20px;color:var(--shy-gold)}.challenge-rules span{font-size:9px;color:#aaa}.challenge-page-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.challenge-page-list .challenge-card{margin:0;min-height:108px}.challenge-page-list .challenge-card .challenge-main{width:100%}.challenge-page-list .challenge-status{font-size:10px}.challenge-page-list .challenge-badge{width:38px;height:38px;font-size:19px}.challenge-page-list .challenge-card.earned{box-shadow:0 0 0 1px rgba(67,230,170,.08),0 8px 28px rgba(0,0,0,.18)}
+.shy-challenge-row{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}.shy-challenge-row .challenge-card{margin:0;min-height:122px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:10px 6px;background:#0b1113;border:1px solid rgba(255,255,255,.14)}.shy-challenge-row .challenge-main{width:100%}.shy-challenge-row .challenge-badge{width:34px;height:34px;margin:0 auto 6px;font-size:18px}.shy-challenge-row .challenge-main .row{display:block}.shy-challenge-row .challenge-main b{font-family:Georgia,"Times New Roman",serif;font-size:16px;display:block}.shy-challenge-row .challenge-state{font-size:11px;display:block;margin-top:3px}.shy-challenge-row .reward-bar{margin-top:8px}.shy-challenge-row .challenge-status{font-size:9px;line-height:1.2}.shy-challenge-row .challenge-next,.shy-challenge-row .challenge-complete{grid-column:1/-1;text-align:center;margin-top:5px}.shy-inspiration .inspiration-grid{grid-template-columns:repeat(5,1fr);gap:12px;margin-top:0}.shy-inspiration .inspiration-grid img{aspect-ratio:4/5;height:auto;object-fit:contain;background:#080c0d;border:1px solid rgba(255,255,255,.12);border-radius:13px}.home-secondary,.current-datetime-panel{display:none!important}
+nav.tabs{background:rgba(6,10,11,.96);border-top:1px solid rgba(255,255,255,.10);box-shadow:0 -10px 30px rgba(0,0,0,.35);padding:8px 12px calc(8px + env(safe-area-inset-bottom))}nav.tabs button{font-family:Georgia,"Times New Roman",serif;font-size:12px;color:#aaa7a0;gap:5px;padding:7px 3px}nav.tabs button.active{color:var(--shy-gold);background:transparent}nav.tabs button.active .ic{filter:none}
+body.theme-light{background:#f2eee7;color:#211f1a}body.theme-light .shy-hero .layer{background-color:#e9e4da}body.theme-light .shy-quote-bar,body.theme-light .shy-quick,body.theme-light .shy-challenges,body.theme-light .shy-inspiration{background:rgba(255,255,255,.82);border-color:rgba(0,0,0,.12)}body.theme-light #homeCards .card{background:#fff;border-color:rgba(0,0,0,.10)}body.theme-light nav.tabs{background:rgba(255,255,255,.94);border-top-color:rgba(0,0,0,.12)}
+@media(max-width:800px){.app{padding:6px 10px 96px}.top{padding:5px 4px 10px}.brand-logo{width:40px;height:40px}.brand .name{font-size:26px;letter-spacing:4px}.brand .sub{font-size:7px;letter-spacing:2px}.shy-date-pill{min-width:140px;padding:7px 10px}.shy-date-pill .date{font-size:10px}.shy-date-pill .time{font-size:12px}.shy-profile{width:40px;height:40px}.shy-hero{aspect-ratio:16/8.2}.shy-hero .overlay{padding:14px 16px}.shy-hero .eyebrow{font-size:18px}.shy-hero .quote-wrap{width:55%}.shy-hero .quote{font-size:16px}.shy-quote-bar .q{font-size:15px}.shy-actions{grid-template-columns:repeat(3,1fr)}.shy-challenge-row{grid-template-columns:repeat(4,1fr)}.challenge-rules{grid-template-columns:repeat(4,1fr)}.challenge-page-list{grid-template-columns:1fr}.shy-inspiration .inspiration-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.app{padding:5px 8px 94px}.brand .name{font-size:22px;letter-spacing:3px}.brand .sub{display:none}.shy-date-pill{min-width:105px;padding:6px}.shy-date-pill .date{font-size:8px}.shy-date-pill .time{font-size:10px}.shy-profile{width:36px;height:36px}.shy-hero{aspect-ratio:4/3.15}.shy-hero .quote-wrap{width:60%}.shy-hero .quote{font-size:14px}.shy-hero .eyebrow{font-size:15px}.shy-hero .refresh,.shy-next{width:38px;height:38px;font-size:21px}.shy-quote-bar{padding:12px 14px}.shy-quote-bar .q{font-size:13px}.shy-view{padding:8px 11px;font-size:10px}.shy-actions{gap:8px}.shy-action{min-height:90px;font-size:12px}.shy-action .aicon{font-size:27px}.shy-challenge-row{grid-template-columns:repeat(2,1fr)}.challenge-rules{grid-template-columns:repeat(4,1fr)}.shy-inspiration .inspiration-grid{grid-template-columns:repeat(2,1fr)}nav.tabs button{font-size:9px}.shy-section-head h3{font-size:18px}.shy-section-head span{font-size:11px}}
+</style>
+
+
+<style id="shyama-v29-all-pages-dark">
+/* V29 — make every non-home page match the dark SHYAMA home surface */
+body.theme-glass .page{
+  background:transparent;
+  color:var(--text);
+}
+body.theme-glass .page .panel,
+body.theme-glass .page .card,
+body.theme-glass .page .task,
+body.theme-glass .page .day-card,
+body.theme-glass .page .challenge-card,
+body.theme-glass .page .alarm-row{
+  background:linear-gradient(145deg,rgba(13,20,22,.96),rgba(7,13,17,.94)) !important;
+  border-color:rgba(255,255,255,.12) !important;
+  color:var(--text);
+  box-shadow:0 10px 28px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.055);
+}
+body.theme-glass .page .day-card>*,
+body.theme-glass .page .routine-row,
+body.theme-glass .page .history-row,
+body.theme-glass .page .media-item{
+  color:var(--text);
+}
+body.theme-glass .page input,
+body.theme-glass .page select,
+body.theme-glass .page textarea{
+  background:rgba(6,13,20,.92) !important;
+  color:var(--text) !important;
+  border-color:rgba(255,255,255,.14) !important;
+}
+body.theme-glass .page .calendar .cell,
+body.theme-glass .page .heat0{
+  background:#0a1118 !important;
+  border-color:rgba(255,255,255,.10) !important;
+  color:var(--muted);
+}
+body.theme-glass .page .challenge-rules>div,
+body.theme-glass .page .reward-card,
+body.theme-glass .page .stat-card{
+  background:rgba(255,255,255,.025) !important;
+  border-color:rgba(255,255,255,.12) !important;
+}
+body.theme-glass .page h1,
+body.theme-glass .page h2,
+body.theme-glass .page h3,
+body.theme-glass .page h4,
+body.theme-glass .page b,
+body.theme-glass .page strong{
+  color:var(--text);
+}
+body.theme-glass .page .muted,
+body.theme-glass .page small{
+  color:var(--muted);
+}
+/* Keep the navigation itself dark and consistent with the home page. */
+body.theme-glass nav.tabs{
+  background:rgba(4,10,20,.94);
+  border-top-color:rgba(255,255,255,.10);
+  backdrop-filter:blur(18px) saturate(135%);
+  -webkit-backdrop-filter:blur(18px) saturate(135%);
+}
+</style>
 </head>
 <body>
 
 <div class="app">
   <div class="top">
-    <div class="brand brand-vibe">
-      <img class="brand-logo" src="icons/shyama-logo.png" alt="SHYAMA logo">
-      <div class="brand-copy">
-        <span class="name">SHYAMA</span>
-        <span class="sub">ROUTINE QUEST · DISCIPLINE · PROGRESS</span>
-      </div>
-    </div>
-    <div class="top-stats" id="topStats">LEVEL 1 · 0 XP · 0 DAY STREAK</div>
+    <div class="brand brand-vibe"><img class="brand-logo" src="icons/shyama-logo.png" alt="SHYAMA logo"><div class="brand-copy"><span class="name">SHYAMA</span><span class="sub">DISCIPLINE · PROGRESS · A BETTER YOU</span></div></div>
+    <div class="shy-header-tools"><div class="shy-date-pill" id="topDateTime"><div class="date">Loading date…</div><div class="time">--:--:--</div></div><div class="shy-profile" aria-label="Profile">●</div></div>
   </div>
-  <div class="top-theme-bar">
-    <span class="top-theme-label">THEME</span>
-    <div class="top-theme-scroll" id="topThemeBar">
-      <button class="theme-choice" data-theme="glass">🌙 Dark</button>
-      <button class="theme-choice" data-theme="light">☀️ Light</button>
-    </div>
-  </div>
+  <div class="top-theme-bar"><span class="top-theme-label">THEME</span><div class="top-theme-scroll" id="topThemeBar"><button class="theme-choice" data-theme="glass">🌙 Dark</button><button class="theme-choice" data-theme="light">☀️ Light</button></div></div>
 
   <!-- HOME -->
   <div class="page active" id="page-home">
-    <div class="hero" id="heroBox">
-      <div class="layer a" id="heroLayerA"></div>
-      <div class="layer b" id="heroLayerB"></div>
-      <img class="hero-logo" src="icons/shyama-logo.png" alt="" aria-hidden="true">
-      <div class="overlay">
-        <div class="eyebrow">A BETTER YOU · EVERYDAY</div>
-        <h1 id="heroTitle" style="font-size:24px;margin:2px 0 4px;">Stay consistent.</h1>
-        <div class="quote-wrap">
-          <div class="quote" id="homeQuote">"Small steps every day lead to massive results."</div>
-          <button class="quote-refresh" id="quoteRefresh" title="Get a new online quote">↻ New quote</button>
-        </div>
-        <div class="quote-source" id="quoteSource">Daily motivation</div>
+    <div class="home-shell">
+      <div class="shy-hero" id="heroBox"><div class="layer a" id="heroLayerA"></div><div class="layer b" id="heroLayerB"></div>
+        <div class="overlay"><div><div class="eyebrow">☀ Today's Focus</div><h1 id="heroTitle">A better you · every day</h1></div><div class="quote-wrap"><div class="quote" id="homeQuote">"Small steps every day lead to big results."</div><button class="quote-refresh" id="quoteRefresh">↻ New quote</button><div class="quote-source" id="quoteSource">Keep Going.</div></div></div>
+        <button class="refresh" id="heroRefresh" title="Previous / new image">‹</button><button class="shy-next" id="heroNext" title="Next image">›</button><div class="shy-dots"><span class="active"></span><span></span><span></span><span></span><span></span><span></span></div><div class="credit" id="heroCredit"></div>
       </div>
-      <button class="refresh" id="heroRefresh" title="New image">⟳</button>
-      <div class="credit" id="heroCredit"></div>
-    </div>
-    <div class="grid cards" style="grid-template-columns:repeat(4,1fr);" id="homeCards"></div>
-    <div class="panel current-datetime-panel">
-      <div class="row between current-next-head"><h3>📅 Current Date &amp; Time</h3></div>
-      <div id="currentDateTime" class="current-datetime" aria-live="polite"></div>
-    </div>
-    <div class="panel">
-      <div class="row between"><h3>🎯 Category Progress — Today</h3></div>
-      <div id="catProgress"></div>
-    </div>
-    <div class="panel">
-      <h3>🥧 Category Split — Today</h3>
-      <div id="catDonut"></div>
+      <div class="shy-quote-bar"><div class="q">“Small steps every day lead to big results.”</div><button class="shy-view" id="viewAllCards">▧ &nbsp; View All Cards</button></div>
+      <div class="grid cards" id="homeCards"></div>
+      <section class="shy-quick"><div class="shy-section-head"><h3>Quick Actions</h3><span>Discipline Today, Freedom Tomorrow.</span></div><div class="shy-actions">
+        <button class="shy-action blue" data-quick="today"><span class="aicon">☑</span><span>Today's Tasks</span></button><button class="shy-action green" data-quick="upload"><span class="aicon">↥</span><span>Upload Proof</span></button><button class="shy-action purple" data-quick="routine"><span class="aicon">▤</span><span>Full Routine</span></button><button class="shy-action red" data-quick="stats"><span class="aicon">▥</span><span>Statistics</span></button><button class="shy-action teal" data-quick="focus"><span class="aicon">⌛</span><span>Focus Mode</span></button><button class="shy-action cyan" data-quick="today"><span class="aicon">▦</span><span>All Tasks</span></button>
+      </div></section>
+      <section class="shy-challenges"><div class="shy-section-head"><h3>Perfect Day Challenges</h3><span>Complete all tasks. Build the real you. →</span></div><div class="shy-challenge-row" id="challengeList"></div></section>
+      <section class="shy-inspiration"><div class="shy-section-head"><h3>Today's Inspiration</h3><span>New Wisdom Daily &nbsp;↻</span></div><div class="inspiration-grid"><img src="assets/inspiration/lowest.jpg" alt="Motivational illustration" loading="lazy"><img src="assets/inspiration/consistency.jpg" alt="Consistency quote artwork" loading="lazy"><img src="assets/inspiration/confidence.jpg" alt="Confidence artwork" loading="lazy"><img src="assets/inspiration/self-respect.jpg" alt="Self respect artwork" loading="lazy"><img src="assets/inspiration/warrior.jpg" alt="Warrior discipline artwork" loading="lazy"></div></section>
+      <div class="home-secondary"><div class="panel"><div class="row between"><h3>🎯 Category Progress — Today</h3></div><div id="catProgress"></div></div><div class="panel"><h3>🥧 Category Split — Today</h3><div id="catDonut"></div></div></div>
     </div>
   </div>
 
@@ -606,8 +709,9 @@ body.theme-light .current-datetime-panel{background:linear-gradient(135deg,rgba(
         <div class="panel">
           <div class="row between">
             <h3>📋 Today's Routine</h3>
-            
+            <button class="primary" id="addTaskBtn">＋ Add Task</button>
           </div>
+          <div class="muted" style="font-size:10px;margin:4px 0 9px;">Add a one-day task without changing your weekly routine.</div>
           <div class="tasklist" id="taskList"></div>
         </div>
       </div>
@@ -654,6 +758,18 @@ body.theme-light .current-datetime-panel{background:linear-gradient(135deg,rgba(
     </div>
   </div>
 
+  <!-- CHALLENGES -->
+  <div class="page" id="page-challenges">
+    <div class="panel challenge-hub">
+      <div class="row between"><h2>🔥 Perfect Day Challenges</h2><span class="muted">Milestones</span></div>
+      <p class="muted challenge-hub-help">Complete <b>every active task</b> for the day. Finish a milestone and it stays permanently achieved. If a later day has even one incomplete task, only the current run resets to Day 1.</p>
+      <div class="challenge-rules">
+        <div><b>3</b><span>Days</span></div><div><b>7</b><span>Days</span></div><div><b>13</b><span>Days</span></div><div><b>21</b><span>Days</span></div><div><b>30</b><span>Days</span></div><div><b>45</b><span>Days</span></div><div><b>66</b><span>Days</span></div>
+      </div>
+      <div id="challengeListPage" class="challenge-page-list"></div>
+    </div>
+  </div>
+
   <!-- STATS -->
   <div class="page" id="page-stats">
     <div class="grid cards" style="grid-template-columns:repeat(4,1fr);" id="statsCards"></div>
@@ -664,6 +780,11 @@ body.theme-light .current-datetime-panel{background:linear-gradient(135deg,rgba(
       <div class="row between"><h3>🎁 XP Rewards</h3><span class="muted">Milestones</span></div>
       <p class="muted" style="font-size:11px;margin:4px 0 10px;">Earn virtual rewards as your total XP grows.</p>
       <div id="xpRewards"></div>
+    </div>
+    <div class="panel challenge-panel">
+      <div class="row between"><h3>🔥 Perfect-Day Challenges</h3><span class="muted">All active tasks complete</span></div>
+      <p class="muted challenge-help">Complete every active task on a day. A single incomplete task breaks the current perfect-day run, but milestones you already earned stay permanently unlocked.</p>
+      <div id="challengeListStats"></div>
     </div>
   </div>
 
@@ -722,6 +843,16 @@ body.theme-light .current-datetime-panel{background:linear-gradient(135deg,rgba(
 
   <!-- SETTINGS -->
   <div class="page" id="page-settings">
+    <div class="settings-theme-panel">
+      <div class="settings-theme-info">
+        <b>Appearance</b>
+        <span id="settingsThemeStatus">Dark mode</span>
+      </div>
+      <div class="settings-theme-switch" aria-label="Choose appearance">
+        <button type="button" class="theme-choice" data-theme="glass">🌙 Dark</button>
+        <button type="button" class="theme-choice" data-theme="light">☀️ Light</button>
+      </div>
+    </div>
     <div class="panel">
       <h3>🔄 Cross-Device Sync</h3>
       <p class="muted" style="font-size:12px;line-height:1.5;">
@@ -760,11 +891,40 @@ body.theme-light .current-datetime-panel{background:linear-gradient(135deg,rgba(
   <button data-page="home" class="active"><span class="ic"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.2a1 1 0 0 1-1 1h-5.2v-6h-5.6v6H4a1 1 0 0 1-1-1z"/></svg></span>HOME</button>
   <button data-page="today"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="m8 12 2.3 2.3L16 8.8M8 7h8M8 17h5"/></svg></span>TODAY</button>
   <button data-page="routine"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M7 3v4M17 3v4M3.5 9h17M7 13h3M14 13h3M7 17h3M14 17h3"/></svg></span>ROUTINE</button>
+  <button data-page="challenges"><span class="ic"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.1 4.8 5.2.5-3.9 3.5 1.1 5.1-4.5-2.7-4.5 2.7 1.1-5.1-3.9-3.5 5.2-.5z"/><path d="M7 18h10v3H7z"/></svg></span>CHALLENGES</button>
   <button data-page="stats"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V5M19 20v-7"/></svg></span>STATS</button>
   <button data-page="history"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5M12 7v5l3.5 2"/></svg></span>HISTORY</button>
   <button data-page="media"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><circle cx="8" cy="10" r="1.5"/><path d="m4 17 4.5-4 3.5 3 2.5-2 5.5 5"/></svg></span>MEDIA</button>
   <button data-page="settings"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 15 .1.1-1.7 3-1.8-.7a7.8 7.8 0 0 1-2.1 1.2L13.7 20h-3.4l-.2-1.4a7.8 7.8 0 0 1-2.1-1.2l-1.8.7-1.7-3 1.1-.9a7.7 7.7 0 0 1 0-2.4l-1.1-.9 1.7-3 1.8.7A7.8 7.8 0 0 1 10.1 7L10.3 5h3.4l.2 2a7.8 7.8 0 0 1 2.1 1.2l1.8-.7 1.7 3-1.1.9a7.7 7.7 0 0 1 0 2.4Z"/></svg></span>SETTINGS</button>
 </nav>
+
+<!-- ADD TASK MODAL -->
+<div class="modal-backdrop" id="addTaskModal" aria-hidden="true">
+  <div class="edit-modal">
+    <div class="row between">
+      <h3>＋ Add Today's Task</h3>
+      <button class="ghost" id="closeAddTask">✕</button>
+    </div>
+    <div class="edit-task-preview">This task is added only to today and will not alter the weekly routine.</div>
+    <div class="edit-grid">
+      <div><label>Start time</label><input id="addStart" type="time"></div>
+      <div><label>End time</label><input id="addEnd" type="time"></div>
+    </div>
+    <div class="field"><label>Task name</label><input id="addName" type="text" maxlength="80" placeholder="e.g. Revise spectroscopy notes"></div>
+    <div class="field"><label>Category</label>
+      <select id="addCategory">
+        <option>4th Sem</option><option>GATE/NET</option><option>Govt Job</option>
+        <option>Fitness</option><option>Tuition</option><option>Personal</option>
+      </select>
+    </div>
+    <div class="field"><label>XP</label><input id="addXP" type="number" min="0" max="1000" step="5" value="25"></div>
+    <div class="edit-proof-info" id="addProofInfo">📄 Study categories require a PDF proof. Fitness requires a workout photo.</div>
+    <div class="row" style="justify-content:flex-end;margin-top:10px;gap:6px;">
+      <button id="cancelAddTask">Cancel</button>
+      <button class="primary" id="saveAddTask">Add Task</button>
+    </div>
+  </div>
+</div>
 
 <!-- TASK EDIT MODAL -->
 <div class="modal-backdrop" id="taskEditModal" aria-hidden="true">
@@ -787,9 +947,12 @@ body.theme-light .current-datetime-panel{background:linear-gradient(135deg,rgba(
     </div>
     <div class="field"><label>XP</label><input id="editXP" type="number" min="0" max="1000" step="5"></div>
     <div class="edit-proof-info" id="editProofInfo"></div>
-    <div class="row" style="justify-content:flex-end;margin-top:10px;">
-      <button id="cancelTaskEdit">Cancel</button>
-      <button class="primary" id="saveTaskEdit">Save Task</button>
+    <div class="row between" style="margin-top:10px;">
+      <button class="danger-outline" id="deleteTaskBtn">🗑 Delete Task</button>
+      <div class="row" style="justify-content:flex-end;gap:6px;">
+        <button id="cancelTaskEdit">Cancel</button>
+        <button class="primary" id="saveTaskEdit">Save Task</button>
+      </div>
     </div>
   </div>
 </div>
@@ -957,11 +1120,22 @@ function overrideKey(day, idx){ return `jarvis_task_override_${day}_${idx}`; }
 function getTaskOverride(day, idx){
   try { return JSON.parse(localStorage.getItem(overrideKey(day,idx)) || "null"); } catch(e){ return null; }
 }
+function addedTasksKey(day){ return `jarvis_added_tasks_${day}`; }
+function getAddedTasks(day){
+  try { const v=JSON.parse(localStorage.getItem(addedTasksKey(day))||"[]"); return Array.isArray(v)?v:[]; } catch(e){ return []; }
+}
+function saveAddedTasks(day,tasks){ localStorage.setItem(addedTasksKey(day),JSON.stringify(tasks)); }
 function effectiveRoutine(day){
-  return routineForDate(day).map((t,i)=>{
+  const base=routineForDate(day).map((t,i)=>{
     const o=getTaskOverride(day,i);
-    return o ? [o.start,o.end,o.name,o.category,o.xp] : [...t];
+    if(o?.deleted) return ["","",t[2],t[3],0,{deleted:true,added:false}];
+    return o ? [o.start,o.end,o.name,o.category,o.xp,{deleted:false,added:false}] : [...t,{deleted:false,added:false}];
   });
+  const extras=getAddedTasks(day).map((t)=>[t.start,t.end,t.name,t.category,t.xp,{deleted:!!t.deleted,added:true,uid:t.uid,updated_at:t.updated_at||0}]);
+  return base.concat(extras);
+}
+function activeRoutine(day){
+  return effectiveRoutine(day).filter(t=>!t[5]?.deleted);
 }
 const ROUTINE = routineForDate(new Date());
 
@@ -1059,6 +1233,48 @@ async function streak(){
     s++; d.setDate(d.getDate()-1);
   }
   return s;
+}
+async function isPerfectDay(day){
+  const routine=activeRoutine(day);
+  if(!routine.length) return false;
+  const all=await idbGetAll("task_log");
+  const done=new Set(all.filter(r=>r.day===day && r.done).map(r=>r.task_index));
+  // Every active scheduled task must be complete. Deleted tasks do not count.
+  return routine.every(t=>done.has(effectiveRoutine(day).indexOf(t)));
+}
+async function perfectDayStreak(){
+  let s=0;
+  let d=new Date();
+  const today=await isPerfectDay(todayStr());
+  // Before today's routine is fully complete, keep yesterday's run visible.
+  // A missed day therefore resets the run from the following calendar day.
+  if(!today) d.setDate(d.getDate()-1);
+  while(true){
+    const day=d.toISOString().slice(0,10);
+    if(!(await isPerfectDay(day))) break;
+    s++; d.setDate(d.getDate()-1);
+  }
+  return s;
+}
+const PERFECT_MILESTONES=[3,7,13,21,30,45,66];
+async function loadChallengeState(){
+  const row=await idbGet("settings","perfect_challenges");
+  return row?.value || {earned:[]};
+}
+async function saveChallengeState(state){
+  state=Object.assign({},state,{updated_at:Date.now()});
+  await idbPut("settings",{key:"perfect_challenges",value:state});
+  queueSync();
+}
+async function updateChallengeState(){
+  const state=await loadChallengeState();
+  const run=await perfectDayStreak();
+  const newly=PERFECT_MILESTONES.filter(n=>run>=n && !state.earned.includes(n));
+  if(newly.length){
+    state.earned=[...new Set([...state.earned,...newly])].sort((a,b)=>a-b);
+    await saveChallengeState(state);
+  }
+  return {state,run};
 }
 async function monthCategoryCounts(year, month){
   const all = await idbGetAll("task_log");
@@ -1167,6 +1383,7 @@ function showPage(name){
   $all("nav.tabs button").forEach(b=>b.classList.toggle("active", b.dataset.page===name));
   if(name==="history") renderHistory();
   if(name==="media") renderMedia();
+  if(name==="challenges") renderChallenges();
 }
 
 // ---------- 5. HOME + TODAY RENDER ----------
@@ -1174,38 +1391,41 @@ async function refreshTop(){
   const txp = await totalXP();
   const lv = Math.floor(txp/500)+1;
   const st = await streak();
-  $("#topStats").textContent = `LEVEL ${lv} · ${txp.toLocaleString()} XP · ${st} DAY STREAK 🔥`;
+  const legacyTopStats = $("#topStats");
+  if(legacyTopStats) legacyTopStats.textContent = `LEVEL ${lv} · ${txp.toLocaleString()} XP · ${st} DAY STREAK 🔥`;
   return {txp, lv, st};
 }
 
 
 function updateCurrentDateTime(){
-  const el = $("#currentDateTime");
-  if(!el) return;
   const now = new Date();
-  el.innerHTML = `<span class="current-date">${now.toLocaleDateString([], {weekday:'long', day:'2-digit', month:'long', year:'numeric'})}</span><span class="current-time">${now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'})}</span>`;
+  const dateText = now.toLocaleDateString([], {weekday:'short', day:'2-digit', month:'short', year:'numeric'});
+  const timeText = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  const el = $("#currentDateTime"); if(el) el.innerHTML = `<span class="current-date">${dateText}</span><span class="current-time">${timeText}</span>`;
+  const top = $("#topDateTime"); if(top) top.innerHTML = `<div class="date">${dateText}</div><div class="time">${timeText}</div>`;
 }
 
 async function renderHome(){
   const {txp, lv, st} = await refreshTop();
   const day = todayStr();
   const todayRoutine = effectiveRoutine(day);
+  const activeTodayRoutine = activeRoutine(day);
   const {done, xp} = await dayStats(day);
   if(!$("#homeQuote").dataset.onlineLoaded){
     $("#homeQuote").textContent = '"'+QUOTES[new Date().getDate()%QUOTES.length]+'"';
   }
   $("#homeCards").innerHTML = `
-    <div class="card"><div class="stat-icon"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H4zM2 17h20v2H2zM8 19h8v2H8z"/><path d="m7 8 2.2 2L13 7.8l1.8 1.5L18 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></div><div class="val">${lv}</div><div class="lbl">LEVEL</div></div>
-    <div class="card"><div class="stat-icon"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 2.2c.5 3.2-.9 4.7-2.3 6.2-1 1.1-1.8 2-1.7 3.7.1 1.1.8 2 1.8 2.5-.1-1.9.9-3.1 2.1-4.2 1.2-1.1 2.5-2.4 2.4-4.8 2.5 2.2 4.3 5.2 4.3 8.1A7.8 7.8 0 1 1 7.1 8.8c.5 2.3 1.8 3.4 3.1 4.3-.1-2.2.7-3.7 1.7-4.9 1-1.3 1.9-2.7 1.3-6Z"/></svg></div><div class="val">${st}</div><div class="lbl">DAY STREAK</div></div>
-    <div class="card"><div class="stat-icon"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="m8 12 2.5 2.5L16.5 8M8 7h8M8 17h4"/></svg></div><div class="val">${done}/${todayRoutine.length}</div><div class="lbl">TODAY'S QUESTS</div></div>
-    <div class="card"><div class="stat-icon"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 5.9 6.6 1-4.8 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.8-4.6 6.6-1z"/></svg></div><div class="val">${xp}</div><div class="lbl">XP TODAY</div></div>`;
+    <div class="card"><div class="stat-icon"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H4zM2 17h20v2H2zM8 19h8v2H8z"/><path d="m7 8 2.2 2L13 7.8l1.8 1.5L18 7" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></div><div class="lbl">Today's Tasks</div><div class="val">${done} / ${activeTodayRoutine.length}</div><div class="mini-progress"><span style="width:${activeTodayRoutine.length?Math.round(done/activeTodayRoutine.length*100):0}%"></span></div></div>
+    <div class="card"><div class="stat-icon"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 2.2c.5 3.2-.9 4.7-2.3 6.2-1 1.1-1.8 2-1.7 3.7.1 1.1.8 2 1.8 2.5-.1-1.9.9-3.1 2.1-4.2 1.2-1.1 2.5-2.4 2.4-4.8 2.5 2.2 4.3 5.2 4.3 8.1A7.8 7.8 0 1 1 7.1 8.8c.5 2.3 1.8 3.4 3.1 4.3-.1-2.2.7-3.7 1.7-4.9 1-1.3 1.9-2.7 1.3-6Z"/></svg></div><div class="lbl">Current Streak</div><div class="val">${st} days</div></div>
+    <div class="card"><div class="stat-icon"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V5M19 20v-7"/></svg></div><div class="lbl">Total XP</div><div class="val">${txp.toLocaleString()}</div></div>
+    <div class="card"><div class="stat-icon"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 5.9 6.6 1-4.8 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5-4.8-4.6 6.6-1z"/></svg></div><div class="lbl">Level</div><div class="val">${lv}</div></div>`;
 
   updateCurrentDateTime();
 
   const catHtml = [];
   const catCounts = {};
   for(const cat of CATEGORIES){
-    const idxs = todayRoutine.map((t,i)=>({t,i})).filter(x=>x.t[3]===cat).map(x=>x.i);
+    const idxs = todayRoutine.map((t,i)=>({t,i})).filter(x=>!x.t[5]?.deleted && x.t[3]===cat).map(x=>x.i);
     let doneCount=0;
     for(const i of idxs) if(await isDone(day,i)) doneCount++;
     const total = idxs.length;
@@ -1218,7 +1438,8 @@ async function renderHome(){
       </div></div>`);
   }
   $("#catProgress").innerHTML = catHtml.join("");
-  renderDonut($("#catDonut"), catCounts, done, `of ${todayRoutine.length} today`);
+  renderDonut($("#catDonut"), catCounts, done, `of ${activeTodayRoutine.length} today`);
+  await renderChallenges();
 }
 
 async function renderToday(){
@@ -1228,6 +1449,7 @@ async function renderToday(){
   const rows = [];
   for(let i=0;i<todayRoutine.length;i++){
     const t = todayRoutine[i];
+    if(t[5]?.deleted) continue;
     const d = await isDone(day,i);
     const proof = await getProof(day,i);
     const needsPDF = t[3] === "4th Sem" || t[3] === "GATE/NET" || t[3] === "Govt Job";
@@ -1255,20 +1477,14 @@ async function renderToday(){
       if(ev.target.closest(".proof-btn")) return;
       const idx = parseInt(el.dataset.idx,10);
       const t=todayRoutine[idx];
-            const proofRequired = ["4th Sem","GATE/NET","Govt Job","Fitness"].includes(t[3]);
+      const proofRequired = ["4th Sem","GATE/NET","Govt Job","Fitness"].includes(t[3]);
       const alreadyDone = await isDone(day, idx);
-
-      // Proof is required only when COMPLETING a locked task.
-      // If the task was accidentally ticked, allow it to be unticked.
+      // Proof is required only when completing a locked task.
+      // If a task was accidentally completed, allow it to be unticked.
       if(proofRequired && !alreadyDone && !(await getProof(day,idx))){
-        toast(
-          t[3]==="Fitness"
-            ? "Upload a workout photo before completing this task."
-            : "Upload a study PDF before completing this task."
-        );
+        toast(t[3]==="Fitness" ? "Upload a workout photo before completing this task." : "Upload a study PDF before completing this task.");
         return;
       }
-
       await toggleTask(day, idx);
       await renderToday(); await renderHome(); await renderStats();
     });
@@ -1356,8 +1572,8 @@ async function renderCalendar(){
   for(let d=1; d<=daysInMonth; d++){
     const iso = new Date(y,m,d).toISOString().slice(0,10);
     const {done} = await dayStats(iso);
-    const dayRoutine = effectiveRoutine(iso);
-    const pct = done/dayRoutine.length;
+    const dayRoutine = activeRoutine(iso);
+    const pct = dayRoutine.length ? done/dayRoutine.length : 0;
     let heat = "heat0";
     if(pct>0.75) heat="heat4"; else if(pct>0.4) heat="heat3"; else if(pct>0.1) heat="heat2"; else if(pct>0) heat="heat1";
     cells.push(`<div class="cell ${heat} ${iso===todayIso?"today":""}" data-date="${iso}">${d}</div>`);
@@ -1377,10 +1593,11 @@ async function showDayDetail(iso){
   const {done, xp} = await dayStats(iso);
   let rows = [];
   for(let i=0;i<dayRoutine.length;i++){
+    if(dayRoutine[i][5]?.deleted) continue;
     const d = await isDone(iso,i);
     if(d){ const p=await getProof(iso,i); rows.push(`<div style="font-size:12px;padding:4px 0;border-bottom:1px solid var(--border);">✓ ${dayRoutine[i][2]} <span class="muted">(${dayRoutine[i][3]}, +${dayRoutine[i][4]} XP)</span>${p?` <button class="ghost" onclick="openProof('${iso}',${i})">View proof</button>`:""}</div>`); }
   }
-  $("#dayDetail").innerHTML = `<div style="margin-bottom:8px;font-weight:800;">${iso} — ${done}/${ROUTINE.length} quests, ${xp} XP</div>` +
+  $("#dayDetail").innerHTML = `<div style="margin-bottom:8px;font-weight:800;">${iso} — ${done}/${activeRoutine(iso).length} quests, ${xp} XP</div>` +
     (rows.length? rows.join("") : `<div class="muted">No quests completed this day.</div>`);
 }
 async function renderYear(){
@@ -1424,7 +1641,8 @@ async function renderStats(){
   const xp=done.reduce((sum,r)=>sum+(effectiveRoutine(r.day)[r.task_index]?.[4]||0),0);
   const st=await streak();
   const todayDone=done.filter(r=>r.day===todayStr()).length;
-  const pct=Math.round(todayDone/effectiveRoutine(todayStr()).length*100);
+  const activeToday=activeRoutine(todayStr()).length;
+  const pct=activeToday?Math.round(todayDone/activeToday*100):0;
   $("#statsCards").innerHTML=[
     ["⭐",xp,"Total XP"],["🔥",st,"Day Streak"],["✅",todayDone,`Today (${pct}%)`],["🎯",done.length,"Quests Done"]
   ].map(x=>`<div class="card"><div class="val">${x[0]} ${x[1]}</div><div class="lbl">${x[2]}</div></div>`).join("");
@@ -1436,6 +1654,7 @@ async function renderStats(){
   for(const r of done) catXP[effectiveRoutine(r.day)[r.task_index]?.[3]]=(catXP[effectiveRoutine(r.day)[r.task_index]?.[3]]||0)+(effectiveRoutine(r.day)[r.task_index]?.[4]||0);
   $("#statsCategoryXP").innerHTML=CATEGORIES.map(c=>`<div style="margin:8px 0"><div class="row between" style="font-size:11px"><span>${c}</span><b>${catXP[c]} XP</b></div><div class="stat-bar"><div class="stat-fill" style="width:${xp?Math.round(catXP[c]/xp*100):0}%"></div></div></div>`).join("");
   renderXPRewards(xp);
+  await renderChallenges();
 }
 
 // ---------- 7. TIMER ----------
@@ -1538,6 +1757,7 @@ $("#exportBtn").onclick = async ()=>{
     task_log: await idbGetAll("task_log"),
     alarms: await idbGetAll("alarms"),
     proofs: await idbGetAll("proofs"),
+    perfect_challenges: await loadChallengeState(),
     exported_at: new Date().toISOString(),
   };
   const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
@@ -1555,6 +1775,7 @@ $("#importFile").onchange = async (e)=>{
     for(const row of (data.task_log||[])) await idbPut("task_log", row);
     for(const row of (data.alarms||[])) await idbPut("alarms", row);
     for(const row of (data.proofs||[])) await idbPut("proofs", row);
+    if(data.perfect_challenges) await idbPut("settings",{key:"perfect_challenges",value:data.perfect_challenges});
     toast("Backup imported.");
     renderHome(); renderToday(); renderAlarms(); queueSync();
   }catch(err){ toast("Invalid backup file."); }
@@ -1621,9 +1842,11 @@ async function collectSyncRecords(){
   const out=[];
   for(const r of await idbGetAll("task_log")) out.push({sync_code:sbConfig.code,kind:"task_log",record_id:String(r.id),payload:r,updated_at:r.updated_at||0,deleted:false});
   for(const r of await idbGetAll("alarms")) out.push({sync_code:sbConfig.code,kind:"alarm",record_id:String(r.id),payload:r,updated_at:r.updated_at||0,deleted:false});
+  const challengeState=await loadChallengeState();
+  out.push({sync_code:sbConfig.code,kind:"challenge_state",record_id:"perfect_challenges",payload:challengeState,updated_at:challengeState.updated_at||0,deleted:false});
   for(const k of Object.keys(localStorage)){
-    if(k.startsWith("jarvis_task_override_")){
-      try{const payload=JSON.parse(localStorage.getItem(k));out.push({sync_code:sbConfig.code,kind:"task_override",record_id:k,payload,updated_at:payload.updated_at||0,deleted:false});}catch(e){}
+    if(k.startsWith("jarvis_task_override_") || k.startsWith("jarvis_added_tasks_")){
+      try{const payload=JSON.parse(localStorage.getItem(k));out.push({sync_code:sbConfig.code,kind:"task_override",record_id:k,payload,updated_at:Array.isArray(payload)?Math.max(0,...payload.map(x=>x.updated_at||0)):payload.updated_at||0,deleted:false});}catch(e){}
     }
     if(k.startsWith("jarvis_alarm_delete_")){
       try{const payload=JSON.parse(localStorage.getItem(k));out.push({sync_code:sbConfig.code,kind:"alarm",record_id:String(payload.id),payload,updated_at:payload.updated_at||0,deleted:true});}catch(e){}
@@ -1661,6 +1884,13 @@ async function mergeRemote(kind,remote){
       const localRaw=localStorage.getItem(r.record_id); let local=null; try{local=localRaw?JSON.parse(localRaw):null;}catch(e){}
       if(!local||(r.updated_at||0)>(local.updated_at||0)) localStorage.setItem(r.record_id,JSON.stringify(p));
     }else if(kind==="proof") await downloadProofFromCloud(Object.assign(p,{updated_at:r.updated_at}));
+    else if(kind==="challenge_state"){
+      const local=await loadChallengeState();
+      const localUpdated=local.updated_at||0;
+      if((r.updated_at||0)>localUpdated || !local.earned){
+        await idbPut("settings",{key:"perfect_challenges",value:Object.assign({},p,{updated_at:r.updated_at||Date.now()})});
+      }
+    }
   }
 }
 async function syncNow(){
@@ -1673,6 +1903,7 @@ async function syncNow(){
     await mergeRemote("alarm",await cloudGet("alarm"));
     await mergeRemote("task_override",await cloudGet("task_override"));
     await mergeRemote("proof",await cloudGet("proof"));
+    await mergeRemote("challenge_state",await cloudGet("challenge_state"));
     updateSyncStatus("ok","<span class=\"sync-dot ok\"></span>Synced · laptop SSD mirror ready.");
     await renderMedia(); renderHome(); renderToday(); renderStats(); renderAlarms();
   }catch(err){console.error(err);updateSyncStatus("err","<span class=\"sync-dot err\"></span>Sync failed — data remains safely on this device.");}
@@ -1694,58 +1925,66 @@ window.addEventListener("online",()=>syncNow());
 document.addEventListener("visibilitychange",()=>{if(!document.hidden) syncNow();});
 setInterval(()=>syncNow(),60000);
 
-// ---------- 13. HERO IMAGE ROTATION (fetched online, no API key needed) ----------
-// Rotates through fresh photography every interval, crossfading two layers.
-// If offline / blocked, it just keeps whatever image last loaded (or the
-// plain gradient background) — never breaks the app.
-const HERO_SEEDS = ["discipline","focus","mountain-dawn","victory","progress","strength",
-  "calm-ocean","summit","forest-path","new-day","horizon","climb","momentum","clarity"];
-let heroIdx = -1, heroActive = "a", heroInterval = null;
-function heroUrl(seed){ return `https://picsum.photos/seed/${seed}/1200/700`; }
+// ---------- 13. HERO / MOTIVATION BACKGROUNDS ----------
+// Full-image motivational backgrounds. Images are displayed without cropping.
+// The first group uses online motivational wallpapers; local fallbacks keep the PWA usable offline.
+const HERO_IMAGES = [
+  {url:"assets/inspiration/lowest.jpg",credit:"SHYAMA · inspiration",title:"A better you · every day"},
+  {url:"assets/inspiration/consistency.jpg",credit:"SHYAMA · consistency",title:"Stay consistent."},
+  {url:"assets/inspiration/confidence.jpg",credit:"SHYAMA · confidence",title:"Stand apart."},
+  {url:"assets/inspiration/self-respect.jpg",credit:"SHYAMA · self-respect",title:"Protect your self-respect."},
+  {url:"assets/inspiration/warrior.jpg",credit:"SHYAMA · warrior discipline",title:"Train your discipline."},
+  {url:"https://quotefancy.com/media/wallpaper/3840x2160/7362984-Matshona-Dhliwayo-Quote-Learn-like-an-amateur-Train-like-a-champion-Fight-like-a.jpg",credit:"QuoteFancy · mountain motivation",title:"Keep going."},
+  {url:"https://quotefancy.com/media/wallpaper/3840x2160/163078-George-S-Patton-Jr-Quote-Discipline-must-be-a-habit-so-ingrained.jpg",credit:"QuoteFancy · discipline mountain"},
+  {url:"https://quotefancy.com/media/wallpaper/3840x2160/1674548-Richard-Strozzi-Heckler-Quote-The-path-of-the-Warrior-is-lifelong.jpg",credit:"QuoteFancy · warrior path"},
+  {url:"https://r2news.com.br/assets/uploads/noticias/news_69cbf1e55ceba.webp",credit:"Motivational meditation artwork"},
+  {url:"https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/blogs/2147530926/images/c877257-c52e-8606-6078-4c3c85dffc3e_Discipline_DALL-E_Image.png",credit:"Discipline at dawn artwork"}
+];
+let heroIdx=-1, heroActive="a", heroInterval=null;
 function rotateHero(){
-  heroIdx = (heroIdx+1) % HERO_SEEDS.length;
-  const url = heroUrl(HERO_SEEDS[heroIdx]);
-  const img = new Image();
-  img.onload = ()=>{
-    const showEl = heroActive==="a" ? $("#heroLayerB") : $("#heroLayerA");
-    const hideEl = heroActive==="a" ? $("#heroLayerA") : $("#heroLayerB");
-    showEl.style.backgroundImage = `url("${url}")`;
-    showEl.style.opacity = "1";
-    hideEl.style.opacity = "0";
-    heroActive = heroActive==="a" ? "b" : "a";
-    $("#heroCredit").textContent = "Photo via Lorem Picsum";
+  heroIdx=(heroIdx+1)%HERO_IMAGES.length;
+  const item=HERO_IMAGES[heroIdx];
+  const showEl=heroActive==="a"?$("#heroLayerB"):$("#heroLayerA");
+  const hideEl=heroActive==="a"?$("#heroLayerA"):$("#heroLayerB");
+  const img=new Image();
+  img.onload=()=>{
+    showEl.style.backgroundImage=`url("${item.url}")`;
+    showEl.style.opacity="1"; hideEl.style.opacity="0";
+    heroActive=heroActive==="a"?"b":"a";
+    $("#heroCredit").textContent=item.credit;
+    $("#heroTitle").textContent=item.title||"A better you · every day";
+    $all(".shy-dots span").forEach((d,i)=>d.classList.toggle("active",i===heroIdx));
   };
-  img.onerror = ()=>{ /* offline or blocked — keep current image */ };
-  img.src = url;
+  img.onerror=()=>{};
+  img.src=item.url;
 }
-$("#heroRefresh").onclick = rotateHero;
+$("#heroRefresh").onclick=rotateHero;
+$("#heroNext")?.addEventListener("click",rotateHero);
+$("#viewAllCards")?.addEventListener("click",()=>document.querySelector(".shy-inspiration")?.scrollIntoView({behavior:"smooth",block:"start"}));
+$all(".shy-action[data-quick]").forEach(b=>b.addEventListener("click",async()=>{const q=b.dataset.quick;if(q==="upload"){showPage("today");setTimeout(()=>document.querySelector(".proof-btn")?.click(),120)}else if(q==="focus"){showPage("today");document.querySelector("#timerLabel")?.scrollIntoView({behavior:"smooth",block:"center"})}else showPage(q)}));
 function startHeroRotation(){
   rotateHero();
   if(heroInterval) clearInterval(heroInterval);
-  heroInterval = setInterval(rotateHero, 45000); // new image every 45s
+  heroInterval=setInterval(rotateHero,45000);
 }
 
 // ---------- 15. INIT ----------
 (async function init(){
-  await openDB();
-  await loadSyncConfig();
-  await renderHome();
-  await renderToday();
-  renderRoutine();
-  await renderStats();
-  await renderAlarms();
-  startHeroRotation();
-  startAmbientMotivation();
-  initOnlineQuotes();
-  if(sbConfig.url && sbConfig.key && sbConfig.code) syncNow();
-  setInterval(()=>{ renderHome(); renderStats(); }, 60000); // refresh dashboard
-  setInterval(updateCurrentDateTime, 1000); // live date/time
-  if("serviceWorker" in navigator){
-    navigator.serviceWorker.register("service-worker.js").catch(()=>{});
-  }
-  if("Notification" in window && Notification.permission==="default"){
-    // ask lazily on first real interaction, not on load
-  }
+  try{ await openDB(); }catch(e){ console.error("SHYAMA DB init failed",e); }
+  try{ await loadSyncConfig(); }catch(e){ console.error("SHYAMA sync config failed",e); }
+  try{ updateCurrentDateTime(); }catch(e){}
+  try{ await renderHome(); }catch(e){ console.error("SHYAMA Home render failed",e); }
+  try{ await renderToday(); }catch(e){ console.error("SHYAMA Today render failed",e); }
+  try{ renderRoutine(); }catch(e){ console.error("SHYAMA Routine render failed",e); }
+  try{ await renderStats(); }catch(e){ console.error("SHYAMA Stats render failed",e); }
+  try{ await renderAlarms(); }catch(e){ console.error("SHYAMA Alarms render failed",e); }
+  try{ startHeroRotation(); }catch(e){}
+  try{ startAmbientMotivation(); }catch(e){}
+  try{ initOnlineQuotes(); }catch(e){}
+  if(sbConfig.url && sbConfig.key && sbConfig.code) syncNow().catch(e=>console.warn("SHYAMA sync",e));
+  setInterval(()=>{ renderHome().catch(e=>console.warn("home refresh",e)); renderStats().catch(e=>console.warn("stats refresh",e)); }, 60000);
+  setInterval(updateCurrentDateTime, 1000);
+  if("serviceWorker" in navigator) navigator.serviceWorker.register("service-worker.js").catch(()=>{});
 })();
 
 // ---------- THEME ----------
@@ -1755,6 +1994,8 @@ function applyTheme(theme){
   document.body.classList.remove("theme-glass","theme-light","theme-historical","theme-jungle","theme-ocean","theme-sunset","theme-cyber","theme-forest","theme-royal","theme-mono");
   document.body.classList.add("theme-"+theme);
   localStorage.setItem("jarvis_theme",theme);
+  const themeStatus=document.getElementById("settingsThemeStatus");
+  if(themeStatus) themeStatus.textContent=theme==="light"?"Light mode":"Dark mode";
   document.querySelectorAll(".theme-choice").forEach(b=>{
     b.classList.toggle("primary",b.dataset.theme===theme);
   });
@@ -1817,6 +2058,31 @@ function initOnlineQuotes(){
   fetchOnlineQuote();
 }
 
+// ---------- PERFECT-DAY CHALLENGES ----------
+async function renderChallenges(){
+  const boxes=[$("#challengeList"),$("#challengeListStats"),$("#challengeListPage")].filter(Boolean);
+  if(!boxes.length) return;
+  const {state,run}=await updateChallengeState();
+  const next=PERFECT_MILESTONES.find(n=>!state.earned.includes(n));
+  const html=PERFECT_MILESTONES.map((n,i)=>{
+    const earned=state.earned.includes(n);
+    const pct=earned?100:Math.min(100,Math.round(run/n*100));
+    const icons=["🥉","🥈","🥇","💠","👑","💎","🌟"];
+    return `<div class="challenge-card ${earned?"earned":""}">
+      <div class="challenge-badge">${earned?"✓":icons[i]}</div>
+      <div class="challenge-main">
+        <div class="row between"><b>${n}-Day Perfect Run</b><span class="challenge-state">${earned?"ACHIEVED":run?`${Math.min(run,n)}/${n}`:"START"}</span></div>
+        <div class="reward-bar"><div class="reward-fill" style="width:${pct}%"></div></div>
+        <div class="muted challenge-status">${earned?"🏆 Milestone permanently unlocked.":run===0?"Complete every active task today to begin.":`Current run: ${run} perfect day${run===1?"":"s"}. One incomplete task resets this run.`}</div>
+      </div>
+    </div>`;
+  }).join("");
+  boxes.forEach(box=>{
+    box.innerHTML=html + (next?`<div class="muted challenge-next">Next milestone: <b>${next} perfect days</b>.</div>`:`<div class="challenge-complete">🌟 All perfect-day milestones unlocked.</div>`);
+  });
+}
+
+
 // ---------- XP REWARDS ----------
 const XP_REWARDS = [
   [500,"⚔️","Routine Initiate"],
@@ -1855,44 +2121,81 @@ function renderXPRewards(xp){
 let editingTaskIndex=null;
 let editingDay=null;
 
+function isAddedTaskIndex(day,idx){ return idx>=routineForDate(day).length; }
+function addedTaskArrayIndex(day,idx){ return idx-routineForDate(day).length; }
+function proofInfoForCategory(category){
+  if(category==="Fitness") return "📷 Fitness tasks require a workout photo proof.";
+  if(["4th Sem","GATE/NET","Govt Job"].includes(category)) return "📄 Study tasks require a PDF proof.";
+  return "✓ This task uses normal checklist completion.";
+}
+function openAddTask(){
+  const now=new Date();
+  const start=Math.ceil((now.getHours()*60+now.getMinutes())/30)*30;
+  const end=Math.min(start+60,23*60+59);
+  const fmt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`;
+  $("#addStart").value=fmt(start>=1440?23*60:start);
+  $("#addEnd").value=fmt(end>1439?1439:end);
+  $("#addName").value=""; $("#addCategory").value="Personal"; $("#addXP").value=25;
+  $("#addProofInfo").textContent=proofInfoForCategory("Personal");
+  $("#addTaskModal").classList.add("show"); $("#addTaskModal").setAttribute("aria-hidden","false");
+}
+function closeAddTask(){ $("#addTaskModal").classList.remove("show"); $("#addTaskModal").setAttribute("aria-hidden","true"); }
+async function saveAddedTask(){
+  const day=todayStr(), start=$("#addStart").value, end=$("#addEnd").value, name=$("#addName").value.trim();
+  const category=$("#addCategory").value, xp=Math.max(0,Math.min(1000,Number($("#addXP").value)||0));
+  if(!start||!end||!name){toast("Please fill in time, task name and XP.");return;}
+  if(start>=end){toast("End time must be after start time.");return;}
+  const tasks=getAddedTasks(day);
+  tasks.push({uid:`${Date.now()}_${Math.random().toString(36).slice(2,8)}`,start,end,name,category,xp,deleted:false,updated_at:Date.now()});
+  saveAddedTasks(day,tasks); queueSync(); closeAddTask();
+  toast("Today's task added."); await renderToday(); await renderHome(); await renderStats();
+}
 function openTaskEditor(day, idx){
   const t=effectiveRoutine(day)[idx];
   if(!t) return;
   editingTaskIndex=idx; editingDay=day;
-  $("#editStart").value=t[0];
-  $("#editEnd").value=t[1];
-  $("#editName").value=t[2];
-  $("#editCategory").value=t[3];
-  $("#editXP").value=t[4];
-  $("#editTaskPreview").textContent=`${day} · ${t[0]}–${t[1]}`;
-  $("#editProofInfo").textContent =
-    t[3]==="Fitness" ? "📷 Fitness tasks require a workout photo proof." :
-    ["4th Sem","GATE/NET","Govt Job"].includes(t[3]) ? "📄 Study tasks require a PDF proof." :
-    "✓ This task uses normal checklist completion.";
-  $("#taskEditModal").classList.add("show");
-  $("#taskEditModal").setAttribute("aria-hidden","false");
+  $("#editStart").value=t[0]; $("#editEnd").value=t[1]; $("#editName").value=t[2];
+  $("#editCategory").value=t[3]; $("#editXP").value=t[4];
+  $("#editTaskPreview").textContent=`${day} · ${t[0]}–${t[1]}${t[5]?.added?" · Added today":""}`;
+  $("#editProofInfo").textContent=proofInfoForCategory(t[3]);
+  $("#taskEditModal").classList.add("show"); $("#taskEditModal").setAttribute("aria-hidden","false");
 }
 function closeTaskEditor(){
-  $("#taskEditModal").classList.remove("show");
-  $("#taskEditModal").setAttribute("aria-hidden","true");
+  $("#taskEditModal").classList.remove("show"); $("#taskEditModal").setAttribute("aria-hidden","true");
   editingTaskIndex=null; editingDay=null;
 }
 async function saveEditedTask(){
   if(editingTaskIndex===null || !editingDay) return;
-  const start=$("#editStart").value, end=$("#editEnd").value;
-  const name=$("#editName").value.trim();
-  const category=$("#editCategory").value;
-  const xp=Math.max(0,Math.min(1000,Number($("#editXP").value)||0));
-  if(!start || !end || !name){ toast("Please fill in time, task name and XP."); return; }
-  if(start>=end){ toast("End time must be after start time."); return; }
-  localStorage.setItem(overrideKey(editingDay,editingTaskIndex),JSON.stringify({
-    start,end,name,category,xp,updated_at:Date.now()
-  }));
-  queueSync();
-  closeTaskEditor();
-  toast("Task updated for today.");
+  const start=$("#editStart").value, end=$("#editEnd").value, name=$("#editName").value.trim();
+  const category=$("#editCategory").value, xp=Math.max(0,Math.min(1000,Number($("#editXP").value)||0));
+  if(!start||!end||!name){toast("Please fill in time, task name and XP.");return;}
+  if(start>=end){toast("End time must be after start time.");return;}
+  if(isAddedTaskIndex(editingDay,editingTaskIndex)){
+    const tasks=getAddedTasks(editingDay), ai=addedTaskArrayIndex(editingDay,editingTaskIndex);
+    if(!tasks[ai]) return;
+    tasks[ai]=Object.assign({},tasks[ai],{start,end,name,category,xp,deleted:false,updated_at:Date.now()});
+    saveAddedTasks(editingDay,tasks);
+  }else{
+    localStorage.setItem(overrideKey(editingDay,editingTaskIndex),JSON.stringify({start,end,name,category,xp,deleted:false,updated_at:Date.now()}));
+  }
+  queueSync(); closeTaskEditor(); toast("Task updated.");
   await renderToday(); await renderHome(); await renderStats();
 }
+async function deleteEditedTask(){
+  if(editingTaskIndex===null || !editingDay) return;
+  const t=effectiveRoutine(editingDay)[editingTaskIndex];
+  const ok=confirm(`Delete this task from ${editingDay}?\n\nThe task will disappear from the active routine, but its historical completion records and SSD archive will be preserved.`);
+  if(!ok) return;
+  if(t?.[5]?.added){
+    const tasks=getAddedTasks(editingDay), ai=addedTaskArrayIndex(editingDay,editingTaskIndex);
+    if(tasks[ai]){tasks[ai]=Object.assign({},tasks[ai],{deleted:true,updated_at:Date.now()});saveAddedTasks(editingDay,tasks);}
+  }else{
+    localStorage.setItem(overrideKey(editingDay,editingTaskIndex),JSON.stringify({deleted:true,updated_at:Date.now()}));
+  }
+  closeTaskEditor(); queueSync(); toast(`Task deleted from ${editingDay}. History preserved.`);
+  await renderToday(); await renderHome(); await renderStats();
+}
+
 document.addEventListener("click", ev=>{
   const b=ev.target.closest(".edit-task-btn");
   if(b){
@@ -1901,9 +2204,16 @@ document.addEventListener("click", ev=>{
   }
 });
 document.addEventListener("DOMContentLoaded",()=>{
+  $("#addTaskBtn")?.addEventListener("click",openAddTask);
+  $("#closeAddTask")?.addEventListener("click",closeAddTask);
+  $("#cancelAddTask")?.addEventListener("click",closeAddTask);
+  $("#saveAddTask")?.addEventListener("click",saveAddedTask);
+  $("#addCategory")?.addEventListener("change",()=>{ $("#addProofInfo").textContent=proofInfoForCategory($("#addCategory").value); });
+  $("#addTaskModal")?.addEventListener("click",e=>{if(e.target.id==="addTaskModal") closeAddTask();});
   $("#closeTaskEdit")?.addEventListener("click",closeTaskEditor);
   $("#cancelTaskEdit")?.addEventListener("click",closeTaskEditor);
   $("#saveTaskEdit")?.addEventListener("click",saveEditedTask);
+  $("#deleteTaskBtn")?.addEventListener("click",deleteEditedTask);
   $("#taskEditModal")?.addEventListener("click",e=>{if(e.target.id==="taskEditModal") closeTaskEditor();});
 });
 
