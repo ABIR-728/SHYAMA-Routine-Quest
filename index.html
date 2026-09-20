@@ -467,6 +467,28 @@ html{scroll-behavior:smooth;}
 .media-actions button{font-size:9px;padding:5px 7px}
 .media-empty{padding:24px 10px;text-align:center}
 @media(max-width:700px){.media-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.media-thumb{height:95px}.media-actions button{font-size:8px;padding:4px 6px}}
+
+/* V32: keep the navigation bar at the bottom on every screen */
+nav.tabs{
+  position:fixed;left:0;right:0;top:auto;bottom:0;transform:none;width:auto;min-height:0;
+  flex-direction:row;border-left:0;border-radius:0;border-top:1px solid var(--border);
+  padding:6px calc(env(safe-area-inset-left) + 0px) calc(6px + env(safe-area-inset-bottom));
+  gap:0;box-shadow:none;overflow:visible;
+}
+nav.tabs button{flex:1;width:auto;min-height:0;}
+@media (min-width:701px){.app{padding-right:0;padding-bottom:78px;}}
+@media (max-width:700px){
+  .app{padding:5px 8px calc(84px + env(safe-area-inset-bottom));}
+  nav.tabs{left:0;right:0;bottom:0;width:auto;max-height:none;min-height:0;
+    border-left:0;border-right:0;border-radius:0;padding:6px 2px calc(6px + env(safe-area-inset-bottom));overflow:visible;}
+  nav.tabs button{width:auto;min-height:43px;font-size:8px;padding:5px 2px;}
+}
+.credentials-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 6px;padding:9px 11px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.025);}
+.credential-toggle{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted);cursor:pointer;white-space:nowrap;}
+.credential-toggle input{accent-color:var(--accent);}
+.credentials-note{font-size:10px;line-height:1.4;margin-top:4px;}
+@media(max-width:520px){.credentials-head{align-items:flex-start;flex-direction:column;gap:6px;}.credential-toggle{white-space:normal;}}
+
 </style>
 
 <style id="shyama-v17-vibe">
@@ -673,6 +695,681 @@ body.theme-glass nav.tabs{
   backdrop-filter:blur(18px) saturate(135%);
   -webkit-backdrop-filter:blur(18px) saturate(135%);
 }
+
+/* V31: right-side navigation + hide/show control */
+@media (min-width: 701px){
+  .app{padding-right:104px;padding-bottom:24px;}
+}
+nav.tabs{
+  left:auto;right:0;top:50%;bottom:auto;transform:translateY(-50%);
+  width:82px;min-height:420px;flex-direction:column;
+  border-top:1px solid rgba(255,255,255,.10);border-left:1px solid rgba(255,255,255,.10);
+  border-radius:18px 0 0 18px;padding:12px 7px;gap:5px;
+  box-shadow:-10px 0 30px rgba(0,0,0,.35);
+}
+nav.tabs button{flex:1;min-height:48px;width:100%;}
+.menu-hide-btn{display:none!important;}
+.menu-show-btn{display:none;position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:60;width:42px;height:42px;border-radius:50%;padding:0;background:rgba(6,10,11,.96);border:1px solid rgba(255,255,255,.14);color:var(--shy-gold,#e7c77b);box-shadow:0 8px 25px rgba(0,0,0,.35);}
+body.menu-hidden nav.tabs{display:none;}
+body.menu-hidden .menu-show-btn{display:flex;align-items:center;justify-content:center;}
+.routine-current{margin-bottom:12px;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;background:rgba(255,255,255,.035);}
+.routine-current-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.routine-current-title{font-family:Georgia,"Times New Roman",serif;font-size:21px;color:var(--shy-gold,#e7c77b);}
+.routine-edit-grid{display:grid;gap:8px;}
+.routine-edit-row{display:grid;grid-template-columns:100px 100px 1fr 120px 65px 40px;gap:6px;align-items:center;padding:7px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.025);}
+.routine-edit-row input,.routine-edit-row select{font-size:11px;padding:7px;}
+.routine-edit-row .remove-routine-row{padding:6px 8px;color:var(--danger);}
+.routine-edit-actions{display:flex;justify-content:space-between;gap:8px;margin-top:10px;}
+@media(max-width:700px){
+  .app{padding:5px 8px 24px;}
+  nav.tabs{top:auto;bottom:10px;right:10px;transform:none;width:70px;min-height:0;max-height:calc(100vh - 30px);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:7px 5px;gap:3px;overflow:auto;}
+  nav.tabs button{min-height:43px;font-size:8px;padding:5px 2px;}
+  nav.tabs button .ic{width:20px;height:20px;}
+  .menu-hide-btn{display:flex!important;flex:none!important;min-height:34px!important;color:#ff9aa8!important;font-size:8px!important;}
+  .menu-show-btn{width:40px;height:40px;right:9px;bottom:12px;top:auto;transform:none;}
+  .routine-current-title{font-size:18px;}
+  .routine-edit-row{grid-template-columns:1fr 1fr;}
+  .routine-edit-row .remove-routine-row{justify-self:end;}
+}
+</style>
+
+<style id="shyama-v33-dashboard-ui">
+/* V33 — dashboard-style visual system inspired by the supplied reference.
+   This is a CSS/UI treatment only; no reference image is embedded. */
+:root{
+  --dash-bg:#05070d;
+  --dash-panel:rgba(13,17,28,.88);
+  --dash-panel-2:rgba(18,23,37,.76);
+  --dash-line:rgba(145,160,190,.15);
+  --dash-purple:#8b5cf6;
+  --dash-cyan:#31e7ff;
+  --dash-pink:#ff4fa3;
+  --dash-green:#39e6a6;
+  --dash-yellow:#ffc857;
+}
+body.theme-glass{
+  background:
+    radial-gradient(circle at 8% 10%,rgba(139,92,246,.14),transparent 26%),
+    radial-gradient(circle at 92% 18%,rgba(49,231,255,.10),transparent 25%),
+    radial-gradient(circle at 80% 85%,rgba(255,79,163,.08),transparent 28%),
+    var(--dash-bg)!important;
+}
+body.theme-glass .app{max-width:1320px;padding:14px 18px 104px;}
+body.theme-glass .top{padding:8px 4px 16px;}
+body.theme-glass .brand .name{color:#f2f5ff;text-shadow:0 0 22px rgba(139,92,246,.35);}
+body.theme-glass .brand .sub{color:#7f8ba6;}
+body.theme-glass .panel,
+body.theme-glass .card,
+body.theme-glass .shy-quick,
+body.theme-glass .shy-challenges,
+body.theme-glass .shy-inspiration,
+body.theme-glass .shy-quote-bar,
+body.theme-glass .routine-current,
+body.theme-glass .day-card{
+  background:linear-gradient(145deg,rgba(18,23,37,.92),rgba(8,12,21,.88))!important;
+  border:1px solid var(--dash-line)!important;
+  box-shadow:0 16px 45px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.035);
+  backdrop-filter:blur(18px) saturate(125%);
+  -webkit-backdrop-filter:blur(18px) saturate(125%);
+}
+body.theme-glass .panel:hover,
+body.theme-glass .card:hover,
+body.theme-glass .day-card:hover{border-color:rgba(139,92,246,.30)!important;}
+body.theme-glass h1,body.theme-glass h2,body.theme-glass h3{letter-spacing:.1px;}
+body.theme-glass .card .val{color:#f1f5ff;text-shadow:0 0 18px rgba(49,231,255,.18);}
+body.theme-glass .card .lbl{color:#7e8aa4;}
+body.theme-glass .card .stat-icon{color:var(--dash-cyan);}
+body.theme-glass .task{background:linear-gradient(90deg,rgba(20,27,43,.86),rgba(8,13,23,.88));border-color:rgba(145,160,190,.12);}
+body.theme-glass .task.now{box-shadow:0 0 0 1px var(--dash-cyan) inset,0 0 24px rgba(49,231,255,.08);}
+body.theme-glass .task.done{background:linear-gradient(90deg,rgba(28,72,61,.55),rgba(10,23,25,.82));border-color:rgba(57,230,166,.40);}
+body.theme-glass button{background:rgba(20,26,40,.78);border-color:rgba(145,160,190,.16);}
+body.theme-glass button.primary{background:linear-gradient(135deg,#8b5cf6,#5d43cf);color:#fff;border-color:rgba(255,255,255,.12);box-shadow:0 8px 22px rgba(139,92,246,.22);}
+body.theme-glass input,body.theme-glass select,body.theme-glass textarea{background:rgba(5,9,17,.76)!important;border-color:rgba(145,160,190,.16)!important;}
+
+/* Dashboard-like page layouts */
+#page-home .grid.cards{grid-template-columns:repeat(4,minmax(0,1fr));}
+#page-home .home-secondary{display:grid;grid-template-columns:1.35fr .85fr;gap:14px;}
+#page-today .today-grid{grid-template-columns:minmax(0,1.55fr) minmax(300px,.75fr);gap:14px;}
+#page-routine .panel{overflow:hidden;}
+#page-routine .routine-days{grid-template-columns:repeat(2,minmax(0,1fr));display:grid;gap:12px;}
+#page-stats{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;}
+#page-stats #statsCards{grid-column:1/-1;grid-template-columns:repeat(4,minmax(0,1fr))!important;}
+#page-stats>.panel:nth-of-type(1){grid-column:span 8;}
+#page-stats>.panel:nth-of-type(2){grid-column:span 4;}
+#page-stats>.panel:nth-of-type(3){grid-column:span 5;}
+#page-stats>.panel:nth-of-type(4){grid-column:span 7;}
+#page-stats>.panel:nth-of-type(5){grid-column:1/-1;}
+#page-history{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;}
+#page-history>.panel:nth-of-type(3),#page-history>.panel:nth-of-type(4){grid-column:1/-1;}
+#page-media .media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+#page-settings{max-width:1000px;margin:0 auto;}
+
+/* Reference-inspired dashboard accents */
+#page-home .card:nth-child(1),#page-stats .card:nth-child(1){box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 14px 38px rgba(139,92,246,.08);}
+#page-home .card:nth-child(2),#page-stats .card:nth-child(2){box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 14px 38px rgba(49,231,255,.07);}
+#page-home .card:nth-child(3),#page-stats .card:nth-child(3){box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 14px 38px rgba(57,230,166,.07);}
+#page-home .card:nth-child(4),#page-stats .card:nth-child(4){box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 14px 38px rgba(255,79,163,.07);}
+.stat-bar{height:9px!important;border-radius:99px!important;background:rgba(255,255,255,.055)!important;overflow:hidden;}
+.stat-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--dash-purple),var(--dash-cyan),var(--dash-green))!important;box-shadow:0 0 16px rgba(49,231,255,.22);}
+.donut-wrap{align-items:center;gap:22px;}
+.donut{box-shadow:0 0 0 7px rgba(255,255,255,.025),0 0 38px rgba(139,92,246,.13);}
+.donut-legend .item{border-bottom:1px solid rgba(145,160,190,.08);padding:6px 0;}
+.calendar .cell{background:rgba(10,15,25,.80)!important;border-color:rgba(145,160,190,.10)!important;}
+.year-bars{background:linear-gradient(180deg,rgba(255,255,255,.018),transparent);padding:10px;border-radius:14px;}
+.year-bars .bar{background:linear-gradient(180deg,var(--dash-cyan),var(--dash-purple))!important;box-shadow:0 0 16px rgba(139,92,246,.18);}
+
+
+/* V34 dashboard UI — reference-inspired analytics, no hero/image assets */
+.shy-dashboard-intro{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;border-radius:20px;background:linear-gradient(135deg,rgba(18,23,37,.96),rgba(8,12,21,.92));border:1px solid rgba(145,160,190,.13);box-shadow:0 18px 50px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.04);}
+.shy-dashboard-intro .eyebrow,.stats-heading .eyebrow{font-size:10px;letter-spacing:2px;color:#8ea2bd;font-weight:800;}
+.shy-dashboard-intro h1{margin:5px 0 4px;font-size:24px;background:linear-gradient(90deg,#f5f7ff,#a7efff,#d7b8ff);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.shy-dashboard-intro p{margin:0;color:#7f8ba6;font-size:11px;}
+.intro-status{min-width:115px;text-align:center;padding:13px;border-radius:16px;background:rgba(49,231,255,.055);border:1px solid rgba(49,231,255,.15);box-shadow:0 0 28px rgba(49,231,255,.06);}
+.intro-status b{display:block;font-size:25px;color:#35e7ff;text-shadow:0 0 18px rgba(49,231,255,.35);}.intro-status span{font-size:9px;color:#7f8ba6;}
+.stats-heading{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:4px;}.stats-heading h2{font-size:30px;margin:3px 0 3px;letter-spacing:-.5px;}.stats-heading p{margin:0;font-size:11px;}.stats-live{display:flex;align-items:center;gap:7px;padding:8px 11px;border-radius:999px;border:1px solid rgba(57,230,166,.18);background:rgba(57,230,166,.045);font-size:9px;color:#8fa99f;}.live-dot{width:7px;height:7px;border-radius:50%;background:#39e6a6;box-shadow:0 0 12px rgba(57,230,166,.7);}
+.stats-graph-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}.graph-panel{min-height:290px;overflow:hidden;}.graph-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;}.graph-head h3{margin:0 0 3px;font-size:14px;}.graph-head span{font-size:9px;color:#77839b;}.graph-head>b{font-size:17px;color:#eaf2ff;white-space:nowrap;}.trend-graph{height:220px;position:relative;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.018),rgba(255,255,255,.004));overflow:hidden;}.trend-graph svg{width:100%;height:100%;display:block;overflow:visible;}.trend-grid{stroke:rgba(145,160,190,.10);stroke-width:1}.trend-axis{fill:#68748b;font-size:9px}.trend-area-purple{fill:url(#trendPurpleFill)}.trend-area-cyan{fill:url(#trendCyanFill)}.trend-line-purple{fill:none;stroke:#a78bfa;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:url(#glowPurple)}.trend-line-cyan{fill:none;stroke:#35e7ff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:url(#glowCyan)}.trend-point{fill:#0b101b;stroke-width:2}.trend-empty{display:flex;height:100%;align-items:center;justify-content:center;color:#657189;font-size:11px;}
+.stats-main-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;}.stats-main-grid>.panel:nth-child(3),.stats-main-grid>.panel:nth-child(4){min-height:180px;}.stats-section{margin-top:14px;}.stats-history-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;margin-top:14px;}.stats-history-grid>.panel:nth-child(3),.stats-history-grid>.panel:nth-child(4){grid-column:1/-1;}
+body.theme-glass .shy-dashboard-intro,body.theme-glass .graph-panel,body.theme-glass .stats-heading+.grid.cards{box-shadow:0 18px 50px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.04);}
+@media(max-width:900px){.stats-graph-grid,.stats-main-grid,.stats-history-grid{grid-template-columns:1fr;}.stats-history-grid>.panel{grid-column:auto!important;}.shy-dashboard-intro{align-items:flex-start;}.stats-heading{align-items:flex-start;flex-direction:column;}.intro-status{min-width:90px;}.shy-dashboard-intro h1{font-size:20px;}}
+@media(max-width:560px){.shy-dashboard-intro{padding:16px;}.shy-dashboard-intro h1{font-size:18px;}.intro-status{display:none;}.stats-heading h2{font-size:25px;}.graph-panel{min-height:250px;}.trend-graph{height:190px;}.graph-head>b{font-size:14px;}.stats-main-grid{gap:10px;}}
+
+/* Bottom menu — keep the V30 placement, never move it to the side. */
+body.theme-glass nav.tabs{
+  position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;transform:none!important;
+  width:auto!important;min-height:0!important;max-height:none!important;flex-direction:row!important;
+  border-left:0!important;border-right:0!important;border-radius:0!important;
+  border-top:1px solid rgba(145,160,190,.15)!important;
+  background:rgba(5,8,15,.88)!important;
+  box-shadow:0 -16px 45px rgba(0,0,0,.42)!important;
+  padding:8px 12px calc(8px + env(safe-area-inset-bottom))!important;
+  gap:5px!important;overflow:visible!important;
+  backdrop-filter:blur(20px) saturate(145%);-webkit-backdrop-filter:blur(20px) saturate(145%);
+}
+body.theme-glass nav.tabs button{min-height:48px!important;width:auto!important;flex:1!important;border-radius:13px!important;font-size:9px!important;color:#78839b!important;}
+body.theme-glass nav.tabs button.active{color:#fff!important;background:linear-gradient(180deg,rgba(139,92,246,.20),rgba(49,231,255,.045))!important;box-shadow:inset 0 0 0 1px rgba(139,92,246,.20),0 0 20px rgba(139,92,246,.08);}
+body.theme-glass nav.tabs button.active .ic{filter:drop-shadow(0 0 7px rgba(49,231,255,.55));}
+body.theme-glass .menu-hide-btn,body.theme-glass .menu-show-btn{display:none!important;}
+body.menu-hidden nav.tabs{display:flex!important;}
+
+@media(max-width:900px){
+  body.theme-glass .app{padding:8px 10px 100px;}
+  #page-home .grid.cards{grid-template-columns:repeat(2,minmax(0,1fr));}
+  #page-home .home-secondary,#page-history{grid-template-columns:1fr;}
+  #page-today .today-grid{grid-template-columns:1fr;}
+  #page-routine .routine-days{grid-template-columns:1fr;}
+  #page-stats{grid-template-columns:1fr;}
+  #page-stats #statsCards{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #page-stats>.panel{grid-column:auto!important;}
+  #page-media .media-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:560px){
+  body.theme-glass .app{padding:6px 8px 96px;}
+  #page-home .grid.cards,#page-stats #statsCards{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #page-media .media-grid{grid-template-columns:1fr;}
+  body.theme-glass nav.tabs{padding-left:4px!important;padding-right:4px!important;gap:2px!important;}
+  body.theme-glass nav.tabs button{font-size:7px!important;min-height:44px!important;padding:5px 1px!important;}
+  body.theme-glass nav.tabs button .ic{width:19px;height:19px;}
+  .routine-edit-row{grid-template-columns:1fr 1fr!important;}
+}
+
+/* Light mode keeps the same dashboard structure without forcing dark surfaces. */
+body.theme-light #page-stats .panel,body.theme-light #page-home .card,body.theme-light #page-home .panel{box-shadow:0 12px 30px rgba(38,51,71,.08);}
+body.theme-light nav.tabs{background:rgba(248,250,255,.92)!important;}
+
+/* V35 — final layout stability fixes for STAT, MEDIA and SETTINGS. */
+/* Keep every page hidden until navigation activates it. STAT previously had an
+   ID-level display:grid rule that overrode .page{display:none}. */
+#page-stats{display:none;grid-template-columns:none;}
+#page-stats.active{display:block;}
+#page-media.active,#page-settings.active{display:block;}
+
+/* Remove any leftover V31 side-menu spacing. V30/V32 bottom menu is canonical. */
+.app{padding-right:0!important;}
+body.theme-glass .app{padding-right:0!important;}
+
+/* STAT dashboard: clean stacked dashboard instead of mixing the old 12-column
+   page grid with the new internal grids. */
+#page-stats .stats-heading{width:100%;}
+#page-stats #statsCards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px;}
+#page-stats .stats-graph-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+#page-stats .stats-main-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;}
+#page-stats .stats-history-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px;margin-top:14px;}
+#page-stats .stats-history-grid>.panel:nth-child(3),
+#page-stats .stats-history-grid>.panel:nth-child(4){grid-column:1/-1;}
+
+/* Media: stable folder cards, thumbnails and controls. */
+#page-media{max-width:1100px;margin:0 auto;}
+#page-media>.panel{overflow:hidden;}
+#page-media .media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+#page-media .task-folder{overflow:hidden;border:1px solid rgba(145,160,190,.13);border-radius:16px;background:rgba(8,12,21,.55);margin-bottom:12px;}
+#page-media .task-folder-head{min-width:0;}
+#page-media .task-folder-title{display:flex;align-items:center;gap:8px;min-width:0;}
+#page-media .task-folder-title span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#page-media .media-item{min-width:0;overflow:hidden;border:1px solid rgba(145,160,190,.10);border-radius:14px;background:rgba(255,255,255,.025);}
+#page-media .media-thumb{height:150px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(0,0,0,.18);}
+#page-media .media-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+#page-media .media-pdf{font-size:42px;opacity:.8;}
+#page-media .media-meta{padding:9px 10px;min-width:0;}
+#page-media .media-name{font-size:11px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#page-media .media-actions{display:flex;gap:6px;padding:0 10px 10px;}
+#page-media .media-actions button{flex:1;min-width:0;font-size:9px;padding:7px 6px;}
+#page-media .media-empty{text-align:center;padding:28px 14px;border:1px dashed rgba(145,160,190,.16);border-radius:14px;}
+
+/* Settings: prevent long credential/help text from pushing the page sideways. */
+#page-settings{max-width:1000px;width:100%;margin:0 auto;overflow:visible;}
+#page-settings .panel{min-width:0;overflow:hidden;}
+#page-settings .credentials-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+#page-settings .credential-toggle{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;}
+#page-settings input[type="text"],#page-settings input[type="password"],#page-settings input[type="url"],#page-settings input[type="file"]{max-width:100%;box-sizing:border-box;}
+#page-settings code{overflow-wrap:anywhere;}
+#page-settings a{overflow-wrap:anywhere;}
+
+@media(max-width:900px){
+  #page-stats #statsCards{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #page-stats .stats-graph-grid,
+  #page-stats .stats-main-grid,
+  #page-stats .stats-history-grid{grid-template-columns:1fr;}
+  #page-stats .stats-history-grid>.panel{grid-column:auto!important;}
+  #page-media .media-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:560px){
+  #page-stats #statsCards{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #page-stats .graph-panel{min-height:245px;}
+  #page-stats .trend-graph{height:185px;}
+  #page-media .media-grid{grid-template-columns:1fr;}
+  #page-media .media-thumb{height:180px;}
+  #page-settings .credentials-head{align-items:flex-start;}
+}
+
+</style>
+
+<style id="shyama-v36-date-menu-fix">
+/* V36: bottom navigation is identical in Dark and Light modes. */
+nav.tabs{
+  position:fixed !important;
+  left:0 !important; right:0 !important; top:auto !important; bottom:0 !important;
+  transform:none !important; width:auto !important; min-height:0 !important;
+  max-height:none !important; flex-direction:row !important;
+  border-left:0 !important; border-right:0 !important; border-radius:0 !important;
+  padding:6px 2px calc(6px + env(safe-area-inset-bottom)) !important;
+  gap:0 !important; overflow:visible !important;
+  z-index:50 !important;
+}
+nav.tabs button{flex:1 !important; width:auto !important; min-height:43px !important;}
+@media(min-width:701px){
+  .app{padding-right:0 !important; padding-bottom:88px !important;}
+  nav.tabs button{min-height:48px !important;}
+}
+@media(max-width:700px){
+  .app{padding-left:8px !important; padding-right:8px !important; padding-bottom:calc(84px + env(safe-area-inset-bottom)) !important;}
+  nav.tabs button{min-height:43px !important; font-size:8px !important; padding:5px 2px !important;}
+}
+/* No right-side menu/hide-menu behavior from older builds. */
+.menu-hide-btn,.menu-show-btn{display:none !important;}
+body.menu-hidden nav.tabs{display:flex !important;}
+/* Preserve theme-specific colors while keeping identical geometry. */
+body.theme-glass nav.tabs{background:rgba(4,10,20,.94) !important; border-top:1px solid rgba(255,255,255,.10) !important;}
+body.theme-light nav.tabs{background:rgba(255,255,255,.94) !important; border-top:1px solid rgba(106,80,155,.18) !important;}
+</style>
+
+
+<style id="shyama-v38-focus-clock">
+.focus-launch-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.focus-open-btn{min-width:170px}
+.focus-overlay{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:24px;background:#07101c;overflow:hidden}
+.focus-overlay.open{display:flex}
+.focus-overlay.minimized{inset:auto 18px 88px auto;width:min(360px,calc(100vw - 36px));height:auto;padding:0;background:transparent;align-items:stretch;justify-content:stretch}
+.focus-overlay.minimized .focus-stage{min-height:0;padding:16px;border-radius:22px}
+.focus-overlay.minimized .focus-clock-wrap{width:190px;height:190px}
+.focus-overlay.minimized .focus-clock{inset:7px}
+.focus-overlay.minimized .focus-clock .clock-number{font-size:34px}
+.focus-overlay.minimized .focus-subtitle,.focus-overlay.minimized .focus-bg-options,.focus-overlay.minimized .focus-spotify{display:none}
+.focus-stage{position:relative;width:min(1100px,96vw);min-height:min(820px,94vh);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:34px;border:1px solid rgba(255,255,255,.14);border-radius:34px;background:linear-gradient(145deg,rgba(7,16,30,.68),rgba(19,27,51,.58));box-shadow:0 30px 100px rgba(0,0,0,.5);backdrop-filter:blur(18px)}
+.focus-overlay[data-bg="aurora"]{background:radial-gradient(circle at 20% 20%,rgba(53,231,255,.22),transparent 35%),radial-gradient(circle at 80% 70%,rgba(139,92,246,.28),transparent 38%),linear-gradient(135deg,#06121b,#130d28 55%,#071b22)}
+.focus-overlay[data-bg="ocean"]{background:radial-gradient(circle at 30% 25%,rgba(74,222,255,.24),transparent 34%),linear-gradient(150deg,#031b2b,#06384a 50%,#071c35)}
+.focus-overlay[data-bg="forest"]{background:radial-gradient(circle at 70% 25%,rgba(70,220,155,.22),transparent 36%),linear-gradient(145deg,#071a18,#0c2924 50%,#101d25)}
+.focus-overlay[data-bg="sunset"]{background:radial-gradient(circle at 70% 25%,rgba(255,142,92,.24),transparent 34%),linear-gradient(145deg,#21111d,#2d1930 52%,#17152b)}
+.focus-overlay[data-bg="moon"]{background:radial-gradient(circle at 50% 20%,rgba(180,205,255,.18),transparent 32%),linear-gradient(145deg,#080d1d,#111832 55%,#0b1225)}
+.focus-topbar{position:absolute;top:18px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.focus-title{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.72);font-weight:800}
+.focus-window-actions{display:flex;gap:7px}.focus-window-actions button{min-width:42px;padding:8px 10px;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16)}
+.focus-clock-wrap{position:relative;width:min(440px,72vw);height:min(440px,72vw);display:grid;place-items:center;margin:12px 0 20px}
+.focus-clock-wrap::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from -90deg,var(--focus-accent) var(--focus-progress,0%),rgba(255,255,255,.09) 0);filter:drop-shadow(0 0 24px color-mix(in srgb,var(--focus-accent) 55%,transparent));}
+.focus-clock-wrap::after{content:"";position:absolute;inset:9px;border-radius:50%;background:rgba(4,10,20,.74);box-shadow:inset 0 0 50px rgba(0,0,0,.35)}
+.focus-clock{position:absolute;inset:22px;border-radius:50%;border:1px solid rgba(255,255,255,.16);z-index:2;background:radial-gradient(circle,rgba(255,255,255,.05),rgba(255,255,255,.015) 55%,transparent 56%);box-shadow:inset 0 0 35px rgba(255,255,255,.04),0 0 45px rgba(0,0,0,.3)}
+.focus-clock .tick{position:absolute;left:50%;top:50%;width:2px;height:10px;background:rgba(255,255,255,.48);transform-origin:50% calc((min(440px,72vw) - 44px)/2);border-radius:2px}
+.focus-clock .tick.major{height:17px;width:3px;background:rgba(255,255,255,.8)}
+.clock-number{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(42px,7vw,72px);font-weight:900;letter-spacing:3px;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 24px color-mix(in srgb,var(--focus-accent) 35%,transparent);z-index:4}
+.clock-dot{position:absolute;left:50%;top:50%;width:12px;height:12px;border-radius:50%;background:var(--focus-accent);transform:translate(-50%,-50%);z-index:5;box-shadow:0 0 15px var(--focus-accent)}
+.focus-subtitle{font-size:13px;color:rgba(255,255,255,.68);margin-bottom:14px;text-align:center}
+.focus-controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.focus-controls button{min-width:72px}
+.focus-bg-options{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:16px}.focus-bg-options button{font-size:10px;padding:7px 10px;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12)}
+.focus-bg-options button.active{border-color:var(--focus-accent);box-shadow:0 0 0 1px var(--focus-accent) inset}
+.focus-spotify{margin-top:18px}.focus-spotify a{display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none;padding:10px 15px;border-radius:999px;background:rgba(30,215,96,.15);border:1px solid rgba(30,215,96,.35);font-size:11px;font-weight:800}
+.spotify-logo{width:22px;height:22px;border-radius:50%;background:#1ed760;display:inline-grid;place-items:center;flex:none}.spotify-logo svg{width:15px;height:15px;fill:#06120b}
+body.theme-light .focus-overlay{background:#dce8f5}.focus-overlay[data-bg="aurora"] .focus-stage,.focus-overlay[data-bg="ocean"] .focus-stage,.focus-overlay[data-bg="forest"] .focus-stage,.focus-overlay[data-bg="sunset"] .focus-stage,.focus-overlay[data-bg="moon"] .focus-stage{background:rgba(255,255,255,.38)}
+@media(max-width:600px){.focus-overlay{padding:10px}.focus-stage{min-height:calc(100vh - 20px);width:100%;border-radius:24px;padding:22px 12px}.focus-topbar{top:12px;left:13px;right:13px}.focus-clock-wrap{width:min(86vw,360px);height:min(86vw,360px)}.focus-clock{inset:17px}.focus-overlay.minimized{right:10px;bottom:76px;width:calc(100vw - 20px)} }
+</style>
+<style id="shyama-v37-gradient-pages">
+/* V37: unified gradient design language across every page */
+:root{
+  --v37-bg-a:#050914;--v37-bg-b:#10152d;--v37-bg-c:#1a0f2d;
+  --v37-cyan:#35e7ff;--v37-purple:#8b5cf6;--v37-pink:#ff4fd8;--v37-green:#43e6aa;
+  --v37-card:linear-gradient(135deg,rgba(16,25,52,.94),rgba(42,20,62,.86) 52%,rgba(8,42,55,.82));
+  --v37-card-soft:linear-gradient(135deg,rgba(53,231,255,.08),rgba(139,92,246,.10),rgba(255,79,216,.08));
+  --v37-line:rgba(149,135,255,.22);
+}
+body{
+  background:
+    radial-gradient(900px 500px at 8% -8%,rgba(53,231,255,.14),transparent 60%),
+    radial-gradient(800px 500px at 100% 0%,rgba(139,92,246,.18),transparent 58%),
+    radial-gradient(900px 600px at 70% 100%,rgba(255,79,216,.11),transparent 62%),
+    linear-gradient(135deg,var(--v37-bg-a),var(--v37-bg-b) 52%,var(--v37-bg-c));
+  background-attachment:fixed;
+}
+/* Every major page container/card */
+.page,.panel,.card,.task,.settings-theme-panel,.current-datetime-panel,.challenge-card,.history-card,.stat-card,.media-folder,.routine-card,.routine-day,.alarm-card,.reward-card,.proof-card,.modal-card,.focus-card,.sync-card{
+  background:var(--v37-card)!important;
+  border-color:var(--v37-line)!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 28px rgba(139,92,246,.035)!important;
+}
+.panel,.card,.task,.settings-theme-panel{position:relative;overflow:hidden;}
+.panel::before,.card::before,.task::before,.settings-theme-panel::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(120deg,rgba(53,231,255,.045),transparent 32%,rgba(139,92,246,.055) 66%,rgba(255,79,216,.035));
+}
+/* Inputs, selects and textareas */
+input,select,textarea{
+  background:linear-gradient(135deg,rgba(9,20,38,.94),rgba(39,22,58,.88))!important;
+  border-color:rgba(112,180,255,.25)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+button.primary,.btn.primary,.primary{
+  background:linear-gradient(135deg,#0ea5e9,#7c3aed 55%,#db2777)!important;
+  border-color:rgba(255,255,255,.16)!important;color:#fff!important;
+  box-shadow:0 8px 22px rgba(124,58,237,.25)!important;
+}
+button:not(.primary):not(.theme-choice){
+  background:linear-gradient(135deg,rgba(24,42,70,.92),rgba(55,28,76,.82))!important;
+  border-color:rgba(139,92,246,.22)!important;
+}
+/* Progress / stat visuals */
+.progress,.progress-bar,.xp-bar,.stat-progress{background:linear-gradient(90deg,#22d3ee,#8b5cf6 55%,#ec4899)!important;}
+.stat-icon,.card .stat-icon{color:#67e8f9!important;text-shadow:0 0 14px rgba(53,231,255,.35);}
+/* Page headings */
+.page h1,.page h2,.page h3,.page h4{
+  background:linear-gradient(90deg,#e7fbff,#9eeaff 35%,#c4b5fd 70%,#f9a8d4);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+/* Routine / Today / History / Media sections */
+.routine-day,.routine-card,.history-card,.media-folder,.challenge-card{
+  background:linear-gradient(135deg,rgba(12,31,50,.92),rgba(48,25,69,.88),rgba(12,52,58,.82))!important;
+}
+.task{background:linear-gradient(135deg,rgba(15,31,51,.94),rgba(48,24,65,.82))!important;}
+.task.done{box-shadow:0 0 0 1px rgba(67,230,170,.18),0 10px 30px rgba(67,230,170,.08)!important;}
+/* Bottom menu: same location and gradient in both themes */
+nav.tabs{
+  position:fixed!important;left:0!important;right:0!important;top:auto!important;bottom:0!important;width:auto!important;
+  background:linear-gradient(90deg,rgba(7,18,35,.97),rgba(38,20,61,.97) 52%,rgba(7,35,43,.97))!important;
+  border-top:1px solid rgba(139,92,246,.28)!important;
+  box-shadow:0 -14px 40px rgba(0,0,0,.32),0 -2px 18px rgba(53,231,255,.06)!important;
+}
+nav.tabs button.active{background:linear-gradient(180deg,rgba(53,231,255,.14),rgba(139,92,246,.16),rgba(255,79,216,.08))!important;color:#67e8f9!important;border-radius:12px;}
+/* Light mode gets the same gradient structure, but brighter */
+body.theme-light{
+  background:
+    radial-gradient(900px 500px at 0% 0%,rgba(53,231,255,.16),transparent 58%),
+    radial-gradient(850px 520px at 100% 0%,rgba(139,92,246,.13),transparent 58%),
+    linear-gradient(135deg,#eef9ff,#f6f1ff 52%,#fff0fa)!important;
+  color:#172033;
+}
+body.theme-light .page,body.theme-light .panel,body.theme-light .card,body.theme-light .task,body.theme-light .settings-theme-panel,body.theme-light .current-datetime-panel,body.theme-light .challenge-card,body.theme-light .history-card,body.theme-light .stat-card,body.theme-light .media-folder,body.theme-light .routine-card,body.theme-light .routine-day{
+  background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(244,239,255,.90) 52%,rgba(235,251,255,.88))!important;
+  border-color:rgba(99,74,180,.16)!important;
+  box-shadow:0 14px 34px rgba(74,63,112,.10),inset 0 1px 0 rgba(255,255,255,.98)!important;
+}
+body.theme-light input,body.theme-light select,body.theme-light textarea{background:linear-gradient(135deg,#fff,#f4f0ff)!important;color:#172033!important;}
+body.theme-light nav.tabs{
+  background:linear-gradient(90deg,rgba(239,250,255,.97),rgba(246,240,255,.97) 52%,rgba(255,239,249,.97))!important;
+  border-top-color:rgba(99,74,180,.18)!important;
+  box-shadow:0 -12px 34px rgba(74,63,112,.13)!important;
+}
+body.theme-light nav.tabs button.active{color:#6d3fd1!important;background:linear-gradient(180deg,rgba(53,231,255,.14),rgba(139,92,246,.12),rgba(255,79,216,.10))!important;}
+body.theme-light .page h1,body.theme-light .page h2,body.theme-light .page h3,body.theme-light .page h4{background:linear-gradient(90deg,#087fa8,#6846d9 52%,#d22caa);-webkit-background-clip:text;background-clip:text;color:transparent;}
+@media(max-width:480px){
+  body{background-attachment:scroll;}
+  .panel,.card,.task,.settings-theme-panel{box-shadow:0 10px 26px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.06)!important;}
+}
+</style>
+
+<style id="shyama-v39-focus-fit">
+/* V39: focus screen fit/spacing fix — keep the complete timer visible at common laptop sizes */
+.focus-overlay{box-sizing:border-box;padding:14px;overflow:hidden;}
+.focus-stage{box-sizing:border-box;width:min(1120px,96vw);height:calc(100vh - 28px);min-height:0;max-height:calc(100vh - 28px);padding:58px 28px 24px;justify-content:flex-start;overflow:hidden;}
+.focus-topbar{top:14px;left:20px;right:20px;z-index:10;}
+.focus-clock-wrap{width:min(440px,62vh,68vw);height:min(440px,62vh,68vw);margin:0 0 12px;flex:none;}
+.focus-clock .tick{transform-origin:50% calc((min(440px,62vh,68vw) - 44px)/2);}
+.focus-subtitle{margin-bottom:10px;}
+.focus-bg-options{margin-top:10px;}
+.focus-spotify{margin-top:10px;}
+.focus-controls{gap:7px;}
+.focus-controls button{min-width:68px;padding:8px 11px;}
+.focus-bg-options button{padding:6px 9px;}
+.focus-window-actions button{min-width:38px;padding:7px 9px;}
+
+/* A subtle inner dial makes the timer read more like a real clock face. */
+.focus-clock{overflow:hidden;}
+.focus-clock .clock-number{background:radial-gradient(circle at center,rgba(255,255,255,.025),transparent 54%);border-radius:50%;}
+
+.focus-overlay.minimized{inset:auto 18px 88px auto;width:min(360px,calc(100vw - 36px));height:auto;padding:0;}
+.focus-overlay.minimized .focus-stage{height:auto;max-height:none;padding:14px;overflow:visible;}
+.focus-overlay.minimized .focus-clock-wrap{width:190px;height:190px;margin:0;}
+
+@media(max-height:720px) and (min-width:601px){
+  .focus-stage{padding-top:52px;padding-bottom:14px;}
+  .focus-clock-wrap{width:min(380px,55vh,62vw);height:min(380px,55vh,62vw);margin-bottom:7px;}
+  .focus-subtitle{font-size:12px;margin-bottom:6px;}
+  .focus-bg-options{margin-top:7px;}
+  .focus-spotify{margin-top:7px;}
+}
+@media(max-width:600px){
+  .focus-overlay{padding:8px;}
+  .focus-stage{width:100%;height:calc(100vh - 16px);max-height:calc(100vh - 16px);padding:52px 12px 14px;border-radius:24px;}
+  .focus-topbar{top:10px;left:12px;right:12px;}
+  .focus-clock-wrap{width:min(78vw,48vh,350px);height:min(78vw,48vh,350px);margin-bottom:8px;}
+  .focus-clock{inset:15px;}
+  .focus-controls button{min-width:62px;padding:7px 8px;}
+  .focus-bg-options{gap:5px;margin-top:7px;}
+  .focus-bg-options button{padding:6px 8px;}
+  .focus-spotify{margin-top:7px;}
+}
+</style>
+<style id="shyama-v40-neon-aurora-theme">
+/* V40 — neon aurora / glass dashboard language inspired by the supplied reference. No image is embedded. */
+:root{
+  --v40-bg:#050b22;--v40-bg2:#0a1740;--v40-cyan:#20d9ff;--v40-blue:#4267ff;--v40-purple:#9b4dff;--v40-pink:#ff45b7;--v40-green:#15e39a;--v40-orange:#ff8b4d;
+  --v40-panel:linear-gradient(135deg,rgba(12,29,69,.88),rgba(21,28,78,.78) 48%,rgba(24,13,55,.84));
+  --v40-line:rgba(103,182,255,.22);--v40-text:#eef6ff;--v40-muted:#9eb2d1;
+}
+body.theme-glass{background:radial-gradient(circle at 8% 12%,rgba(32,217,255,.15),transparent 28%),radial-gradient(circle at 92% 72%,rgba(255,69,183,.14),transparent 30%),linear-gradient(135deg,#03102a 0%,#08143a 42%,#140a32 100%)!important;color:var(--v40-text)!important;}
+body.theme-glass .app{position:relative;}
+body.theme-glass .app:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 105%,rgba(32,217,255,.08),transparent 35%);}
+body.theme-glass .top{background:linear-gradient(90deg,rgba(5,13,36,.82),rgba(12,25,62,.55),rgba(24,10,48,.72));border:1px solid rgba(117,182,255,.16);box-shadow:0 12px 38px rgba(0,0,0,.22);border-radius:22px;padding:9px 14px;backdrop-filter:blur(16px);}
+body.theme-glass .brand .name{background:linear-gradient(90deg,#35e7ff,#ff54ca);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;}
+body.theme-glass .brand .sub,.top-theme-label{color:#9db7db!important;}
+body.theme-glass .top-theme-bar{background:rgba(6,15,40,.55);border:1px solid rgba(116,174,255,.13);border-radius:14px;padding:5px 8px;}
+body.theme-glass .top-theme-bar .theme-choice{border-color:rgba(112,170,255,.18);background:linear-gradient(135deg,rgba(40,71,145,.25),rgba(104,43,156,.22));}
+body.theme-glass .page .panel,body.theme-glass .page .card,body.theme-glass .page .task,body.theme-glass .page .day-card,body.theme-glass .page .challenge-card,body.theme-glass .page .alarm-row,body.theme-glass .page .media-item,body.theme-glass .page .routine-row,body.theme-glass .page .history-row,body.theme-glass .page .stat-card,body.theme-glass .page .reward-card,body.theme-glass .page .settings-theme-panel{
+  background:var(--v40-panel)!important;border:1px solid var(--v40-line)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 16px 45px rgba(0,0,0,.25),0 0 30px rgba(49,106,255,.045)!important;backdrop-filter:blur(14px);border-radius:20px!important;}
+body.theme-glass .page h1,body.theme-glass .page h2,body.theme-glass .page h3,body.theme-glass .page h4{color:#f3f7ff!important;letter-spacing:.2px;}
+body.theme-glass .page .muted,body.theme-glass .page small{color:var(--v40-muted)!important;}
+body.theme-glass .page .eyebrow{color:#59dfff!important;letter-spacing:2px;}
+body.theme-glass .page button:not(.primary),body.theme-glass .page input,body.theme-glass .page select,body.theme-glass .page textarea{background:linear-gradient(135deg,rgba(21,45,91,.74),rgba(47,25,91,.68))!important;border-color:rgba(106,175,255,.24)!important;color:#eef6ff!important;border-radius:12px;}
+body.theme-glass .page button.primary,body.theme-glass .primary{background:linear-gradient(90deg,#ff3faf,#6d4dff 52%,#27d8ff)!important;border:0!important;color:#fff!important;box-shadow:0 8px 25px rgba(118,65,255,.32)!important;}
+body.theme-glass .shy-quick,body.theme-glass .shy-quote-bar,body.theme-glass .shy-inspiration,body.theme-glass .shy-challenges{background:var(--v40-panel)!important;border:1px solid var(--v40-line)!important;border-radius:20px!important;box-shadow:0 16px 45px rgba(0,0,0,.22)!important;}
+body.theme-glass .shy-action{background:linear-gradient(135deg,rgba(25,55,120,.75),rgba(67,35,121,.72))!important;border:1px solid rgba(110,171,255,.25)!important;}
+body.theme-glass .shy-action:hover,body.theme-glass .page button:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(53,140,255,.13);}
+body.theme-glass nav.tabs{background:linear-gradient(90deg,rgba(5,17,45,.97),rgba(30,18,76,.97),rgba(7,30,52,.97))!important;border:1px solid rgba(101,168,255,.22)!important;box-shadow:0 -12px 38px rgba(0,0,0,.38)!important;backdrop-filter:blur(18px);}
+body.theme-glass nav.tabs button.active{color:#fff!important;background:linear-gradient(135deg,rgba(255,67,184,.35),rgba(91,83,255,.32),rgba(32,217,255,.18))!important;box-shadow:inset 0 0 0 1px rgba(112,166,255,.25),0 0 24px rgba(112,69,255,.14)!important;border-radius:14px!important;}
+body.theme-glass nav.tabs button.active .ic{filter:drop-shadow(0 0 7px #20d9ff)!important;}
+body.theme-light{background:radial-gradient(circle at 5% 10%,rgba(35,202,255,.14),transparent 27%),radial-gradient(circle at 95% 78%,rgba(255,85,191,.13),transparent 28%),linear-gradient(135deg,#edf7ff,#f4efff 48%,#fff1f8)!important;color:#17233c!important;}
+body.theme-light .top,body.theme-light .page .panel,body.theme-light .page .card,body.theme-light .page .task,body.theme-light .page .day-card,body.theme-light .page .challenge-card,body.theme-light .page .alarm-row,body.theme-light .page .media-item,body.theme-light .page .routine-row,body.theme-light .page .history-row,body.theme-light .page .stat-card,body.theme-light .page .reward-card,body.theme-light .page .settings-theme-panel{background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(239,248,255,.88),rgba(252,240,255,.92))!important;border-color:rgba(93,124,196,.18)!important;box-shadow:0 16px 40px rgba(73,88,145,.12)!important;border-radius:20px!important;}
+body.theme-light .brand .name{background:linear-gradient(90deg,#087ca6,#8740d5,#e43c9e);-webkit-background-clip:text;background-clip:text;color:transparent;}
+body.theme-light .page h1,body.theme-light .page h2,body.theme-light .page h3,body.theme-light .page h4{color:#1a2845!important;}
+body.theme-light .page button:not(.primary),body.theme-light .page input,body.theme-light .page select,body.theme-light .page textarea{background:linear-gradient(135deg,#f4fbff,#f5efff)!important;color:#1d2a44!important;border-color:rgba(80,105,175,.2)!important;}
+body.theme-light .page button.primary,body.theme-light .primary{background:linear-gradient(90deg,#ff49ae,#754df3,#22c8e8)!important;color:#fff!important;border:0!important;}
+/* Focus reference layout */
+.focus-overlay{background:radial-gradient(circle at 10% 15%,rgba(32,217,255,.25),transparent 28%),radial-gradient(circle at 90% 70%,rgba(255,69,183,.25),transparent 30%),linear-gradient(135deg,#03112f,#0b1740 48%,#190b34)!important;}
+.focus-stage{width:min(1240px,94vw)!important;height:min(720px,calc(100vh - 32px))!important;min-height:0!important;padding:62px 22px 18px!important;border-radius:30px!important;background:linear-gradient(135deg,rgba(9,30,73,.78),rgba(20,24,70,.66),rgba(34,12,66,.74))!important;border:1px solid rgba(103,194,255,.23)!important;box-shadow:0 30px 100px rgba(0,0,0,.55),0 0 60px rgba(54,98,255,.10)!important;}
+.focus-topbar{top:14px!important;left:22px!important;right:22px!important;z-index:20;}
+.focus-brand-name{font-size:18px;font-weight:900;letter-spacing:5px;background:linear-gradient(90deg,#32e6ff,#ff4db9);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.focus-brand-sub{font-size:8px;display:block;letter-spacing:2.5px;color:#b3c5e7;margin-top:2px;}
+.focus-title{font-size:11px!important;color:#b5c9eb!important;letter-spacing:2.4px!important;}
+.focus-grid{width:100%;height:100%;display:grid;grid-template-columns:minmax(250px,.82fr) minmax(360px,1.18fr) minmax(280px,.92fr);gap:16px;align-items:center;}
+.focus-side{height:100%;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:11px;padding:14px;}
+.focus-side-heading{display:flex;gap:11px;align-items:center;padding:5px 3px 8px;}.focus-side-heading h2{margin:0;font-size:23px;color:#f6f9ff}.focus-side-heading p{margin:3px 0 0;color:#9bb2d6;font-size:11px}.focus-side-icon{font-size:40px;color:#8abfff;text-shadow:0 0 18px rgba(32,217,255,.55)}
+.focus-nav-card{display:grid!important;grid-template-columns:40px 1fr 18px;align-items:center;text-align:left;gap:10px!important;width:100%;min-height:74px;padding:12px 14px!important;border-radius:18px!important;background:linear-gradient(135deg,rgba(22,54,112,.55),rgba(35,28,91,.62))!important;border:1px solid rgba(93,166,255,.20)!important;color:#c9d8ef!important;}
+.focus-nav-card.active{background:linear-gradient(100deg,rgba(255,65,177,.85),rgba(69,85,255,.88))!important;box-shadow:0 10px 30px rgba(92,66,255,.26)!important;color:#fff!important;}
+.focus-nav-card .fnav-icon{font-size:25px;text-align:center}.focus-nav-card b{display:block;font-size:15px}.focus-nav-card small{display:block;font-size:10px;margin-top:3px;color:#a9bddb}.focus-nav-card strong{font-size:25px;text-align:right;font-weight:400}
+.focus-mini-quote{margin-top:4px;border:1px solid rgba(64,220,255,.35);border-radius:18px;padding:15px;background:linear-gradient(135deg,rgba(15,48,83,.6),rgba(47,21,80,.55));color:#c7d7ef;font-size:12px;line-height:1.55;}
+.focus-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;}
+.focus-clock-wrap{width:min(430px,33vw,55vh)!important;height:min(430px,33vw,55vh)!important;margin:0 0 10px!important;}
+.focus-clock-wrap::before{background:conic-gradient(from -90deg,#ff46b5 0%,#8c50ff 42%,#20d9ff var(--focus-progress,0%),rgba(255,255,255,.08) 0)!important;filter:drop-shadow(0 0 28px rgba(41,209,255,.42))!important;}
+.focus-clock-wrap::after{background:rgba(3,12,30,.82)!important;}.focus-clock{background:radial-gradient(circle at 50% 45%,rgba(35,111,181,.16),rgba(4,16,38,.72) 58%,rgba(4,9,24,.94) 59%)!important;border-color:rgba(134,197,255,.20)!important;box-shadow:inset 0 0 50px rgba(44,162,255,.08),0 0 55px rgba(0,0,0,.4)!important;}
+.clock-number{font-size:clamp(50px,5vw,82px)!important;text-shadow:0 0 30px rgba(49,219,255,.25),0 0 45px rgba(255,71,186,.12)!important;}
+.focus-subtitle{color:#b6c9e5!important;margin-bottom:9px!important;}.focus-mode-switch{display:flex;background:rgba(7,18,45,.7);border:1px solid rgba(99,168,255,.22);border-radius:999px;padding:3px;gap:3px;margin-bottom:8px}.focus-mode-switch button{border:0!important;background:transparent!important;color:#9bb2d5!important;padding:6px 13px!important;border-radius:999px!important;font-size:10px!important;min-width:0!important}.focus-mode-switch button.active{background:linear-gradient(90deg,rgba(255,65,177,.85),rgba(86,77,255,.9))!important;color:#fff!important;box-shadow:0 4px 15px rgba(99,65,255,.25)!important}.focus-controls{gap:10px!important}.focus-controls button{min-width:78px!important}.focus-controls .focus-main-start{min-width:150px!important;font-size:15px!important;padding:12px 20px!important;border-radius:999px!important;}.focus-caption{margin-top:11px;color:#9fb6d8;font-size:12px;font-style:italic;}
+.focus-right{justify-content:center;}.focus-panel-block,.focus-spotify{border:1px solid rgba(98,177,255,.18);border-radius:20px;padding:14px;background:linear-gradient(135deg,rgba(12,35,77,.58),rgba(46,21,82,.56));}.focus-block-head{display:flex;gap:9px;align-items:center;margin-bottom:11px}.focus-block-head>span{font-size:21px;color:#d8e8ff}.focus-block-head h3{margin:0;color:#eef5ff;font-size:15px}.focus-block-head small{color:#8fa9ce;font-size:9px}.focus-duration-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.focus-duration-grid button{min-width:0!important;padding:10px 4px!important;border-radius:13px!important;font-size:20px;font-weight:900;background:linear-gradient(135deg,rgba(20,94,164,.75),rgba(42,65,160,.65))!important;border:1px solid rgba(95,184,255,.25)!important;color:#fff!important}.focus-duration-grid button:nth-child(2){background:linear-gradient(135deg,#8b4dff,#bd49d9)!important}.focus-duration-grid button:nth-child(3){background:linear-gradient(135deg,#c75a38,#975044)!important}.focus-duration-grid button:nth-child(4){background:linear-gradient(135deg,#168e77,#087f63)!important}.focus-duration-grid button.active{box-shadow:0 0 0 2px rgba(255,255,255,.7) inset,0 0 20px rgba(126,92,255,.3)!important}.focus-duration-grid small{display:block;font-size:9px;font-weight:700;color:#e7eefb;margin-top:1px}
+.focus-bg-options{display:grid!important;grid-template-columns:repeat(5,1fr);gap:6px!important;margin-top:0!important}.focus-bg-options button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0!important;background:transparent!important;border:0!important;color:#9eb6d7!important;font-size:8px!important;min-width:0!important}.focus-bg-options button.active{color:#fff!important;box-shadow:none!important}.bg-swatch{width:52px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.2);display:block;box-shadow:inset 0 0 16px rgba(255,255,255,.07)}.bg-swatch.aurora{background:radial-gradient(circle at 60% 35%,#49f1ff,#7a40e9 50%,#09172e)}.bg-swatch.ocean{background:linear-gradient(145deg,#0d77a5,#50d7ff 52%,#09253d)}.bg-swatch.forest{background:linear-gradient(145deg,#173e31,#2d8a5d 50%,#081c20)}.bg-swatch.sunset{background:linear-gradient(145deg,#ff9d4d,#d94b73 52%,#211b48)}.bg-swatch.moon{background:linear-gradient(145deg,#344b80,#11182e 52%,#080d1b)}.focus-bg-options button.active .bg-swatch{box-shadow:0 0 0 2px #35e7ff,0 0 18px rgba(53,231,255,.28)}
+.focus-spotify{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:10px;margin-top:0!important}.spotify-focus-icon .spotify-logo{width:46px;height:46px}.spotify-focus-icon .spotify-logo svg{width:29px;height:29px}.focus-spotify b{display:block;color:#f4f8ff;font-size:14px}.focus-spotify small{display:block;color:#94acce;font-size:9px;margin-top:3px}.focus-spotify a{padding:10px 13px!important;background:#18d76f!important;color:#03210f!important;border:0!important;font-size:10px!important;border-radius:999px!important;white-space:nowrap;}
+.focus-overlay.stopwatch-mode .focus-clock-wrap::before{background:conic-gradient(from -90deg,#ff46b5,#8c50ff,#20d9ff,#ff46b5)!important;animation:focusStopGlow 4s linear infinite}.focus-overlay.stopwatch-mode .focus-duration-block{opacity:.45}.focus-overlay.stopwatch-mode .focus-duration-block:after{content:"Stopwatch mode active";display:block;color:#b9c9e5;font-size:9px;margin-top:8px}.focus-overlay.minimized .focus-grid{display:block}.focus-overlay.minimized .focus-stage{width:340px!important;height:auto!important;padding:48px 12px 12px!important}.focus-overlay.minimized .focus-side,.focus-overlay.minimized .focus-right{display:none}.focus-overlay.minimized .focus-center{display:flex}.focus-overlay.minimized .focus-clock-wrap{width:190px!important;height:190px!important}.focus-overlay.minimized .focus-subtitle,.focus-overlay.minimized .focus-mode-switch,.focus-overlay.minimized .focus-caption{display:none}.focus-overlay.minimized .focus-controls{margin-top:6px}.focus-overlay.minimized .focus-controls #focusResetBtn{display:none}.focus-overlay.minimized .focus-controls .focus-main-start{min-width:100px!important;font-size:11px!important;padding:8px 13px!important}
+@keyframes focusStopGlow{to{transform:rotate(360deg)}}
+@media(max-width:980px){.focus-grid{grid-template-columns:1fr 1.2fr!important;grid-template-rows:auto auto}.focus-left{display:none}.focus-right{grid-column:1/-1;flex-direction:row;align-items:stretch;overflow:auto}.focus-panel-block,.focus-spotify{min-width:240px}.focus-clock-wrap{width:min(430px,42vw,48vh)!important;height:min(430px,42vw,48vh)!important}.focus-stage{height:calc(100vh - 24px)!important;padding-top:58px!important;}}
+@media(max-width:650px){.focus-stage{width:calc(100vw - 12px)!important;height:calc(100vh - 12px)!important;padding:52px 10px 10px!important;border-radius:22px!important}.focus-grid{display:flex!important;flex-direction:column!important;overflow:auto!important;justify-content:flex-start!important;gap:8px}.focus-center{order:1}.focus-right{order:2;width:100%;flex-direction:column!important;overflow:visible!important}.focus-clock-wrap{width:min(76vw,340px)!important;height:min(76vw,340px)!important}.focus-panel-block,.focus-spotify{min-width:0;width:100%;box-sizing:border-box}.focus-bg-options{grid-template-columns:repeat(5,1fr)!important}.bg-swatch{width:48px;height:40px}.focus-topbar{left:12px!important;right:12px!important}.focus-brand-name{font-size:14px}.focus-title{display:none}.focus-window-actions button{min-width:34px!important;padding:6px!important}.focus-overlay.minimized .focus-stage{width:calc(100vw - 30px)!important}.focus-overlay.minimized .focus-grid{overflow:visible!important}.focus-overlay.minimized .focus-right{display:none!important}}
+</style>
+<style id="shyama-v41-focus-clock-global-themes">
+/* V41 — real clock face cleanup + global visual themes */
+/* Remove the artificial hands/lines that were crossing the center of the dial. */
+.focus-clock::before,.focus-clock::after{content:none!important;display:none!important;visibility:hidden!important;}
+/* V42: clean dial ticks only; absolutely no hands/lines through the center. */
+.focus-clock .tick{left:50%!important;top:50%!important;width:2px!important;height:8px!important;background:rgba(235,245,255,.58)!important;border-radius:3px!important;transform-origin:50% 0!important;}
+.focus-clock .tick.major{height:14px!important;width:3px!important;background:rgba(255,255,255,.88)!important;}
+.focus-clock{overflow:visible!important;}
+/* Timer/Stopwatch are already in the left navigation; never duplicate the switch below the clock. */
+.focus-center>.focus-mode-switch{display:none!important;}
+/* Compact theme controls so the extra global themes remain usable on laptop and phone. */
+.top-theme-scroll{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;max-width:min(72vw,820px);}
+.top-theme-scroll::-webkit-scrollbar{display:none;}
+.top-theme-scroll .theme-choice{white-space:nowrap;font-size:9px!important;padding:6px 9px!important;border-radius:999px!important;}
+.settings-theme-switch{display:flex;gap:6px;flex-wrap:wrap;}
+.settings-theme-switch .theme-choice{font-size:10px!important;padding:7px 10px!important;border-radius:999px!important;}
+/* Global Aurora */
+body.theme-aurora{--v41-a:#23ddff;--v41-b:#9d4cff;--v41-c:#ff4eb8;background:radial-gradient(circle at 8% 10%,rgba(35,221,255,.20),transparent 27%),radial-gradient(circle at 92% 75%,rgba(255,78,184,.18),transparent 30%),linear-gradient(135deg,#04132f,#0b1742 48%,#1b0b35)!important;color:#edf6ff!important;}
+/* Global Ocean */
+body.theme-ocean{--v41-a:#39d9ff;--v41-b:#2478ff;--v41-c:#16d8b2;background:radial-gradient(circle at 12% 12%,rgba(57,217,255,.22),transparent 28%),radial-gradient(circle at 85% 72%,rgba(22,216,178,.16),transparent 30%),linear-gradient(135deg,#02182c,#063b5a 50%,#071f3e)!important;color:#ecfbff!important;}
+/* Global Forest */
+body.theme-forest{--v41-a:#62efbd;--v41-b:#3aa66d;--v41-c:#9de34b;background:radial-gradient(circle at 15% 15%,rgba(98,239,189,.17),transparent 27%),radial-gradient(circle at 88% 70%,rgba(157,227,75,.12),transparent 30%),linear-gradient(135deg,#061b18,#0b3029 50%,#102319)!important;color:#effff5!important;}
+/* Global Sunset */
+body.theme-sunset{--v41-a:#ffb45e;--v41-b:#ff4f8d;--v41-c:#a54dff;background:radial-gradient(circle at 78% 16%,rgba(255,180,94,.24),transparent 28%),radial-gradient(circle at 18% 74%,rgba(255,79,141,.18),transparent 30%),linear-gradient(135deg,#241021,#48203b 50%,#1c1739)!important;color:#fff4f2!important;}
+/* Global Night */
+body.theme-moon{--v41-a:#b9d0ff;--v41-b:#6d8fff;--v41-c:#b58cff;background:radial-gradient(circle at 50% 8%,rgba(185,208,255,.16),transparent 28%),radial-gradient(circle at 85% 75%,rgba(181,140,255,.13),transparent 30%),linear-gradient(135deg,#060b1b,#101a38 52%,#100e2a)!important;color:#edf2ff!important;}
+/* Apply the selected palette to the whole application, not only Focus Mode. */
+body.theme-aurora .top,body.theme-ocean .top,body.theme-forest .top,body.theme-sunset .top,body.theme-moon .top,
+body.theme-aurora .top-theme-bar,body.theme-ocean .top-theme-bar,body.theme-forest .top-theme-bar,body.theme-sunset .top-theme-bar,body.theme-moon .top-theme-bar,
+body.theme-aurora .page .panel,body.theme-ocean .page .panel,body.theme-forest .page .panel,body.theme-sunset .page .panel,body.theme-moon .page .panel,
+body.theme-aurora .page .card,body.theme-ocean .page .card,body.theme-forest .page .card,body.theme-sunset .page .card,body.theme-moon .page .card,
+body.theme-aurora .page .task,body.theme-ocean .page .task,body.theme-forest .page .task,body.theme-sunset .page .task,body.theme-moon .page .task,
+body.theme-aurora .page .routine-day,body.theme-ocean .page .routine-day,body.theme-forest .page .routine-day,body.theme-sunset .page .routine-day,body.theme-moon .page .routine-day,
+body.theme-aurora .page .routine-row,body.theme-ocean .page .routine-row,body.theme-forest .page .routine-row,body.theme-sunset .page .routine-row,body.theme-moon .page .routine-row,
+body.theme-aurora .page .history-row,body.theme-ocean .page .history-row,body.theme-forest .page .history-row,body.theme-sunset .page .history-row,body.theme-moon .page .history-row,
+body.theme-aurora .page .media-item,body.theme-ocean .page .media-item,body.theme-forest .page .media-item,body.theme-sunset .page .media-item,body.theme-moon .page .media-item,
+body.theme-aurora .page .challenge-card,body.theme-ocean .page .challenge-card,body.theme-forest .page .challenge-card,body.theme-sunset .page .challenge-card,body.theme-moon .page .challenge-card,
+body.theme-aurora .page .stat-card,body.theme-ocean .page .stat-card,body.theme-forest .page .stat-card,body.theme-sunset .page .stat-card,body.theme-moon .page .stat-card,
+body.theme-aurora .page .reward-card,body.theme-ocean .page .reward-card,body.theme-forest .page .reward-card,body.theme-sunset .page .reward-card,body.theme-moon .page .reward-card,
+body.theme-aurora .page .settings-theme-panel,body.theme-ocean .page .settings-theme-panel,body.theme-forest .page .settings-theme-panel,body.theme-sunset .page .settings-theme-panel,body.theme-moon .page .settings-theme-panel{
+  background:linear-gradient(135deg,rgba(8,27,63,.90),rgba(31,25,73,.84) 52%,rgba(8,42,51,.82))!important;
+  border-color:color-mix(in srgb,var(--v41-a) 30%,transparent)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 16px 45px rgba(0,0,0,.28),0 0 26px color-mix(in srgb,var(--v41-b) 9%,transparent)!important;
+  backdrop-filter:blur(14px);
+}
+body.theme-ocean .page .panel,body.theme-ocean .page .card,body.theme-ocean .page .task,body.theme-ocean .page .routine-day{background:linear-gradient(135deg,rgba(4,43,70,.90),rgba(8,56,78,.84),rgba(6,35,66,.84))!important;}
+body.theme-forest .page .panel,body.theme-forest .page .card,body.theme-forest .page .task,body.theme-forest .page .routine-day{background:linear-gradient(135deg,rgba(7,48,39,.90),rgba(17,61,48,.84),rgba(11,40,36,.84))!important;}
+body.theme-sunset .page .panel,body.theme-sunset .page .card,body.theme-sunset .page .task,body.theme-sunset .page .routine-day{background:linear-gradient(135deg,rgba(61,25,39,.90),rgba(70,31,58,.84),rgba(35,25,61,.84))!important;}
+body.theme-moon .page .panel,body.theme-moon .page .card,body.theme-moon .page .task,body.theme-moon .page .routine-day{background:linear-gradient(135deg,rgba(14,24,52,.92),rgba(25,28,67,.84),rgba(16,18,48,.86))!important;}
+body.theme-aurora .page h1,body.theme-aurora .page h2,body.theme-aurora .page h3,body.theme-aurora .page h4,
+body.theme-ocean .page h1,body.theme-ocean .page h2,body.theme-ocean .page h3,body.theme-ocean .page h4,
+body.theme-forest .page h1,body.theme-forest .page h2,body.theme-forest .page h3,body.theme-forest .page h4,
+body.theme-sunset .page h1,body.theme-sunset .page h2,body.theme-sunset .page h3,body.theme-sunset .page h4,
+body.theme-moon .page h1,body.theme-moon .page h2,body.theme-moon .page h3,body.theme-moon .page h4{
+  background:linear-gradient(90deg,var(--v41-a),var(--v41-b) 52%,var(--v41-c));-webkit-background-clip:text;background-clip:text;color:transparent!important;
+}
+body.theme-aurora nav.tabs,body.theme-ocean nav.tabs,body.theme-forest nav.tabs,body.theme-sunset nav.tabs,body.theme-moon nav.tabs{background:linear-gradient(90deg,rgba(5,17,45,.97),rgba(30,18,76,.97),rgba(7,30,52,.97))!important;border-color:color-mix(in srgb,var(--v41-a) 28%,transparent)!important;}
+body.theme-aurora nav.tabs button.active,body.theme-ocean nav.tabs button.active,body.theme-forest nav.tabs button.active,body.theme-sunset nav.tabs button.active,body.theme-moon nav.tabs button.active{background:linear-gradient(135deg,color-mix(in srgb,var(--v41-c) 35%,transparent),color-mix(in srgb,var(--v41-b) 32%,transparent),color-mix(in srgb,var(--v41-a) 18%,transparent))!important;color:#fff!important;}
+body.theme-aurora .page button.primary,body.theme-ocean .page button.primary,body.theme-forest .page button.primary,body.theme-sunset .page button.primary,body.theme-moon .page button.primary{background:linear-gradient(90deg,var(--v41-c),var(--v41-b),var(--v41-a))!important;color:#fff!important;border:0!important;box-shadow:0 8px 25px color-mix(in srgb,var(--v41-b) 30%,transparent)!important;}
+body.theme-aurora .focus-overlay{background:radial-gradient(circle at 10% 15%,rgba(35,221,255,.30),transparent 28%),radial-gradient(circle at 90% 70%,rgba(255,78,184,.28),transparent 30%),linear-gradient(135deg,#03112f,#0b1740 48%,#1b0b35)!important;}
+body.theme-ocean .focus-overlay{background:radial-gradient(circle at 15% 15%,rgba(57,217,255,.28),transparent 30%),radial-gradient(circle at 80% 75%,rgba(22,216,178,.22),transparent 32%),linear-gradient(135deg,#02182c,#063b5a 50%,#071f3e)!important;}
+body.theme-forest .focus-overlay{background:radial-gradient(circle at 15% 15%,rgba(98,239,189,.25),transparent 30%),radial-gradient(circle at 85% 70%,rgba(157,227,75,.18),transparent 32%),linear-gradient(135deg,#061b18,#0b3029 50%,#102319)!important;}
+body.theme-sunset .focus-overlay{background:radial-gradient(circle at 78% 16%,rgba(255,180,94,.32),transparent 30%),radial-gradient(circle at 18% 74%,rgba(255,79,141,.24),transparent 32%),linear-gradient(135deg,#241021,#48203b 50%,#1c1739)!important;}
+body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(185,208,255,.22),transparent 30%),radial-gradient(circle at 85% 75%,rgba(181,140,255,.18),transparent 32%),linear-gradient(135deg,#060b1b,#101a38 52%,#100e2a)!important;}
+@media(max-width:650px){.top-theme-scroll{max-width:64vw}.top-theme-scroll .theme-choice{font-size:8px!important;padding:5px 7px!important;}.focus-clock .tick{transform-origin:50% calc((min(340px,76vw,48vh) - 30px)/2)!important;}}
+</style>
+
+
+<style id="shyama-v43-clock-custom-timeline">
+/* V43 — precision focus dial, custom focus duration, and Today timeline */
+.focus-clock{background:radial-gradient(circle at 50% 42%,rgba(61,128,205,.13) 0%,rgba(10,25,53,.80) 48%,rgba(3,10,25,.97) 78%)!important;overflow:visible!important;}
+.focus-clock .tick{left:50%!important;top:50%!important;width:2px!important;height:9px!important;transform-origin:50% 50%!important;background:rgba(224,239,255,.58)!important;}
+.focus-clock .tick.major{height:15px!important;width:3px!important;background:#f4f8ff!important;box-shadow:0 0 6px rgba(180,220,255,.25);}
+.focus-clock .clock-number{background:none!important;border-radius:0!important;text-shadow:0 0 20px color-mix(in srgb,var(--focus-accent) 25%,transparent)!important;}
+.focus-clock .clock-dot{width:10px!important;height:10px!important;box-shadow:0 0 13px var(--focus-accent)!important;}
+.focus-custom-time{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:9px;padding-top:8px;border-top:1px solid rgba(124,174,235,.13);color:#9fb8da;font-size:9px;}
+.focus-custom-time label{display:flex;align-items:center;gap:2px;color:#a9bfdf;}
+.focus-custom-time input{width:38px!important;padding:5px 4px!important;text-align:center;border-radius:8px!important;background:rgba(4,15,38,.75)!important;border:1px solid rgba(105,174,255,.20)!important;color:#fff!important;font-size:10px!important;}
+.focus-custom-time button{padding:5px 9px!important;border-radius:8px!important;font-size:9px!important;background:linear-gradient(90deg,#ff4db9,#8b5cf6,#35e7ff)!important;color:#fff!important;border:0!important;}
+.today-view-switch{display:flex;gap:3px;background:rgba(6,18,38,.55);padding:3px;border:1px solid var(--border);border-radius:999px;}
+.today-view-switch button{padding:5px 9px!important;border:0!important;border-radius:999px!important;font-size:9px!important;background:transparent!important;color:var(--muted)!important;}
+.today-view-switch button.active{background:linear-gradient(90deg,var(--accent),#8b5cf6)!important;color:#fff!important;box-shadow:0 4px 12px rgba(90,100,255,.20);}
+.today-timeline{margin-top:10px;}
+.timeline-wrap{position:relative;display:grid;grid-template-columns:58px 1fr;min-height:540px;padding:8px 0 12px;}
+.timeline-axis{position:relative;border-right:1px solid rgba(126,169,221,.16);margin:0 0 0 6px;}
+.timeline-hour{position:absolute;left:0;right:-1px;border-top:1px dashed rgba(126,169,221,.14);height:1px;}
+.timeline-hour span{position:absolute;top:-7px;right:8px;font-size:9px;color:var(--muted);background:transparent;}
+.timeline-track{position:relative;margin-left:12px;border-left:2px solid rgba(95,174,255,.18);min-height:520px;}
+.timeline-task{position:absolute;left:12px;right:4px;border:1px solid rgba(99,177,255,.24);border-radius:12px;padding:7px 9px;background:linear-gradient(135deg,rgba(18,51,94,.92),rgba(43,25,78,.88));box-shadow:0 8px 18px rgba(0,0,0,.16);overflow:hidden;}
+.timeline-task.now{border-color:#35e7ff;box-shadow:0 0 0 1px rgba(53,231,255,.45),0 0 20px rgba(53,231,255,.12);}
+.timeline-task.done{border-color:rgba(67,230,170,.45);background:linear-gradient(135deg,rgba(13,67,58,.9),rgba(20,48,56,.88));}
+.timeline-task-time{font-size:9px;color:#9fc0e6;font-weight:800;}
+.timeline-task-main{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px;}
+.timeline-task-main b{font-size:11px;color:#f3f8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.timeline-task-main span{font-size:8px;color:#a9bfdc;white-space:nowrap;}
+.timeline-now{position:absolute;left:-7px;right:0;height:2px;background:linear-gradient(90deg,#ff4db9,#35e7ff);box-shadow:0 0 10px rgba(53,231,255,.55);z-index:3;}
+.timeline-now:before{content:"";position:absolute;left:-5px;top:-4px;width:10px;height:10px;border-radius:50%;background:#35e7ff;box-shadow:0 0 10px #35e7ff;}
+@media(max-width:650px){.today-head-tools{align-items:flex-start!important;gap:6px;}.today-head-tools>div:first-child{flex-wrap:wrap;}.timeline-wrap{min-height:500px;grid-template-columns:52px 1fr;}.timeline-task-main{display:block;}.timeline-task-main span{display:block;margin-top:2px;}.focus-custom-time input{width:34px!important;}}
+</style>
+<style id="shyama-v42-clock-final">
+/* Final guard: no clock hands; the dial is made only from perimeter ticks. */
+.focus-clock::before,.focus-clock::after{content:none!important;display:none!important;visibility:hidden!important;width:0!important;height:0!important;}
+.spotify-logo{display:inline-flex!important;align-items:center!important;justify-content:center!important;background:#1ed760!important;color:#07150d!important;overflow:hidden!important;}
+.spotify-logo svg{display:block!important;width:68%!important;height:68%!important;fill:#07150d!important;}
+</style>
+
+<style id="shyama-v44-clock-timeline">
+/* V44 — clean dial + external time + mutually exclusive Today views + full-day timeline */
+.focus-clock{position:relative!important;overflow:hidden!important;}
+.focus-clock .clock-number{display:none!important;}
+.focus-clock-number-outside{
+  position:relative!important;
+  z-index:8!important;
+  margin:-2px 0 2px!important;
+  font-size:clamp(42px,5vw,76px)!important;
+  line-height:1!important;
+  font-weight:900!important;
+  letter-spacing:3px!important;
+  font-variant-numeric:tabular-nums!important;
+  color:#fff!important;
+  text-align:center!important;
+  text-shadow:0 0 22px color-mix(in srgb,var(--focus-accent) 35%,transparent),0 0 45px rgba(255,255,255,.08)!important;
+  min-height:1em;
+}
+.focus-clock-wrap{margin-bottom:0!important;}
+.focus-center .focus-subtitle{margin-top:8px!important;}
+.focus-center .focus-caption{margin-top:6px!important;}
+/* The dial itself contains only its perimeter ticks and progress ring. */
+.focus-clock::before,.focus-clock::after{content:none!important;}
+.focus-clock .clock-dot{width:8px!important;height:8px!important;opacity:.35!important;}
+/* Mutually exclusive Today modes: the active content is the only one shown. */
+.today-timeline[hidden],#taskList[hidden]{display:none!important;}
+.today-view-switch button.active{background:linear-gradient(90deg,#ff4db9,#8b5cf6,#35e7ff)!important;color:#fff!important;}
+/* Full 00:00–23:59 timeline. A full-day track is intentionally scrollable. */
+.timeline-wrap{grid-template-columns:62px 1fr!important;min-height:1248px!important;height:1248px!important;overflow:visible!important;}
+.timeline-axis{height:1248px!important;}
+.timeline-track{height:1248px!important;min-height:1248px!important;}
+.timeline-hour{border-top:1px solid rgba(126,169,221,.18)!important;}
+.timeline-hour span{font-size:9px!important;font-weight:700!important;}
+.timeline-end span{top:-8px!important;}
+.timeline-task{min-height:46px!important;}
+.today-timeline{max-height:calc(100vh - 250px);overflow:auto;border-radius:14px;scrollbar-width:thin;}
+@media(max-width:650px){
+  .focus-clock-number-outside{font-size:clamp(38px,10vw,58px)!important;letter-spacing:2px!important;}
+  .timeline-wrap,.timeline-axis,.timeline-track{height:1152px!important;min-height:1152px!important;}
+  .today-timeline{max-height:70vh!important;}
+}
+</style>
+
+<style id="shyama-v45-timeline-moving-light">
+/* V45 — exclusive Today view controls + animated focus progress light */
+#taskList[hidden],#todayTimeline[hidden]{display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;}
+.today-view-switch{position:relative;z-index:4;}
+.today-view-switch button{min-width:72px!important;}
+.today-view-switch button.active{font-weight:900!important;}
+/* A single luminous marker travels around the focus ring as time progresses. */
+.focus-progress-light{position:absolute;left:50%;top:50%;width:15px;height:15px;border-radius:50%;z-index:6;pointer-events:none;background:var(--focus-accent,#35e7ff);box-shadow:0 0 8px var(--focus-accent,#35e7ff),0 0 18px var(--focus-accent,#35e7ff),0 0 34px color-mix(in srgb,var(--focus-accent,#35e7ff) 72%,transparent);transform:translate(-50%,-50%) translate(0,-999px);opacity:.95;transition:transform .45s linear,background .25s ease,box-shadow .25s ease;}
+.focus-overlay.stopwatch-mode .focus-progress-light{opacity:1;}
+@media(prefers-reduced-motion:reduce){.focus-progress-light{transition:none!important;}}
+</style>
+
+<style id="shyama-v49-quick-notify">
+.shy-actions .shy-action{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.22)!important;color:#f7fbff!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 24px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important}.shy-actions .shy-action:before{content:"";position:absolute;inset:-45% auto auto -20%;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.14);filter:blur(18px);pointer-events:none}.shy-actions .shy-action .aicon,.shy-actions .shy-action>span:last-child{position:relative;z-index:1}.shy-actions .shy-action.blue{background:linear-gradient(135deg,#1769ff,#4d42e8 52%,#7926c8)!important;border-color:rgba(113,188,255,.55)!important}.shy-actions .shy-action.green{background:linear-gradient(135deg,#00a878,#13c98b 48%,#27e7a4)!important;border-color:rgba(102,255,201,.55)!important}.shy-actions .shy-action.purple{background:linear-gradient(135deg,#6336dc,#8c42ef 50%,#c33bdb)!important;border-color:rgba(214,155,255,.55)!important}.shy-actions .shy-action.red{background:linear-gradient(135deg,#e33b68,#ff5269 48%,#ff8054)!important;border-color:rgba(255,170,151,.55)!important}.shy-actions .shy-action.teal{background:linear-gradient(135deg,#007f9e,#00b9c8 50%,#20d9ff)!important;border-color:rgba(101,239,255,.55)!important}.shy-actions .shy-action.cyan{background:linear-gradient(135deg,#087fbe,#1aa7df 50%,#3c68ff)!important;border-color:rgba(116,210,255,.55)!important}.shy-actions .shy-action:hover{transform:translateY(-3px)!important;box-shadow:0 14px 34px rgba(41,129,255,.22),inset 0 1px 0 rgba(255,255,255,.12)!important}.task-notify-panel{background:linear-gradient(135deg,rgba(11,26,65,.94),rgba(37,20,72,.90),rgba(8,52,65,.88));border:1px solid rgba(85,190,255,.28);border-radius:16px;padding:14px;margin-bottom:14px;box-shadow:0 12px 30px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.05)}.task-notify-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.task-notify-head h3{margin:0;font-size:15px}.task-notify-head p{margin:4px 0 0;font-size:11px;color:#9eb2d1}.task-notify-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}.task-notify-toggle{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800}.task-notify-toggle input{accent-color:#20d9ff}.task-notify-controls select{min-width:120px}.notify-status{font-size:10px;color:#9eb2d1;margin-top:8px}.notify-status.ok{color:#55e7ae}.notify-status.warn{color:#ffc85c}.notify-permission-btn{background:linear-gradient(90deg,#20d9ff,#8c42ef)!important;color:#fff!important;border:0!important}
+.notify-grid{display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));align-items:center}.notify-actions button{font-size:11px}.notify-permission-line{margin-top:9px;font-size:11px;color:#9eb2d1}.notify-permission-line b{color:#55e7ae}.notify-permission-line b.blocked{color:#ff7087}.notify-note{font-size:10px;line-height:1.45;margin-top:7px}.task-notify-panel select{background:rgba(8,16,40,.85);color:#f7fbff;border:1px solid rgba(85,190,255,.25);border-radius:9px;padding:6px 8px}@media(max-width:700px){.notify-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -682,22 +1379,17 @@ body.theme-glass nav.tabs{
     <div class="brand brand-vibe"><img class="brand-logo" src="icons/shyama-logo.png" alt="SHYAMA logo"><div class="brand-copy"><span class="name">SHYAMA</span><span class="sub">DISCIPLINE · PROGRESS · A BETTER YOU</span></div></div>
     <div class="shy-header-tools"><div class="shy-date-pill" id="topDateTime"><div class="date">Loading date…</div><div class="time">--:--:--</div></div><div class="shy-profile" aria-label="Profile">●</div></div>
   </div>
-  <div class="top-theme-bar"><span class="top-theme-label">THEME</span><div class="top-theme-scroll" id="topThemeBar"><button class="theme-choice" data-theme="glass">🌙 Dark</button><button class="theme-choice" data-theme="light">☀️ Light</button></div></div>
+  <div class="top-theme-bar"><span class="top-theme-label">THEME</span><div class="top-theme-scroll" id="topThemeBar"><button class="theme-choice" data-theme="glass">🌙 Dark</button><button class="theme-choice" data-theme="light">☀️ Light</button><button class="theme-choice" data-theme="aurora">🌌 Aurora</button><button class="theme-choice" data-theme="ocean">🌊 Ocean</button><button class="theme-choice" data-theme="forest">🌲 Forest</button><button class="theme-choice" data-theme="sunset">🌅 Sunset</button><button class="theme-choice" data-theme="moon">🌙 Night</button></div></div>
 
   <!-- HOME -->
   <div class="page active" id="page-home">
     <div class="home-shell">
-      <div class="shy-hero" id="heroBox"><div class="layer a" id="heroLayerA"></div><div class="layer b" id="heroLayerB"></div>
-        <div class="overlay"><div><div class="eyebrow">☀ Today's Focus</div><h1 id="heroTitle">A better you · every day</h1></div><div class="quote-wrap"><div class="quote" id="homeQuote">"Small steps every day lead to big results."</div><button class="quote-refresh" id="quoteRefresh">↻ New quote</button><div class="quote-source" id="quoteSource">Keep Going.</div></div></div>
-        <button class="refresh" id="heroRefresh" title="Previous / new image">‹</button><button class="shy-next" id="heroNext" title="Next image">›</button><div class="shy-dots"><span class="active"></span><span></span><span></span><span></span><span></span><span></span></div><div class="credit" id="heroCredit"></div>
-      </div>
-      <div class="shy-quote-bar"><div class="q">“Small steps every day lead to big results.”</div><button class="shy-view" id="viewAllCards">▧ &nbsp; View All Cards</button></div>
+      <div class="shy-dashboard-intro"><div><span class="eyebrow">TODAY · SHYAMA</span><h1>Discipline. Progress. A better you.</h1><p>Track the work that matters and watch your consistency grow.</p></div><div class="intro-status"><b id="homeFocusPct">0%</b><span>today complete</span></div></div>
+      <div class="shy-quote-bar"><div class="q">“Small steps every day lead to big results.”</div><span class="muted">Daily focus</span></div>
       <div class="grid cards" id="homeCards"></div>
       <section class="shy-quick"><div class="shy-section-head"><h3>Quick Actions</h3><span>Discipline Today, Freedom Tomorrow.</span></div><div class="shy-actions">
         <button class="shy-action blue" data-quick="today"><span class="aicon">☑</span><span>Today's Tasks</span></button><button class="shy-action green" data-quick="upload"><span class="aicon">↥</span><span>Upload Proof</span></button><button class="shy-action purple" data-quick="routine"><span class="aicon">▤</span><span>Full Routine</span></button><button class="shy-action red" data-quick="stats"><span class="aicon">▥</span><span>Statistics</span></button><button class="shy-action teal" data-quick="focus"><span class="aicon">⌛</span><span>Focus Mode</span></button><button class="shy-action cyan" data-quick="today"><span class="aicon">▦</span><span>All Tasks</span></button>
       </div></section>
-      <section class="shy-challenges"><div class="shy-section-head"><h3>Perfect Day Challenges</h3><span>Complete all tasks. Build the real you. →</span></div><div class="shy-challenge-row" id="challengeList"></div></section>
-      <section class="shy-inspiration"><div class="shy-section-head"><h3>Today's Inspiration</h3><span>New Wisdom Daily &nbsp;↻</span></div><div class="inspiration-grid"><img src="assets/inspiration/lowest.jpg" alt="Motivational illustration" loading="lazy"><img src="assets/inspiration/consistency.jpg" alt="Consistency quote artwork" loading="lazy"><img src="assets/inspiration/confidence.jpg" alt="Confidence artwork" loading="lazy"><img src="assets/inspiration/self-respect.jpg" alt="Self respect artwork" loading="lazy"><img src="assets/inspiration/warrior.jpg" alt="Warrior discipline artwork" loading="lazy"></div></section>
       <div class="home-secondary"><div class="panel"><div class="row between"><h3>🎯 Category Progress — Today</h3></div><div id="catProgress"></div></div><div class="panel"><h3>🥧 Category Split — Today</h3><div id="catDonut"></div></div></div>
     </div>
   </div>
@@ -707,12 +1399,13 @@ body.theme-glass nav.tabs{
     <div class="today-grid">
       <div class="today-col-left">
         <div class="panel">
-          <div class="row between">
-            <h3>📋 Today's Routine</h3>
+          <div class="row between today-head-tools">
+            <div class="row" style="gap:8px;align-items:center;"><h3>📋 Today's Routine</h3><div class="today-view-switch" role="group" aria-label="Today task view"><button id="todayListViewBtn" class="active" type="button">☷ List</button><button id="todayTimelineViewBtn" type="button">◷ Timeline</button></div></div>
             <button class="primary" id="addTaskBtn">＋ Add Task</button>
           </div>
           <div class="muted" style="font-size:10px;margin:4px 0 9px;">Add a one-day task without changing your weekly routine.</div>
           <div class="tasklist" id="taskList"></div>
+          <div class="today-timeline" id="todayTimeline" hidden></div>
         </div>
       </div>
       <div class="today-col-right">
@@ -727,6 +1420,7 @@ body.theme-glass nav.tabs{
             <button class="primary" id="timerStartBtn" style="min-width:110px;">▶ Start</button>
             <button id="timerResetBtn">↺ Reset</button>
           </div>
+          <div class="focus-launch-row"><button class="primary focus-open-btn" id="focusModeBtn">◉ Open Focus Mode</button></div>
         </div>
 
 
@@ -752,74 +1446,33 @@ body.theme-glass nav.tabs{
   <!-- FULL ROUTINE -->
   <div class="page" id="page-routine">
     <div class="panel">
+      <div class="routine-current" id="currentDayRoutine"></div>
       <div class="row between"><h3>🗓 Full Weekly Routine</h3><span class="muted">06:00–24:00</span></div>
-      <p class="muted" style="font-size:11px;">Your complete Monday–Sunday schedule. Tap a day to view its blocks.</p>
+      <p class="muted" style="font-size:11px;">Today's routine appears first. Use Edit Routine to change any weekday schedule.</p>
       <div class="routine-days" id="routineDays"></div>
-    </div>
-  </div>
-
-  <!-- CHALLENGES -->
-  <div class="page" id="page-challenges">
-    <div class="panel challenge-hub">
-      <div class="row between"><h2>🔥 Perfect Day Challenges</h2><span class="muted">Milestones</span></div>
-      <p class="muted challenge-hub-help">Complete <b>every active task</b> for the day. Finish a milestone and it stays permanently achieved. If a later day has even one incomplete task, only the current run resets to Day 1.</p>
-      <div class="challenge-rules">
-        <div><b>3</b><span>Days</span></div><div><b>7</b><span>Days</span></div><div><b>13</b><span>Days</span></div><div><b>21</b><span>Days</span></div><div><b>30</b><span>Days</span></div><div><b>45</b><span>Days</span></div><div><b>66</b><span>Days</span></div>
-      </div>
-      <div id="challengeListPage" class="challenge-page-list"></div>
     </div>
   </div>
 
   <!-- STATS -->
   <div class="page" id="page-stats">
+    <div class="stats-heading"><div><span class="eyebrow">SHYAMA ANALYTICS</span><h2>Stats</h2><p class="muted">Daily performance, XP growth, challenges and history in one place.</p></div><div class="stats-live"><span class="live-dot"></span><span>Live progress</span></div></div>
     <div class="grid cards" style="grid-template-columns:repeat(4,1fr);" id="statsCards"></div>
-    <div class="panel"><h3>📈 Progress</h3><div id="statsProgress"></div></div>
-    <div class="panel"><h3>🥧 Category Breakdown</h3><div id="statsDonut"></div></div>
-    <div class="panel"><h3>🏆 Category XP</h3><div id="statsCategoryXP"></div></div>
-    <div class="panel">
-      <div class="row between"><h3>🎁 XP Rewards</h3><span class="muted">Milestones</span></div>
-      <p class="muted" style="font-size:11px;margin:4px 0 10px;">Earn virtual rewards as your total XP grows.</p>
-      <div id="xpRewards"></div>
+    <div class="stats-graph-grid">
+      <div class="panel graph-panel"><div class="graph-head"><div><h3>📈 Daily Task Completion</h3><span>Completed tasks per day · last 30 days</span></div><b id="completionGraphTotal">0</b></div><div id="dailyCompletionGraph" class="trend-graph"></div></div>
+      <div class="panel graph-panel"><div class="graph-head"><div><h3>⚡ Daily XP Growth</h3><span>XP earned per day · last 30 days</span></div><b id="xpGraphTotal">0 XP</b></div><div id="dailyXPGraph" class="trend-graph"></div></div>
     </div>
-    <div class="panel challenge-panel">
-      <div class="row between"><h3>🔥 Perfect-Day Challenges</h3><span class="muted">All active tasks complete</span></div>
-      <p class="muted challenge-help">Complete every active task on a day. A single incomplete task breaks the current perfect-day run, but milestones you already earned stay permanently unlocked.</p>
-      <div id="challengeListStats"></div>
+    <div class="stats-main-grid">
+      <div class="panel"><div class="row between"><h3>📊 Today's Progress</h3><b id="statsTodayPct">0%</b></div><div id="statsProgress"></div></div>
+      <div class="panel"><h3>🥧 Category Breakdown</h3><div id="statsDonut"></div></div>
+      <div class="panel"><h3>🏆 Category XP</h3><div id="statsCategoryXP"></div></div>
+      <div class="panel"><div class="row between"><h3>🎁 XP Rewards</h3><span class="muted">Milestones</span></div><div id="xpRewards"></div></div>
     </div>
-  </div>
-
-  <!-- HISTORY -->
-  <div class="page" id="page-history">
-    <div class="panel">
-      <div class="row between">
-        <h3 id="calTitle">Monthly Review</h3>
-        <div class="row" style="gap:6px;">
-          <button id="prevMonth">‹</button>
-          <button id="nextMonth">›</button>
-        </div>
-      </div>
-      <div class="calendar" id="calDow"></div>
-      <div class="calendar" id="calGrid" style="margin-top:5px;"></div>
-      <div class="row" style="gap:14px;margin-top:10px;font-size:11px;color:var(--muted);">
-        <span><span class="pill" style="background:#0a1a2c;">&nbsp;&nbsp;</span> none</span>
-        <span><span class="pill" style="background:#0f3a3a;">&nbsp;&nbsp;</span> low</span>
-        <span><span class="pill" style="background:#12805a;">&nbsp;&nbsp;</span> mid</span>
-        <span><span class="pill" style="background:#15b06e;">&nbsp;&nbsp;</span> full</span>
-      </div>
-    </div>
-    <div class="panel">
-      <h3>🥧 Category Split — <span id="monthDonutLabel"></span></h3>
-      <div id="monthDonut"></div>
-    </div>
-    <div class="panel">
-      <div class="row between"><h3 id="yearTitle">Yearly Progress</h3>
-        <div class="row" style="gap:6px;"><button id="prevYear">‹</button><button id="nextYear">›</button></div>
-      </div>
-      <div class="year-bars" id="yearBars"></div>
-    </div>
-    <div class="panel">
-      <h3>📅 Day Detail</h3>
-      <div id="dayDetail" class="muted">Tap a date above to see that day's quests.</div>
+    <div class="panel challenge-panel stats-section"><div class="row between"><div><span class="eyebrow">CHALLENGES</span><h3>🔥 Perfect-Day Challenges</h3></div><span class="muted">All active tasks complete</span></div><p class="muted challenge-help">Complete every active task on a day. Earned milestones stay unlocked.</p><div id="challengeListStats"></div></div>
+    <div class="stats-history-grid stats-section">
+      <div class="panel"><div class="row between"><div><span class="eyebrow">HISTORY</span><h3 id="calTitle">Monthly Review</h3></div><div class="row" style="gap:6px;"><button id="prevMonth">‹</button><button id="nextMonth">›</button></div></div><div class="calendar" id="calDow"></div><div class="calendar" id="calGrid" style="margin-top:5px;"></div><div class="row" style="gap:14px;margin-top:10px;font-size:11px;color:var(--muted);"><span><span class="pill" style="background:#0a1a2c;">&nbsp;&nbsp;</span> none</span><span><span class="pill" style="background:#0f3a3a;">&nbsp;&nbsp;</span> low</span><span><span class="pill" style="background:#12805a;">&nbsp;&nbsp;</span> mid</span><span><span class="pill" style="background:#15b06e;">&nbsp;&nbsp;</span> full</span></div></div>
+      <div class="panel"><h3>🥧 Category Split — <span id="monthDonutLabel"></span></h3><div id="monthDonut"></div></div>
+      <div class="panel"><div class="row between"><h3 id="yearTitle">Yearly Progress</h3><div class="row" style="gap:6px;"><button id="prevYear">‹</button><button id="nextYear">›</button></div></div><div class="year-bars" id="yearBars"></div></div>
+      <div class="panel"><h3>📅 Day Detail</h3><div id="dayDetail" class="muted">Tap a date above to see that day's quests.</div></div>
     </div>
   </div>
 
@@ -851,6 +1504,11 @@ body.theme-glass nav.tabs{
       <div class="settings-theme-switch" aria-label="Choose appearance">
         <button type="button" class="theme-choice" data-theme="glass">🌙 Dark</button>
         <button type="button" class="theme-choice" data-theme="light">☀️ Light</button>
+        <button type="button" class="theme-choice" data-theme="aurora">🌌 Aurora</button>
+        <button type="button" class="theme-choice" data-theme="ocean">🌊 Ocean</button>
+        <button type="button" class="theme-choice" data-theme="forest">🌲 Forest</button>
+        <button type="button" class="theme-choice" data-theme="sunset">🌅 Sunset</button>
+        <button type="button" class="theme-choice" data-theme="moon">🌙 Night</button>
       </div>
     </div>
     <div class="panel">
@@ -862,13 +1520,33 @@ body.theme-glass nav.tabs{
         Project URL and anon key below. Use the <b>same Sync Code</b> on your phone and laptop installs to link them.
       </p>
       <div class="field"><label>Supabase Project URL</label><input id="sbUrl" placeholder="https://xxxx.supabase.co"></div>
-      <div class="field"><label>Supabase anon public key</label><input id="sbKey" placeholder="eyJhbGciOi..."></div>
-      <div class="field"><label>Sync Code (pick any private word/phrase — same on all your devices)</label><input id="sbCode" placeholder="e.g. subhranil-shyama-2026"></div>
+      <div class="credentials-head"><b>🔐 Keys &amp; Passwords</b><label class="credential-toggle"><input type="checkbox" id="hideCredentials" checked> Hide sensitive values</label></div>
+      <div class="field"><label>Supabase anon public key</label><input id="sbKey" type="password" autocomplete="off" placeholder="eyJhbGciOi..."></div>
+      <div class="field"><label>Sync Code (pick any private word/phrase — same on all your devices)</label><input id="sbCode" type="password" autocomplete="off" placeholder="e.g. subhranil-shyama-2026"></div>
+      <div class="muted credentials-note">Your key and Sync Code are hidden by default. Use the switch above when you need to view or edit them.</div>
       <div class="row"><button class="primary" id="saveSyncBtn">Save & Connect</button><button id="syncNowBtn">Sync Now</button></div>
       <div style="margin-top:10px;font-size:12px;" id="syncStatus"><span class="sync-dot off"></span>Not connected — running locally only.</div>
     </div>
-<div class="panel">
-      <h3>💾 Backup</h3>
+<div class="task-notify-panel">
+  <div class="task-notify-head">
+    <div><h3>🔔 Task Notifications</h3><p>Precise reminders for every task scheduled on the current day.</p></div>
+    <button type="button" class="notify-permission-btn" id="enableTaskNotificationsBtn">Allow Notifications</button>
+  </div>
+  <div class="task-notify-controls notify-grid">
+    <label class="task-notify-toggle"><input type="checkbox" id="taskNotificationsEnabled"> Enable task reminders</label>
+    <label>Notify <select id="taskNotificationLead"><option value="1">1 minute</option><option value="5" selected>5 minutes</option><option value="10">10 minutes</option><option value="15">15 minutes</option><option value="30">30 minutes</option></select> before start</label>
+    <label class="task-notify-toggle"><input type="checkbox" id="taskNotificationSkipDone" checked> Skip tasks already completed</label>
+    <label class="task-notify-toggle"><input type="checkbox" id="taskNotificationIncludeAdded" checked> Include Today-only added tasks</label>
+  </div>
+  <div class="row wrap notify-actions" style="margin-top:10px;">
+    <button type="button" id="testTaskNotificationBtn">🔔 Send Test Notification</button>
+    <button type="button" id="resetTaskNotificationDayBtn">↺ Reset Today's Reminders</button>
+  </div>
+  <div class="notify-permission-line"><span>Browser permission:</span> <b id="taskNotificationPermission">Not requested</b></div>
+  <div id="taskNotificationStatus" class="notify-status">Notifications are off until you enable them.</div>
+  <div class="muted notify-note">Reminder timing follows the task start time. SHYAMA checks while the app/PWA is running; browser background throttling can affect exact delivery.</div>
+</div>
+<div class="panel"><h3>💾 Backup</h3>
       <div class="row wrap">
         <button id="exportBtn">Export JSON</button>
         <button id="importBtn">Import JSON</button>
@@ -887,16 +1565,85 @@ body.theme-glass nav.tabs{
   </div>
 </div>
 
+<div class="focus-overlay" id="focusOverlay" data-bg="aurora" style="--focus-accent:#35e7ff;--focus-progress:0%;">
+  <div class="focus-stage">
+    <div class="focus-topbar">
+      <div><span class="focus-brand-name">SHYAMA</span><span class="focus-brand-sub">ROUTINE QUEST</span></div>
+      <div class="focus-title">DEEP FOCUS · <span id="focusModeTitle">TIMER</span></div>
+      <div class="focus-window-actions"><button id="focusMinBtn" title="Minimize">—</button><button id="focusMaxBtn" title="Maximize">⛶</button><button id="focusCloseBtn" title="Close">×</button></div>
+    </div>
+    <div class="focus-grid">
+      <aside class="focus-side focus-left">
+        <div class="focus-side-heading"><span class="focus-side-icon">◉</span><div><h2>Focus Mode</h2><p>Block distractions. Build a better you.</p></div></div>
+        <button class="focus-nav-card active" data-focus-view="timer"><span class="fnav-icon">◷</span><span><b>Timer</b><small>Focus with a countdown</small></span><strong>›</strong></button>
+        <button class="focus-nav-card" data-focus-view="stopwatch"><span class="fnav-icon">⏱</span><span><b>Stopwatch</b><small>Track your work time</small></span><strong>›</strong></button>
+        <div class="focus-mini-quote"><span>🌿</span><i>“One focused hour is stronger than a hundred distracted hours.”</i></div>
+      </aside>
+
+      <main class="focus-center">
+        <div class="focus-clock-wrap" id="focusClockWrap">
+          <div class="focus-clock" id="focusClock">
+            <div class="clock-dot" aria-hidden="true"></div>
+          </div>
+          <div class="focus-progress-light" id="focusProgressLight" aria-hidden="true"></div>
+        </div>
+        <div class="focus-clock-number-outside" id="focusClockLabel">25:00</div>
+        <div class="focus-subtitle" id="focusSubtitle">Stay focused. You got this.</div>
+        <div class="focus-controls">
+          <button id="focusResetBtn">↺ Reset</button><button class="primary focus-main-start" id="focusStartBtn">▶ Start</button>
+        </div>
+        <div class="focus-caption">Small steps. Big results.</div>
+      </main>
+
+      <aside class="focus-side focus-right">
+        <section class="focus-panel-block focus-duration-block">
+          <div class="focus-block-head"><span>⚡</span><div><h3>Quick Select</h3><small>Choose a focus duration</small></div></div>
+          <div class="focus-duration-grid">
+            <button data-focus-min="15">15<small>min</small></button><button data-focus-min="25" class="active">25<small>min</small></button><button data-focus-min="45">45<small>min</small></button><button data-focus-min="60">60<small>min</small></button>
+          </div>
+          <div class="focus-custom-time">
+            <span>Custom</span><label><input id="focusCustomHours" type="number" min="0" max="9" value="0" aria-label="Custom hours">h</label><label><input id="focusCustomMinutes" type="number" min="0" max="59" value="30" aria-label="Custom minutes">m</label><button id="focusCustomSet" type="button">Set</button>
+          </div>
+        </section>
+        <section class="focus-panel-block">
+          <div class="focus-block-head"><span>▧</span><div><h3>Backgrounds</h3><small>A calming place for a focused mind</small></div></div>
+          <div class="focus-bg-options" aria-label="Soothing backgrounds">
+            <button data-focus-bg="aurora" data-accent="#35e7ff" class="active"><span class="bg-swatch aurora"></span>Aurora</button><button data-focus-bg="ocean" data-accent="#58d8ff"><span class="bg-swatch ocean"></span>Ocean</button><button data-focus-bg="forest" data-accent="#43e6aa"><span class="bg-swatch forest"></span>Forest</button><button data-focus-bg="sunset" data-accent="#ff9a76"><span class="bg-swatch sunset"></span>Sunset</button><button data-focus-bg="moon" data-accent="#b8c7ff"><span class="bg-swatch moon"></span>Night</button>
+          </div>
+        </section>
+        <section class="focus-spotify"><div class="spotify-focus-icon"><span class="spotify-logo" aria-label="Spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.72 10.36a.86.86 0 0 1-1.18.28c-3.24-1.98-8.2-2.42-12.07-1.32a.86.86 0 1 1-.47-1.65c4.4-1.26 9.87-.71 13.45 1.48.4.24.52.77.27 1.21Zm-1.36 3.1a.72.72 0 0 1-.99.23c-2.7-1.66-6.82-2.14-10.01-1.17a.72.72 0 1 1-.42-1.38c3.65-1.1 8.2-.55 11.2 1.29.34.21.44.66.22 1.03Zm-1.15 2.97a.58.58 0 0 1-.8.19c-2.36-1.44-5.32-1.76-8.81-.96a.58.58 0 1 1-.26-1.13c3.82-.87 7.1-.5 9.68 1.07.27.16.35.56.19.83Z"/></svg></span></div><div><b>Spotify Lofi</b><small>Music for deeper focus</small></div><a href="https://open.spotify.com/playlist/37i9dQZF1E4yhpveBnebcw" target="_blank" rel="noopener noreferrer">Open Spotify ↗</a></section>
+      </aside>
+    </div>
+  </div>
+</div>
 <nav class="tabs">
   <button data-page="home" class="active"><span class="ic"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.2a1 1 0 0 1-1 1h-5.2v-6h-5.6v6H4a1 1 0 0 1-1-1z"/></svg></span>HOME</button>
   <button data-page="today"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="m8 12 2.3 2.3L16 8.8M8 7h8M8 17h5"/></svg></span>TODAY</button>
   <button data-page="routine"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M7 3v4M17 3v4M3.5 9h17M7 13h3M14 13h3M7 17h3M14 17h3"/></svg></span>ROUTINE</button>
-  <button data-page="challenges"><span class="ic"><svg class="icon-svg fill" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.1 4.8 5.2.5-3.9 3.5 1.1 5.1-4.5-2.7-4.5 2.7 1.1-5.1-3.9-3.5 5.2-.5z"/><path d="M7 18h10v3H7z"/></svg></span>CHALLENGES</button>
-  <button data-page="stats"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V5M19 20v-7"/></svg></span>STATS</button>
-  <button data-page="history"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5M12 7v5l3.5 2"/></svg></span>HISTORY</button>
+  <button data-page="stats"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V5M19 20v-7"/></svg></span>STAT</button>
   <button data-page="media"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><circle cx="8" cy="10" r="1.5"/><path d="m4 17 4.5-4 3.5 3 2.5-2 5.5 5"/></svg></span>MEDIA</button>
   <button data-page="settings"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 15 .1.1-1.7 3-1.8-.7a7.8 7.8 0 0 1-2.1 1.2L13.7 20h-3.4l-.2-1.4a7.8 7.8 0 0 1-2.1-1.2l-1.8.7-1.7-3 1.1-.9a7.7 7.7 0 0 1 0-2.4l-1.1-.9 1.7-3 1.8.7A7.8 7.8 0 0 1 10.1 7L10.3 5h3.4l.2 2a7.8 7.8 0 0 1 2.1 1.2l1.8-.7 1.7 3-1.1.9a7.7 7.7 0 0 1 0 2.4Z"/></svg></span>SETTINGS</button>
 </nav>
+
+<!-- ROUTINE EDIT MODAL -->
+<div class="modal-backdrop" id="routineEditModal" aria-hidden="true">
+  <div class="edit-modal" style="max-width:900px;">
+    <div class="row between">
+      <h3>✏️ Edit Routine</h3>
+      <button class="ghost" id="closeRoutineEdit">✕</button>
+    </div>
+    <div class="edit-task-preview">Changes are saved for the selected weekday and are used by Today, Routine and statistics.</div>
+    <div class="field"><label>Day</label><select id="routineEditDay"></select></div>
+    <div id="routineEditRows" class="routine-edit-grid"></div>
+    <div class="routine-edit-actions">
+      <button id="addRoutineBlock">＋ Add block</button>
+      <div class="row" style="gap:6px;">
+        <button id="cancelRoutineEdit">Cancel</button>
+        <button class="primary" id="saveRoutineEdit">Save Routine</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ADD TASK MODAL -->
 <div class="modal-backdrop" id="addTaskModal" aria-hidden="true">
@@ -1113,8 +1860,16 @@ function weekdayName(dateLike){
   const d = typeof dateLike === "string" ? new Date(dateLike+"T12:00:00") : new Date(dateLike);
   return ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][d.getDay()];
 }
+function routineOverrideKey(day){ return `shyama_weekly_routine_${day}`; }
+function getWeeklyRoutine(day){
+  try{
+    const saved=JSON.parse(localStorage.getItem(routineOverrideKey(day))||"null");
+    return Array.isArray(saved) ? saved : (WEEKLY_ROUTINE[day] || WEEKLY_ROUTINE["Monday"]);
+  }catch(e){ return WEEKLY_ROUTINE[day] || WEEKLY_ROUTINE["Monday"]; }
+}
+function saveWeeklyRoutine(day,rows){ localStorage.setItem(routineOverrideKey(day),JSON.stringify(rows)); }
 function routineForDate(dateLike){
-  return WEEKLY_ROUTINE[weekdayName(dateLike)] || WEEKLY_ROUTINE["Monday"];
+  return getWeeklyRoutine(weekdayName(dateLike));
 }
 function overrideKey(day, idx){ return `jarvis_task_override_${day}_${idx}`; }
 function getTaskOverride(day, idx){
@@ -1189,7 +1944,33 @@ function idbGet(store,key){ return new Promise((res)=>{ const r=tx(store).get(ke
 function idbPut(store,val){ return new Promise((res)=>{ const r=tx(store,"readwrite").put(val); r.onsuccess=()=>res(r.result); }); }
 function idbDelete(store,key){ return new Promise((res)=>{ const r=tx(store,"readwrite").delete(key); r.onsuccess=()=>res(); }); }
 
-function todayStr(){ return new Date().toISOString().slice(0,10); }
+function todayStr(){
+  // Use the browser's local calendar date, not UTC. This prevents the app from
+  // showing yesterday's routine/tasks after local midnight (e.g. 00:21 IST).
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+
+function scheduleMidnightRefresh(){
+  const now=new Date();
+  const next=new Date(now);
+  next.setHours(24,0,0,0);
+  const delay=Math.max(1000,next.getTime()-now.getTime()+250);
+  setTimeout(async()=>{
+    try{
+      // The calendar day has changed: refresh every date-sensitive view.
+      updateCurrentDateTime();
+      await renderHome();
+      await renderToday();
+      renderRoutine();
+      await renderStats();
+    }catch(e){ console.warn("SHYAMA midnight refresh",e); }
+    scheduleMidnightRefresh();
+  },delay);
+}
 function taskId(day, idx){ return day+"_"+idx; }
 
 async function isDone(day, idx){
@@ -1381,9 +2162,7 @@ function showPage(name){
   $all(".page").forEach(p=>p.classList.remove("active"));
   $("#page-"+name).classList.add("active");
   $all("nav.tabs button").forEach(b=>b.classList.toggle("active", b.dataset.page===name));
-  if(name==="history") renderHistory();
   if(name==="media") renderMedia();
-  if(name==="challenges") renderChallenges();
 }
 
 // ---------- 5. HOME + TODAY RENDER ----------
@@ -1440,6 +2219,8 @@ async function renderHome(){
   $("#catProgress").innerHTML = catHtml.join("");
   renderDonut($("#catDonut"), catCounts, done, `of ${activeTodayRoutine.length} today`);
   await renderChallenges();
+  await renderHistory();
+  await renderTrendGraphs();
 }
 
 async function renderToday(){
@@ -1447,10 +2228,12 @@ async function renderToday(){
   const todayRoutine = effectiveRoutine(day);
   const curIdx = nowInRoutine();
   const rows = [];
+  const doneMap = {};
   for(let i=0;i<todayRoutine.length;i++){
     const t = todayRoutine[i];
     if(t[5]?.deleted) continue;
     const d = await isDone(day,i);
+    doneMap[i]=d;
     const proof = await getProof(day,i);
     const needsPDF = t[3] === "4th Sem" || t[3] === "GATE/NET" || t[3] === "Govt Job";
     const needsImage = t[3] === "Fitness";
@@ -1472,6 +2255,8 @@ async function renderToday(){
     </div>`);
   }
   $("#taskList").innerHTML = rows.join("");
+  renderTodayTimeline(todayRoutine,day,curIdx,doneMap);
+  setTodayTaskView(todayTaskView);
   $all("#taskList .task").forEach(el=>{
     el.addEventListener("click", async (ev)=>{
       if(ev.target.closest(".proof-btn")) return;
@@ -1504,6 +2289,51 @@ async function renderToday(){
   });
 }
 
+
+// ---------- TODAY TIMELINE VIEW ----------
+let todayTaskView="list";
+function setTodayTaskView(view){
+  todayTaskView=view;
+  const list=$("#taskList"), timeline=$("#todayTimeline");
+  if(!list||!timeline) return;
+  const listBtn=$("#todayListViewBtn"), timelineBtn=$("#todayTimelineViewBtn");
+  const listMode=view==="list";
+  // Only one representation is rendered/visible at a time.
+  list.hidden=!listMode;
+  timeline.hidden=listMode;
+  if(listBtn) listBtn.textContent="☷ List";
+  if(timelineBtn) timelineBtn.textContent="◷ Timeline";
+  listBtn?.classList.toggle("active",listMode);
+  timelineBtn?.classList.toggle("active",!listMode);
+}
+
+function renderTodayTimeline(todayRoutine, day, curIdx, doneMap){
+  const box=$("#todayTimeline"); if(!box) return;
+  const rows=todayRoutine.map((t,i)=>({t,i})).filter(x=>!x.t[5]?.deleted);
+  if(!rows.length){box.innerHTML='<div class="muted" style="padding:14px">No tasks scheduled today.</div>';return;}
+  const mins=s=>{const [h,m]=String(s||"00:00").split(":").map(Number);return Math.max(0,Math.min(1439,h*60+m));};
+  const start=0, end=1439, total=1440;
+  const hourMarks=[];
+  for(let m=0;m<=23*60;m+=60){
+    const top=(m/total)*100;
+    hourMarks.push(`<div class="timeline-hour" style="top:${top}%"><span>${String(Math.floor(m/60)).padStart(2,"0")}:00</span></div>`);
+  }
+  hourMarks.push(`<div class="timeline-hour timeline-end" style="top:99.9%"><span>23:59</span></div>`);
+  const cards=rows.map(({t,i})=>{
+    let a=mins(t[0]), b=mins(t[1]);
+    if(b<=a) b=Math.min(1439,a+30);
+    const top=(a/total)*100;
+    const height=Math.max(1.8,((b-a)/total)*100);
+    const done=!!doneMap[i];
+    return `<div class="timeline-task ${done?"done":""} ${i===curIdx?"now":""}" style="top:${top}%;height:${height}%;min-height:48px"><div class="timeline-task-time">${t[0]}–${t[1]}</div><div class="timeline-task-main"><b>${done?"✓ ":""}${t[2]}</b><span>${t[3]} · +${t[4]} XP</span></div></div>`;
+  }).join("");
+  const now=new Date();
+  const nowPct=((now.getHours()*60+now.getMinutes()+now.getSeconds()/60)/total)*100;
+  box.innerHTML=`<div class="timeline-wrap"><div class="timeline-axis">${hourMarks.join("")}</div><div class="timeline-track"><div class="timeline-now" style="top:${Math.max(0,Math.min(100,nowPct))}%"></div>${cards}</div></div>`;
+}
+
+$("#todayListViewBtn")?.addEventListener("click",()=>setTodayTaskView("list"));
+$("#todayTimelineViewBtn")?.addEventListener("click",()=>setTodayTaskView("timeline"));
 
 // ---------- MEDIA / TASKS FOLDER ----------
 let mediaFilter = "all";
@@ -1629,12 +2459,69 @@ $("#nextYear").onclick = ()=>{ viewYear++; renderYear(); };
 
 // ---------- 7. FULL ROUTINE + STATS ----------
 function renderRoutine(){
-  $("#routineDays").innerHTML=WEEKDAYS.map(day=>`
+  const today=todayStr(), todayName=weekdayName(today), todayRows=getWeeklyRoutine(todayName);
+  $("#currentDayRoutine").innerHTML=`<div class="routine-current-head"><div><div class="routine-current-title">📅 ${todayName} · Today</div><div class="muted" style="font-size:10px;">${today}</div></div><button class="primary" id="editCurrentRoutine">✏️ Edit Routine</button></div><div class="routine-days">${todayRows.length?todayRows.map(t=>`<div class="routine-row"><span>${t[0]}–${t[1]}</span><span>${t[2]}</span><span>${t[3]}</span><b>+${t[4]}</b></div>`).join(""):`<div class="muted">No routine blocks for today.</div>`}</div>`;
+  $("#editCurrentRoutine").onclick=()=>openRoutineEditor(todayName);
+  $("#routineDays").innerHTML=WEEKDAYS.filter(d=>d!==todayName).map(day=>`
     <div class="day-card">
-      <div class="day-head">${day}</div>
-      ${WEEKLY_ROUTINE[day].map(t=>`<div class="routine-row"><span>${t[0]}–${t[1]}</span><span>${t[2]}</span><span>${t[3]}</span><b>+${t[4]}</b></div>`).join("")}
+      <div class="day-head row between"><span>${day}</span><button class="ghost routine-day-edit" data-day="${day}">✏️ Edit</button></div>
+      ${getWeeklyRoutine(day).map(t=>`<div class="routine-row"><span>${t[0]}–${t[1]}</span><span>${t[2]}</span><span>${t[3]}</span><b>+${t[4]}</b></div>`).join("")}
     </div>`).join("");
+  $all(".routine-day-edit").forEach(b=>b.onclick=()=>openRoutineEditor(b.dataset.day));
 }
+
+function routineEditorRow(t=["06:00","07:00","New task","Personal",25]){
+  const cats=CATEGORIES.map(c=>`<option ${c===t[3]?"selected":""}>${c}</option>`).join("");
+  return `<div class="routine-edit-row"><input class="re-start" type="time" value="${t[0]}"><input class="re-end" type="time" value="${t[1]}"><input class="re-name" maxlength="80" value="${String(t[2]).replace(/&/g,"&amp;").replace(/"/g,"&quot;")}"><select class="re-cat">${cats}</select><input class="re-xp" type="number" min="0" max="1000" step="5" value="${Number(t[4])||0}"><button type="button" class="ghost remove-routine-row">✕</button></div>`;
+}
+function openRoutineEditor(day){
+  $("#routineEditDay").innerHTML=WEEKDAYS.map(d=>`<option ${d===day?"selected":""}>${d}</option>`).join("");
+  renderRoutineEditorRows(day);
+  $("#routineEditModal").classList.add("show");
+  $("#routineEditModal").setAttribute("aria-hidden","false");
+}
+function closeRoutineEditor(){ $("#routineEditModal").classList.remove("show"); $("#routineEditModal").setAttribute("aria-hidden","true"); }
+function renderRoutineEditorRows(day){
+  $("#routineEditRows").innerHTML=getWeeklyRoutine(day).map(routineEditorRow).join("");
+  $all(".remove-routine-row").forEach(b=>b.onclick=()=>b.closest(".routine-edit-row").remove());
+}
+function collectRoutineEditorRows(){
+  return $all("#routineEditRows .routine-edit-row").map(row=>[row.querySelector(".re-start").value,row.querySelector(".re-end").value,row.querySelector(".re-name").value.trim(),row.querySelector(".re-cat").value,Number(row.querySelector(".re-xp").value)||0]);
+}
+$("#routineEditDay").onchange=()=>renderRoutineEditorRows($("#routineEditDay").value);
+$("#addRoutineBlock").onclick=()=>{ $("#routineEditRows").insertAdjacentHTML("beforeend",routineEditorRow()); const rows=$all("#routineEditRows .remove-routine-row"); rows[rows.length-1].onclick=()=>rows[rows.length-1].closest(".routine-edit-row").remove(); };
+$("#saveRoutineEdit").onclick=()=>{ const day=$("#routineEditDay").value, rows=collectRoutineEditorRows(); if(rows.some(r=>!r[0]||!r[1]||!r[2])){toast("Fill every routine block before saving.");return;} saveWeeklyRoutine(day,rows); renderRoutine(); renderToday().catch(()=>{}); renderStats().catch(()=>{}); closeRoutineEditor(); toast(`${day} routine saved.`); };
+$("#cancelRoutineEdit").onclick=closeRoutineEditor; $("#closeRoutineEdit").onclick=closeRoutineEditor;
+
+
+function trendSvg(rows, lineClass, areaClass, valueLabel, suffix=""){
+  const W=900,H=220,pad={l:34,r:16,t:18,b:28};
+  const innerW=W-pad.l-pad.r, innerH=H-pad.t-pad.b;
+  const vals=rows.map(r=>Number(r.value)||0); const max=Math.max(1,...vals); const min=0;
+  const pts=rows.map((r,i)=>({x:pad.l+(rows.length===1?innerW/2:i*innerW/(rows.length-1)),y:pad.t+innerH-(r.value-min)/(max-min||1)*innerH,v:r.value,label:r.label}));
+  const line=pts.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+  const area=`${pts[0].x},${H-pad.b} ${line} ${pts[pts.length-1].x},${H-pad.b}`;
+  const grid=[0,.25,.5,.75,1].map(t=>{const y=pad.t+innerH*t;return `<line class="trend-grid" x1="${pad.l}" x2="${W-pad.r}" y1="${y}" y2="${y}"/>`;}).join("");
+  const labels=rows.map((r,i)=>i%5===0||i===rows.length-1?`<text class="trend-axis" x="${pts[i].x}" y="${H-8}" text-anchor="middle">${r.label}</text>`:"").join("");
+  const points=pts.filter((p,i)=>i===pts.length-1 || i%5===0).map(p=>`<circle class="trend-point" cx="${p.x}" cy="${p.y}" r="3.2" stroke="${lineClass.includes('purple')?'#a78bfa':'#35e7ff'}"><title>${p.label}: ${p.v}${suffix}</title></circle>`).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${valueLabel}"><defs><linearGradient id="trendPurpleFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#a78bfa" stop-opacity=".32"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></linearGradient><linearGradient id="trendCyanFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#35e7ff" stop-opacity=".28"/><stop offset="1" stop-color="#35e7ff" stop-opacity="0"/></linearGradient><filter id="glowPurple"><feGaussianBlur stdDeviation="2.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="glowCyan"><feGaussianBlur stdDeviation="2.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>${grid}<polygon class="${areaClass}" points="${area}"/><polyline class="${lineClass}" points="${line}"/>${points}${labels}</svg>`;
+}
+async function getLast30Trend(){
+  const out=[]; const now=new Date(); now.setHours(0,0,0,0);
+  for(let i=29;i>=0;i--){ const d=new Date(now); d.setDate(now.getDate()-i); const iso=d.toISOString().slice(0,10); const st=await dayStats(iso); out.push({iso,label:d.toLocaleDateString(undefined,{day:"2-digit",month:"short"}),tasks:st.done,xp:st.xp}); }
+  return out;
+}
+async function renderTrendGraphs(){
+  const rows=await getLast30Trend();
+  const taskRows=rows.map(r=>({label:r.label,value:r.tasks}));
+  const xpRows=rows.map(r=>({label:r.label,value:r.xp}));
+  const taskTotal=taskRows.reduce((a,r)=>a+r.value,0), xpTotal=xpRows.reduce((a,r)=>a+r.value,0);
+  if($("#completionGraphTotal")) $("#completionGraphTotal").textContent=taskTotal.toLocaleString();
+  if($("#xpGraphTotal")) $("#xpGraphTotal").textContent=xpTotal.toLocaleString()+" XP";
+  if($("#dailyCompletionGraph")) $("#dailyCompletionGraph").innerHTML=trendSvg(taskRows,"trend-line-purple","trend-area-purple","Daily completed tasks");
+  if($("#dailyXPGraph")) $("#dailyXPGraph").innerHTML=trendSvg(xpRows,"trend-line-cyan","trend-area-cyan","Daily XP earned"," XP");
+}
+
 async function renderStats(){
   const all=await idbGetAll("task_log");
   const done=all.filter(r=>r.done);
@@ -1654,42 +2541,153 @@ async function renderStats(){
   for(const r of done) catXP[effectiveRoutine(r.day)[r.task_index]?.[3]]=(catXP[effectiveRoutine(r.day)[r.task_index]?.[3]]||0)+(effectiveRoutine(r.day)[r.task_index]?.[4]||0);
   $("#statsCategoryXP").innerHTML=CATEGORIES.map(c=>`<div style="margin:8px 0"><div class="row between" style="font-size:11px"><span>${c}</span><b>${catXP[c]} XP</b></div><div class="stat-bar"><div class="stat-fill" style="width:${xp?Math.round(catXP[c]/xp*100):0}%"></div></div></div>`).join("");
   renderXPRewards(xp);
+  if($("#statsTodayPct")) $("#statsTodayPct").textContent=pct+"%";
+  if($("#homeFocusPct")) $("#homeFocusPct").textContent=pct+"%";
   await renderChallenges();
+  await renderHistory();
+  await renderTrendGraphs();
 }
 
-// ---------- 7. TIMER ----------
-let timerSeconds = 25*60, timerRunning=false, timerInterval=null;
+// ---------- 7. TIMER / STOPWATCH ----------
+let timerSeconds = 25*60, timerInitialSeconds=25*60, timerRunning=false, timerInterval=null;
+let focusMode="timer", stopwatchSeconds=0;
+const focusOverlay = $("#focusOverlay");
+const focusSubtitle = $("#focusSubtitle");
+function formatClock(s){
+  s=Math.max(0,Math.floor(s));
+  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60), sec=s%60;
+  return h>0 ? `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}` : `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+}
 function updateTimerLabel(){
-  const s = Math.max(0,timerSeconds);
-  const m = Math.floor(s/60), sec = s%60;
-  $("#timerLabel").textContent = `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
-}
-$all("#page-today button[data-min]").forEach(b=>{
-  b.addEventListener("click", ()=>{
-    clearInterval(timerInterval); timerRunning=false; $("#timerStartBtn").textContent="▶ Start";
-    timerSeconds = parseInt(b.dataset.min,10)*60; updateTimerLabel();
-  });
-});
-$("#timerStartBtn").onclick = ()=>{
-  if(timerRunning){
-    clearInterval(timerInterval); timerRunning=false; $("#timerStartBtn").textContent="▶ Start";
-  } else {
-    timerRunning=true; $("#timerStartBtn").textContent="❚❚ Pause";
-    timerInterval = setInterval(()=>{
-      timerSeconds--; updateTimerLabel();
-      if(timerSeconds<=0){
-        clearInterval(timerInterval); timerRunning=false; $("#timerStartBtn").textContent="▶ Start";
-        notify("Focus Complete", "Focus block complete. Mark the matching quest done.");
-
-      }
-    },1000);
+  const label=focusMode==="stopwatch" ? formatClock(stopwatchSeconds) : formatClock(timerSeconds);
+  $("#timerLabel").textContent=label;
+  $("#focusClockLabel").textContent=label;
+  const pct=focusMode==="timer" && timerInitialSeconds>0
+    ? Math.max(0,Math.min(100,(1-timerSeconds/timerInitialSeconds)*100))
+    : ((stopwatchSeconds%3600)/3600*100);
+  focusOverlay.style.setProperty("--focus-progress",pct+"%");
+  focusOverlay.style.setProperty("--focus-progress-angle",(pct*3.6)+"deg");
+  const light=$("#focusProgressLight");
+  if(light){
+    const wrap=$("#focusClockWrap");
+    const size=wrap ? Math.min(wrap.clientWidth,wrap.clientHeight) : 360;
+    const radius=Math.max(30,size/2-16);
+    const angle=(pct/100)*Math.PI*2-Math.PI/2;
+    const x=Math.cos(angle)*radius;
+    const y=Math.sin(angle)*radius;
+    light.style.transform=`translate(-50%,-50%) translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
   }
-};
-$("#timerResetBtn").onclick = ()=>{
-  clearInterval(timerInterval); timerRunning=false; $("#timerStartBtn").textContent="▶ Start";
-  timerSeconds=25*60; updateTimerLabel();
-};
-updateTimerLabel();
+}
+function setTimerMinutes(min){
+  focusMode="timer";
+  clearInterval(timerInterval); timerRunning=false;
+  timerInitialSeconds=timerSeconds=parseInt(min,10)*60;
+  $("#timerStartBtn").textContent="▶ Start"; $("#focusStartBtn").textContent="▶ Start";
+  focusSubtitle.textContent="Stay focused. You got this.";
+  updateFocusModeUI(); updateTimerLabel();
+  $all("#focusOverlay [data-focus-min]").forEach(x=>x.classList.toggle("active",x.dataset.focusMin===String(min)));
+}
+function setCustomFocusTime(){
+  const h=Math.max(0,Math.min(9,Number($("#focusCustomHours")?.value)||0));
+  const m=Math.max(0,Math.min(59,Number($("#focusCustomMinutes")?.value)||0));
+  const total=h*60+m;
+  if(total<1){ toast("Set at least 1 minute for a custom focus time."); return; }
+  setTimerMinutes(total);
+  toast(`Custom focus time set to ${h?`${h}h `:""}${m}m.`);
+}
+
+function setFocusMode(mode){
+  clearInterval(timerInterval); timerRunning=false; focusMode=mode;
+  if(mode==="stopwatch") stopwatchSeconds=0;
+  $("#timerStartBtn").textContent="▶ Start"; $("#focusStartBtn").textContent="▶ Start";
+  focusSubtitle.textContent=mode==="stopwatch" ? "Track your work time without a limit." : "Stay focused. You got this.";
+  updateFocusModeUI(); updateTimerLabel();
+}
+function updateFocusModeUI(){
+  const sw=focusMode==="stopwatch";
+  $("#focusTimerModeBtn")?.classList.toggle("active",!sw);
+  $("#focusStopwatchModeBtn")?.classList.toggle("active",sw);
+  $("#focusModeTitle") && ($("#focusModeTitle").textContent=sw?"STOPWATCH":"TIMER");
+  $all("[data-focus-view]").forEach(b=>b.classList.toggle("active",b.dataset.focusView===focusMode));
+  $("#focusOverlay")?.classList.toggle("stopwatch-mode",sw);
+}
+function toggleTimer(){
+  if(timerRunning){
+    clearInterval(timerInterval); timerRunning=false;
+    $("#timerStartBtn").textContent="▶ Start"; $("#focusStartBtn").textContent="▶ Start";
+    focusSubtitle.textContent="Paused. Take a breath, then continue.";
+    return;
+  }
+  timerRunning=true; $("#timerStartBtn").textContent="❚❚ Pause"; $("#focusStartBtn").textContent="❚❚ Pause";
+  focusSubtitle.textContent=focusMode==="stopwatch" ? "Working time is running." : "Stay with the present task.";
+  timerInterval=setInterval(()=>{
+    if(focusMode==="stopwatch"){
+      stopwatchSeconds++; updateTimerLabel(); return;
+    }
+    timerSeconds--; updateTimerLabel();
+    if(timerSeconds<=0){
+      clearInterval(timerInterval); timerRunning=false;
+      $("#timerStartBtn").textContent="▶ Start"; $("#focusStartBtn").textContent="▶ Start";
+      focusSubtitle.textContent="Focus complete. Well done."; notify("Focus Complete","Focus block complete. Mark the matching quest done.");
+    }
+  },1000);
+}
+function resetFocus(){
+  clearInterval(timerInterval); timerRunning=false;
+  $("#timerStartBtn").textContent="▶ Start"; $("#focusStartBtn").textContent="▶ Start";
+  if(focusMode==="stopwatch") stopwatchSeconds=0; else timerSeconds=timerInitialSeconds;
+  focusSubtitle.textContent=focusMode==="stopwatch" ? "Track your work time without a limit." : "Stay focused. You got this.";
+  updateTimerLabel();
+}
+$all("#page-today button[data-min]").forEach(b=>b.addEventListener("click",()=>setTimerMinutes(b.dataset.min)));
+$all("#focusOverlay [data-focus-min]").forEach(b=>b.addEventListener("click",()=>setTimerMinutes(b.dataset.focusMin)));
+$("#focusCustomSet")?.addEventListener("click",setCustomFocusTime);
+$("#timerStartBtn").onclick=toggleTimer;
+$("#focusStartBtn").onclick=toggleTimer;
+$("#timerResetBtn").onclick=()=>{setTimerMinutes(25)};
+$("#focusResetBtn").onclick=resetFocus;
+$all("[data-focus-view]").forEach(b=>b.addEventListener("click",()=>setFocusMode(b.dataset.focusView)));
+$("#focusModeBtn").onclick=()=>{focusOverlay.classList.remove("minimized");focusOverlay.classList.add("open");document.body.style.overflow="hidden";updateTimerLabel()};
+$("#focusCloseBtn").onclick=()=>{focusOverlay.classList.remove("open","minimized");document.body.style.overflow=""};
+$("#focusMinBtn").onclick=()=>focusOverlay.classList.add("minimized");
+$("#focusMaxBtn").onclick=()=>focusOverlay.classList.remove("minimized");
+$all("#focusOverlay [data-focus-bg]").forEach(b=>b.addEventListener("click",()=>{
+  const theme=b.dataset.focusBg;
+  focusOverlay.dataset.bg=theme;
+  focusOverlay.style.setProperty("--focus-accent",b.dataset.accent);
+  $all("#focusOverlay [data-focus-bg]").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  applyTheme(theme);
+}));
+(function buildClockTicks(){
+  const clock=$("#focusClock");
+  if(!clock) return;
+  const render=()=>{
+    clock.querySelectorAll(".tick,.minute-label").forEach(x=>x.remove());
+    const size=Math.min(clock.clientWidth||360,clock.clientHeight||360);
+    const radius=Math.max(72,Math.min(190,size/2-28));
+    const labelRadius=Math.max(58,radius-30);
+    for(let i=0;i<60;i++){
+      const t=document.createElement("span");
+      t.className="tick"+(i%5===0?" major":"");
+      t.style.setProperty("--tick-radius",radius+"px");
+      t.style.transform=`translate(-50%,-50%) rotate(${i*6}deg) translateY(-${radius}px)`;
+      clock.appendChild(t);
+      if(i%5===0){
+        const n=document.createElement("span");
+        n.className="minute-label"+(i%15===0?" major-minute":"");
+        n.textContent=String(i);
+        n.style.transform=`translate(-50%,-50%) rotate(${i*6}deg) translateY(-${labelRadius}px) rotate(${-i*6}deg)`;
+        clock.appendChild(n);
+      }
+    }
+  };
+  render();
+  window.addEventListener("resize",render,{passive:true});
+})();
+updateFocusModeUI(); updateTimerLabel();
+window.addEventListener("resize",()=>updateTimerLabel());
+window.addEventListener("resize",()=>updateTimerLabel());
 
 // ---------- 8. ALARMS ----------
 async function renderAlarms(){
@@ -1751,6 +2749,80 @@ async function notify(title, body){
   }
 }
 
+// ---------- 10B. TASK NOTIFICATIONS ----------
+const TASK_NOTIFY_ENABLED_KEY="shyama_task_notifications_enabled",TASK_NOTIFY_LEAD_KEY="shyama_task_notification_lead",TASK_NOTIFY_SKIP_DONE_KEY="shyama_task_notification_skip_done",TASK_NOTIFY_INCLUDE_ADDED_KEY="shyama_task_notification_include_added",TASK_NOTIFY_SENT_PREFIX="shyama_task_notice_sent_";
+function taskNotifyEnabled(){return localStorage.getItem(TASK_NOTIFY_ENABLED_KEY)==="1"}
+function taskNotifyLead(){const n=parseInt(localStorage.getItem(TASK_NOTIFY_LEAD_KEY)||"5",10);return [1,5,10,15,30].includes(n)?n:5}
+function taskNotifySkipDone(){return localStorage.getItem(TASK_NOTIFY_SKIP_DONE_KEY)!=="0"}
+function taskNotifyIncludeAdded(){return localStorage.getItem(TASK_NOTIFY_INCLUDE_ADDED_KEY)!=="0"}
+function setTaskNotifyStatus(text,kind=""){const el=$("#taskNotificationStatus");if(el){el.textContent=text;el.className="notify-status"+(kind?" "+kind:"")}}
+function updateTaskNotificationPermissionUI(){
+  const el=$("#taskNotificationPermission"),btn=$("#enableTaskNotificationsBtn");
+  if(!el)return;
+  if(!(typeof Notification!=="undefined")){el.textContent="Not supported";el.className="blocked";if(btn)btn.disabled=true;return}
+  const state=Notification.permission||"default";
+  el.textContent=state==="granted"?"Granted":state==="denied"?"Blocked":"Not requested";
+  el.className=state==="denied"?"blocked":"";
+  if(btn)btn.textContent=state==="granted"?"✓ Permission Granted":state==="denied"?"Open Browser Settings":"Allow Notifications";
+}
+async function requestTaskNotificationPermission(){
+  if(!(typeof Notification!=="undefined")){setTaskNotifyStatus("This browser does not support notifications.","warn");updateTaskNotificationPermissionUI();return false}
+  if(Notification.permission==="granted"){updateTaskNotificationPermissionUI();return true}
+  if(Notification.permission==="denied"){setTaskNotifyStatus("Notifications are blocked. Use your browser's site settings to allow SHYAMA notifications.","warn");updateTaskNotificationPermissionUI();return false}
+  const result=await Notification.requestPermission();
+  updateTaskNotificationPermissionUI();
+  if(result!=="granted"){setTaskNotifyStatus("Permission was not granted. You can enable SHYAMA notifications from the browser site settings.","warn");return false}
+  return true
+}
+async function saveTaskNotificationSettings(){
+  const enabled=$("#taskNotificationsEnabled")?.checked;
+  const lead=parseInt($("#taskNotificationLead")?.value||"5",10);
+  const skip=$("#taskNotificationSkipDone")?.checked!==false;
+  const includeAdded=$("#taskNotificationIncludeAdded")?.checked!==false;
+  localStorage.setItem(TASK_NOTIFY_ENABLED_KEY,enabled?"1":"0");
+  localStorage.setItem(TASK_NOTIFY_LEAD_KEY,String([1,5,10,15,30].includes(lead)?lead:5));
+  localStorage.setItem(TASK_NOTIFY_SKIP_DONE_KEY,skip?"1":"0");
+  localStorage.setItem(TASK_NOTIFY_INCLUDE_ADDED_KEY,includeAdded?"1":"0");
+  if(enabled&&!await requestTaskNotificationPermission()){$("#taskNotificationsEnabled").checked=false;localStorage.setItem(TASK_NOTIFY_ENABLED_KEY,"0");return}
+  setTaskNotifyStatus(enabled?`Enabled — ${taskNotifyLead()} minute${taskNotifyLead()===1?"":"s"} before each task${skip?", skipping completed tasks":""}.`:`Notifications are off until you enable them.`,enabled?"ok":"");
+  updateTaskNotificationPermissionUI();
+}
+function loadTaskNotificationSettings(){
+  const en=$("#taskNotificationsEnabled"),lead=$("#taskNotificationLead"),skip=$("#taskNotificationSkipDone"),added=$("#taskNotificationIncludeAdded");
+  if(en)en.checked=taskNotifyEnabled();if(lead)lead.value=String(taskNotifyLead());if(skip)skip.checked=taskNotifySkipDone();if(added)added.checked=taskNotifyIncludeAdded();
+  updateTaskNotificationPermissionUI();
+  if(taskNotifyEnabled())setTaskNotifyStatus((typeof Notification!=="undefined"&&Notification.permission!=="granted")?"Enabled, but browser permission is still required.":`Enabled — ${taskNotifyLead()} minute${taskNotifyLead()===1?"":"s"} before each task.`,(typeof Notification!=="undefined"&&Notification.permission!=="granted")?"warn":"ok");
+}
+function taskStartDate(day,time){const [h,m]=String(time||"00:00").split(":").map(Number),d=new Date(day+"T00:00:00");d.setHours(Number.isFinite(h)?h:0,Number.isFinite(m)?m:0,0,0);return d}
+function taskNotifyIdentity(day,idx,t){return `${day}_${idx}_${t[5]?.uid||"routine"}_${t[0]}_${t[2]||""}_${taskNotifyLead()}`}
+async function checkUpcomingTaskNotifications(){
+  if(!taskNotifyEnabled()||!(typeof Notification!=="undefined")||Notification.permission!=="granted")return;
+  const day=todayStr(),now=Date.now(),lead=taskNotifyLead(),routine=activeRoutine(day);
+  for(let i=0;i<routine.length;i++){
+    const t=routine[i];if(!t||!t[0]||t[5]?.deleted)continue;
+    if(t[5]?.added&&!taskNotifyIncludeAdded())continue;
+    if(taskNotifySkipDone()&&await isDone(day,i))continue;
+    const target=taskStartDate(day,t[0]).getTime()-lead*60000,diff=now-target;
+    if(diff>=0&&diff<90000){
+      const key=TASK_NOTIFY_SENT_PREFIX+taskNotifyIdentity(day,i,t);
+      if(localStorage.getItem(key)==="1")continue;
+      localStorage.setItem(key,"1");
+      await notify("🔔 SHYAMA — Upcoming Task",`${t[2]} starts at ${t[0]} · ${lead} minute${lead===1?"":"s"} from now.`);
+    }
+  }
+}
+function resetTodayTaskNotificationMarks(){const day=todayStr();for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith(TASK_NOTIFY_SENT_PREFIX+day+"_"))localStorage.removeItem(k)}setTaskNotifyStatus("Today's reminder history was reset. Upcoming tasks can notify again.","ok")}
+$("#enableTaskNotificationsBtn")?.addEventListener("click",async()=>{const ok=await requestTaskNotificationPermission();if(ok){localStorage.setItem(TASK_NOTIFY_ENABLED_KEY,"1");$("#taskNotificationsEnabled").checked=true;setTaskNotifyStatus(`Enabled — ${taskNotifyLead()} minute${taskNotifyLead()===1?"":"s"} before each task.`,"ok");updateTaskNotificationPermissionUI()}});
+$("#taskNotificationsEnabled")?.addEventListener("change",saveTaskNotificationSettings);
+$("#taskNotificationLead")?.addEventListener("change",saveTaskNotificationSettings);
+$("#taskNotificationSkipDone")?.addEventListener("change",saveTaskNotificationSettings);
+$("#taskNotificationIncludeAdded")?.addEventListener("change",saveTaskNotificationSettings);
+$("#resetTaskNotificationDayBtn")?.addEventListener("click",resetTodayTaskNotificationMarks);
+$("#testTaskNotificationBtn")?.addEventListener("click",async()=>{if(!await requestTaskNotificationPermission())return;await notify("🔔 SHYAMA — Test Notification","Your task reminders are working. Next reminder timing follows your Settings.");setTaskNotifyStatus("Test notification sent successfully.","ok")});
+setInterval(()=>checkUpcomingTaskNotifications().catch(e=>console.warn("task notifications",e)),5000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpcomingTaskNotifications().catch(()=>{})});
+window.addEventListener("focus",()=>checkUpcomingTaskNotifications().catch(()=>{}));
+
 // ---------- 11. BACKUP / EXPORT / IMPORT ----------
 $("#exportBtn").onclick = async ()=>{
   const data = {
@@ -1780,6 +2852,19 @@ $("#importFile").onchange = async (e)=>{
     renderHome(); renderToday(); renderAlarms(); queueSync();
   }catch(err){ toast("Invalid backup file."); }
 };
+
+// ---------- V32: SETTINGS CREDENTIAL VISIBILITY ----------
+function applyCredentialVisibility(){
+  const hide = $("#hideCredentials") ? $("#hideCredentials").checked : true;
+  if($("#sbKey")) $("#sbKey").type = hide ? "password" : "text";
+  if($("#sbCode")) $("#sbCode").type = hide ? "password" : "text";
+  localStorage.setItem("shyama_hide_credentials", hide ? "1" : "0");
+}
+if($("#hideCredentials")){
+  $("#hideCredentials").checked = localStorage.getItem("shyama_hide_credentials") !== "0";
+  $("#hideCredentials").addEventListener("change", applyCredentialVisibility);
+  applyCredentialVisibility();
+}
 
 // ---------- 12. SHYAMA CLOUD SYNC + LAPTOP SSD MIRROR ----------
 // Local-first: IndexedDB remains the working store. When configured, this section
@@ -1925,52 +3010,14 @@ window.addEventListener("online",()=>syncNow());
 document.addEventListener("visibilitychange",()=>{if(!document.hidden) syncNow();});
 setInterval(()=>syncNow(),60000);
 
-// ---------- 13. HERO / MOTIVATION BACKGROUNDS ----------
-// Full-image motivational backgrounds. Images are displayed without cropping.
-// The first group uses online motivational wallpapers; local fallbacks keep the PWA usable offline.
-const HERO_IMAGES = [
-  {url:"assets/inspiration/lowest.jpg",credit:"SHYAMA · inspiration",title:"A better you · every day"},
-  {url:"assets/inspiration/consistency.jpg",credit:"SHYAMA · consistency",title:"Stay consistent."},
-  {url:"assets/inspiration/confidence.jpg",credit:"SHYAMA · confidence",title:"Stand apart."},
-  {url:"assets/inspiration/self-respect.jpg",credit:"SHYAMA · self-respect",title:"Protect your self-respect."},
-  {url:"assets/inspiration/warrior.jpg",credit:"SHYAMA · warrior discipline",title:"Train your discipline."},
-  {url:"https://quotefancy.com/media/wallpaper/3840x2160/7362984-Matshona-Dhliwayo-Quote-Learn-like-an-amateur-Train-like-a-champion-Fight-like-a.jpg",credit:"QuoteFancy · mountain motivation",title:"Keep going."},
-  {url:"https://quotefancy.com/media/wallpaper/3840x2160/163078-George-S-Patton-Jr-Quote-Discipline-must-be-a-habit-so-ingrained.jpg",credit:"QuoteFancy · discipline mountain"},
-  {url:"https://quotefancy.com/media/wallpaper/3840x2160/1674548-Richard-Strozzi-Heckler-Quote-The-path-of-the-Warrior-is-lifelong.jpg",credit:"QuoteFancy · warrior path"},
-  {url:"https://r2news.com.br/assets/uploads/noticias/news_69cbf1e55ceba.webp",credit:"Motivational meditation artwork"},
-  {url:"https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/blogs/2147530926/images/c877257-c52e-8606-6078-4c3c85dffc3e_Discipline_DALL-E_Image.png",credit:"Discipline at dawn artwork"}
-];
-let heroIdx=-1, heroActive="a", heroInterval=null;
-function rotateHero(){
-  heroIdx=(heroIdx+1)%HERO_IMAGES.length;
-  const item=HERO_IMAGES[heroIdx];
-  const showEl=heroActive==="a"?$("#heroLayerB"):$("#heroLayerA");
-  const hideEl=heroActive==="a"?$("#heroLayerA"):$("#heroLayerB");
-  const img=new Image();
-  img.onload=()=>{
-    showEl.style.backgroundImage=`url("${item.url}")`;
-    showEl.style.opacity="1"; hideEl.style.opacity="0";
-    heroActive=heroActive==="a"?"b":"a";
-    $("#heroCredit").textContent=item.credit;
-    $("#heroTitle").textContent=item.title||"A better you · every day";
-    $all(".shy-dots span").forEach((d,i)=>d.classList.toggle("active",i===heroIdx));
-  };
-  img.onerror=()=>{};
-  img.src=item.url;
-}
-$("#heroRefresh").onclick=rotateHero;
-$("#heroNext")?.addEventListener("click",rotateHero);
-$("#viewAllCards")?.addEventListener("click",()=>document.querySelector(".shy-inspiration")?.scrollIntoView({behavior:"smooth",block:"start"}));
+// ---------- 13. DASHBOARD ACTIONS ----------
 $all(".shy-action[data-quick]").forEach(b=>b.addEventListener("click",async()=>{const q=b.dataset.quick;if(q==="upload"){showPage("today");setTimeout(()=>document.querySelector(".proof-btn")?.click(),120)}else if(q==="focus"){showPage("today");document.querySelector("#timerLabel")?.scrollIntoView({behavior:"smooth",block:"center"})}else showPage(q)}));
-function startHeroRotation(){
-  rotateHero();
-  if(heroInterval) clearInterval(heroInterval);
-  heroInterval=setInterval(rotateHero,45000);
-}
 
 // ---------- 15. INIT ----------
 (async function init(){
   try{ await openDB(); }catch(e){ console.error("SHYAMA DB init failed",e); }
+  try{ loadTaskNotificationSettings(); }catch(e){ console.warn("task notification settings",e); }
+  try{ await checkUpcomingTaskNotifications(); }catch(e){}
   try{ await loadSyncConfig(); }catch(e){ console.error("SHYAMA sync config failed",e); }
   try{ updateCurrentDateTime(); }catch(e){}
   try{ await renderHome(); }catch(e){ console.error("SHYAMA Home render failed",e); }
@@ -1978,24 +3025,23 @@ function startHeroRotation(){
   try{ renderRoutine(); }catch(e){ console.error("SHYAMA Routine render failed",e); }
   try{ await renderStats(); }catch(e){ console.error("SHYAMA Stats render failed",e); }
   try{ await renderAlarms(); }catch(e){ console.error("SHYAMA Alarms render failed",e); }
-  try{ startHeroRotation(); }catch(e){}
   try{ startAmbientMotivation(); }catch(e){}
-  try{ initOnlineQuotes(); }catch(e){}
   if(sbConfig.url && sbConfig.key && sbConfig.code) syncNow().catch(e=>console.warn("SHYAMA sync",e));
   setInterval(()=>{ renderHome().catch(e=>console.warn("home refresh",e)); renderStats().catch(e=>console.warn("stats refresh",e)); }, 60000);
   setInterval(updateCurrentDateTime, 1000);
+  scheduleMidnightRefresh();
   if("serviceWorker" in navigator) navigator.serviceWorker.register("service-worker.js").catch(()=>{});
 })();
 
 // ---------- THEME ----------
-const ALL_THEMES=["glass","light"];
+const ALL_THEMES=["glass","light","aurora","ocean","forest","sunset","moon"];
 function applyTheme(theme){
   if(!ALL_THEMES.includes(theme)) theme="glass";
   document.body.classList.remove("theme-glass","theme-light","theme-historical","theme-jungle","theme-ocean","theme-sunset","theme-cyber","theme-forest","theme-royal","theme-mono");
   document.body.classList.add("theme-"+theme);
   localStorage.setItem("jarvis_theme",theme);
   const themeStatus=document.getElementById("settingsThemeStatus");
-  if(themeStatus) themeStatus.textContent=theme==="light"?"Light mode":"Dark mode";
+  if(themeStatus) themeStatus.textContent=({glass:"Dark mode",light:"Light mode",aurora:"Aurora theme",ocean:"Ocean theme",forest:"Forest theme",sunset:"Sunset theme",moon:"Night theme"}[theme]||"Theme");
   document.querySelectorAll(".theme-choice").forEach(b=>{
     b.classList.toggle("primary",b.dataset.theme===theme);
   });
@@ -2009,54 +3055,6 @@ document.addEventListener("DOMContentLoaded",()=>{
   });
 });
 
-
-// ---------- ONLINE HOME QUOTES ----------
-const FALLBACK_QUOTES=[
-  ["Small steps every day lead to massive results.","SHYAMA"],
-  ["You don't need a perfect day. You need a committed one.","SHYAMA"],
-  ["Discipline is choosing what you want most over what you want now.","SHYAMA"],
-  ["Future you is built by what you do today.","SHYAMA"],
-  ["One focused hour can change the direction of a day.","SHYAMA"],
-  ["Stop waiting for motivation. Build momentum.","SHYAMA"],
-  ["Your routine is your silent superpower.","SHYAMA"],
-  ["Progress beats perfection.","SHYAMA"],
-  ["Consistency turns effort into results.","SHYAMA"],
-  ["Focus on the next task, not the whole mountain.","SHYAMA"]
-];
-
-function showQuote(text,author){
-  const q=$("#homeQuote"), s=$("#quoteSource");
-  if(q){ q.textContent='"'+String(text).replace(/^["']|["']$/g,"")+'"'; q.dataset.onlineLoaded="1"; }
-  if(s) s.textContent=author ? "— "+author+" · Online quote" : "Online quote";
-}
-function fallbackQuote(){
-  const q=FALLBACK_QUOTES[Math.floor(Math.random()*FALLBACK_QUOTES.length)];
-  showQuote(q[0],q[1]);
-}
-async function fetchOnlineQuote(){
-  const btn=$("#quoteRefresh");
-  if(btn){btn.disabled=true;btn.textContent="↻ Loading…";}
-  try{
-    const controller=new AbortController();
-    const timer=setTimeout(()=>controller.abort(),6000);
-    const res=await fetch("https://dummyjson.com/quotes/random",{cache:"no-store",signal:controller.signal});
-    clearTimeout(timer);
-    if(!res.ok) throw new Error("Quote request failed");
-    const data=await res.json();
-    if(!data.quote) throw new Error("No quote");
-    showQuote(data.quote,data.author||"Online");
-  }catch(e){
-    fallbackQuote();
-    if($("#quoteSource")) $("#quoteSource").textContent="Offline quote · tap again when online";
-  }finally{
-    if(btn){btn.disabled=false;btn.textContent="↻ New quote";}
-  }
-}
-function initOnlineQuotes(){
-  $("#quoteRefresh")?.addEventListener("click",fetchOnlineQuote);
-  // Try an online quote on each app load; local fallback keeps Home usable offline.
-  fetchOnlineQuote();
-}
 
 // ---------- PERFECT-DAY CHALLENGES ----------
 async function renderChallenges(){
@@ -2217,6 +3215,76 @@ document.addEventListener("DOMContentLoaded",()=>{
   $("#taskEditModal")?.addEventListener("click",e=>{if(e.target.id==="taskEditModal") closeTaskEditor();});
 });
 
+</script>
+
+<style id="shyama-v47-dark-clock-region">
+/* V47 — dark-only UI + live timer region */
+body.theme-glass,body.theme-light,body.theme-aurora,body.theme-ocean,body.theme-forest,body.theme-sunset,body.theme-moon{
+  background:radial-gradient(circle at 18% 12%,rgba(42,117,255,.14),transparent 30%),radial-gradient(circle at 82% 78%,rgba(170,70,255,.12),transparent 34%),linear-gradient(135deg,#030817,#0a1230 52%,#100b24)!important;color:#eef4ff!important;
+}
+.top-theme-bar,.settings-theme-panel,.theme-choice,.focus-panel-block:has(.focus-bg-options){display:none!important;}
+.focus-bg-options{display:none!important;}
+/* The filled sector grows/shrinks every second with --focus-progress. */
+.focus-clock-wrap::before{
+  background:conic-gradient(from -90deg,#ff46b5 0%,#9a4dff 22%,#20d9ff 48%,#20d9ff var(--focus-progress,0%),rgba(255,255,255,.08) var(--focus-progress,0%) 100%)!important;
+  transition:background .35s linear!important;
+}
+.focus-clock{
+  background:conic-gradient(from -90deg,rgba(45,220,255,.16) 0%,rgba(139,92,246,.13) var(--focus-progress,0%),rgba(3,12,30,.02) var(--focus-progress,0%) 100%),radial-gradient(circle at 50% 45%,rgba(35,111,181,.16),rgba(4,16,38,.72) 58%,rgba(4,9,24,.94) 59%)!important;
+}
+.focus-overlay.stopwatch-mode .focus-clock-wrap::before{animation:none!important;background:conic-gradient(from -90deg,#ff46b5 0%,#9a4dff 22%,#20d9ff 48%,#20d9ff var(--focus-progress,0%),rgba(255,255,255,.08) var(--focus-progress,0%) 100%)!important;}
+</style>
+<script>
+(function enforceDarkOnly(){
+  const forceDark=()=>{
+    try{localStorage.setItem('jarvis_theme','glass');}catch(e){}
+    if(typeof applyTheme==='function') applyTheme('glass');
+    document.body.classList.remove('theme-light','theme-aurora','theme-ocean','theme-forest','theme-sunset','theme-moon');
+    document.body.classList.add('theme-glass');
+    document.querySelectorAll('.top-theme-bar,.settings-theme-panel').forEach(el=>el.remove());
+  };
+  forceDark();
+  window.addEventListener('load',forceDark,{once:true});
+})();
+</script>
+
+
+<style id="shyama-v48-focus-clock">
+/* V48 — redesigned timer/stopwatch clock */
+#focusOverlay{--focus-progress:0%;--focus-progress-angle:0deg;--focus-ring-a:#ff3dbb;--focus-ring-b:#7b5cff;--focus-ring-c:#20d9ff;}
+#focusOverlay .focus-clock-wrap{position:relative;width:min(430px,42vw);aspect-ratio:1/1;display:grid;place-items:center;filter:drop-shadow(0 18px 35px rgba(0,0,0,.32));}
+#focusOverlay .focus-clock-wrap::before{content:"";position:absolute;inset:0;border-radius:50%;padding:9px;background:conic-gradient(from -90deg,var(--focus-ring-a) 0deg,var(--focus-ring-b) 125deg,var(--focus-ring-c) var(--focus-progress-angle),rgba(95,115,160,.22) var(--focus-progress-angle) 360deg)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;transition:background .18s linear;}
+#focusOverlay .focus-clock-wrap::after{content:"";position:absolute;inset:13px;border-radius:50%;border:1px solid rgba(126,169,255,.20);box-shadow:inset 0 0 45px rgba(0,0,0,.45),0 0 28px rgba(45,120,255,.08);pointer-events:none;}
+#focusOverlay .focus-clock{position:absolute;inset:24px;border-radius:50%;overflow:visible;background:radial-gradient(circle at 50% 42%,rgba(42,72,130,.22),rgba(5,13,32,.92) 63%,rgba(2,7,20,.98) 100%)!important;border:1px solid rgba(137,169,230,.20);box-shadow:inset 0 0 30px rgba(0,0,0,.55);}
+#focusOverlay .focus-clock::before{content:"";position:absolute;inset:18px;border-radius:50%;border:1px solid rgba(122,161,220,.14);box-shadow:inset 0 0 22px rgba(28,95,180,.08);}
+#focusOverlay .focus-clock .clock-dot{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px;border-radius:50%;background:#dff8ff;box-shadow:0 0 12px #20d9ff,0 0 22px rgba(32,217,255,.45);z-index:5;}
+#focusOverlay .focus-clock .tick{position:absolute;left:50%;top:50%;width:2px;height:7px;border-radius:2px;background:rgba(205,224,255,.52);z-index:2;transform-origin:50% 50%;}
+#focusOverlay .focus-clock .tick.major{width:3px;height:12px;background:#eaf4ff;box-shadow:0 0 6px rgba(100,185,255,.25);}
+#focusOverlay .focus-clock .minute-label{position:absolute;left:50%;top:50%;width:30px;height:18px;margin:-9px 0 0 -15px;display:flex;align-items:center;justify-content:center;font:700 10px/1 Inter,system-ui,sans-serif;color:rgba(202,220,249,.74);letter-spacing:.1px;text-shadow:0 0 8px rgba(50,160,255,.15);z-index:4;pointer-events:none;}
+#focusOverlay .focus-clock .minute-label.major-minute{font-size:11px;color:#f4f8ff;text-shadow:0 0 9px rgba(32,217,255,.25);}
+#focusOverlay .focus-progress-light{width:15px;height:15px;border-radius:50%;background:#f5fbff;border:2px solid rgba(255,255,255,.65);box-shadow:0 0 9px #fff,0 0 20px #8b72ff,0 0 32px rgba(32,217,255,.55);z-index:8;}
+#focusOverlay.stopwatch-mode{--focus-ring-a:#36f1a3;--focus-ring-b:#20d9ff;--focus-ring-c:#7b5cff;}
+#focusOverlay.stopwatch-mode .focus-clock .clock-dot{background:#ecfff8;box-shadow:0 0 12px #36f1a3,0 0 22px rgba(54,241,163,.45);}
+#focusOverlay .focus-clock-number-outside{margin-top:8px;font-size:clamp(42px,5.2vw,74px);font-weight:900;letter-spacing:.04em;line-height:1;text-shadow:0 0 18px rgba(95,180,255,.28);font-variant-numeric:tabular-nums;}
+#focusOverlay .focus-subtitle{margin-top:8px;}
+@media(max-width:1050px){#focusOverlay .focus-clock-wrap{width:min(380px,39vw);}}
+@media(max-width:800px){#focusOverlay .focus-clock-wrap{width:min(340px,68vw);}#focusOverlay .focus-clock{inset:20px;}#focusOverlay .focus-clock .minute-label{font-size:9px;}#focusOverlay .focus-clock .minute-label.major-minute{font-size:10px;}}
+@media(max-width:520px){#focusOverlay .focus-clock-wrap{width:min(310px,82vw);}#focusOverlay .focus-clock-number-outside{font-size:42px;}}
+@media(prefers-reduced-motion:reduce){#focusOverlay .focus-clock-wrap::before{transition:none!important;}}
+</style>
+<script>
+/* V48 — keep the visual progress synchronized and remove stale clock artifacts */
+(function focusClockV48(){
+  const overlay=document.getElementById('focusOverlay');
+  if(!overlay) return;
+  const sync=()=>{
+    const raw=parseFloat(getComputedStyle(overlay).getPropertyValue('--focus-progress'))||0;
+    const pct=Math.max(0,Math.min(100,raw));
+    overlay.style.setProperty('--focus-progress-angle',(pct*3.6)+'deg');
+  };
+  sync();
+  window.addEventListener('resize',sync,{passive:true});
+})();
 </script>
 </body>
 </html>
