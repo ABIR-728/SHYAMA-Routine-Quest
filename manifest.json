@@ -1,13 +1,13 @@
 {
-  "name": "SHYAMA Routine Quest",
-  "short_name": "SHYAMA",
-  "description": "Personal routine tracker \u2014 XP, streaks, checklist, proof-based study and workout completion, timer and history.",
+  "name": "Perihelion",
+  "short_name": "Perihelion",
+  "description": "Personal routine tracker — XP, streaks, checklist, proof-based study and workout completion, timer and history.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#050711",
-  "theme_color": "#050711",
+  "background_color": "#17344f",
+  "theme_color": "#17344f",
   "icons": [
     {
       "src": "icons/icon-72.png",

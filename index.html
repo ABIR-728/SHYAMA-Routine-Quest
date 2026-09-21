@@ -3,14 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="perihelion-ai-ui" content="V72 ChatGPT-style text + LaTeX renderer">
 <meta name="theme-color" content="#040a14">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="SHYAMA">
-<title>SHYAMA · Routine Quest</title>
+<meta name="apple-mobile-web-app-title" content="Perihelion">
+<title>Perihelion</title>
+<script>
+window.MathJax={tex:{inlineMath:[["\\(","\\)"],["$","$"]],displayMath:[["\\[","\\]"],["$$","$$"]],processEscapes:true},options:{skipHtmlTags:["script","noscript","style","textarea","pre","code"]},startup:{typeset:false}};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/shyama-logo.png">
-<link rel="apple-touch-icon" href="icons/shyama-logo.png">
+<link rel="icon" href="icons/perihelion-logo.png">
+<link rel="apple-touch-icon" href="icons/perihelion-logo.png">
 <style>
 :root{
   --bg:#040a14; --panel:#071321; --border:#173957; --accent:#20dcff;
@@ -345,6 +352,8 @@ body.theme-historical .panel{box-shadow:0 10px 25px rgba(0,0,0,.30),inset 0 1px 
 .settings-theme-switch .theme-choice:not(.primary){background:transparent;box-shadow:none;animation:none;}
 body.theme-light .settings-theme-panel{background:rgba(255,255,255,.76);border-color:rgba(30,70,105,.14);}
 body.theme-light .settings-theme-switch{background:rgba(30,70,105,.06);border-color:rgba(30,70,105,.12);}
+
+.settings-topic-page{display:none}.settings-topic-page.open{display:block}; .settings-subpage{display:none}.settings-subpage.open{display:block}.settings-subpage .settings-function-panel{display:block!important}.settings-folder-back{min-height:38px}.settings-subpage .settings-folder-intro{margin-bottom:10px}.settings-topic-page-head{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:4px 2px}.settings-topic-page-head .eyebrow{margin-left:auto}.settings-function-panel{margin-bottom:14px}.settings-function-panel.in-topic-page{margin-bottom:0}.settings-topic-page .settings-function-panel{display:block!important}.settings-topic-page .panel,.settings-topic-page .task-notify-panel{margin-top:0}.settings-folder-intro{padding:14px 2px 4px}.settings-folder-intro h2{margin:2px 0 5px;font-size:20px}.settings-folder-intro p{margin:0;color:#9fb3d0;font-size:12px;line-height:1.55}
 @media(max-width:520px){
   .settings-theme-panel{align-items:flex-start;flex-direction:column;}
   .settings-theme-switch{width:100%;}
@@ -492,7 +501,7 @@ nav.tabs button{flex:1;width:auto;min-height:0;}
 </style>
 
 <style id="shyama-v17-vibe">
-/* SHYAMA V17 — logo-driven neon/cosmic visual system */
+/* Perihelion V17 — logo-driven neon/cosmic visual system */
 :root{
   --bg:#050711;--panel:#091224;--border:#213a61;--accent:#35e7ff;
   --text:#eef6ff;--muted:#91a5c4;--danger:#ff5d87;--good:#43e6aa;--warn:#ffd35a;
@@ -509,6 +518,9 @@ body{
 .top{padding:8px 10px;border:1px solid rgba(91,155,230,.22);border-radius:18px;background:linear-gradient(135deg,rgba(10,21,39,.84),rgba(7,11,24,.68));box-shadow:0 14px 38px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.07);backdrop-filter:blur(18px) saturate(140%);}
 .brand-vibe{flex-direction:row;align-items:center;gap:10px;min-width:0;}
 .brand-logo{width:48px;height:48px;object-fit:contain;border-radius:50%;filter:drop-shadow(0 0 9px rgba(53,231,255,.42)) drop-shadow(0 0 13px rgba(255,79,216,.24));}
+.brand-logo-frame{width:48px;height:48px;flex:0 0 48px;border-radius:50%;overflow:hidden;display:block;box-shadow:0 0 12px rgba(53,231,255,.18);}
+.brand-logo-frame .brand-logo{width:100%;height:100%;object-fit:contain;border-radius:0;transform:scale(2.08);transform-origin:50% 44.4%;filter:none;}
+
 .brand-copy{display:flex;flex-direction:column;min-width:0;}
 .brand .name{font-size:23px;letter-spacing:4px;background:linear-gradient(90deg,#35e7ff 0%,#75dfff 43%,#ff62df 72%,#ffd35a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;animation:none;}
 .brand .sub{letter-spacing:1.6px;font-size:8px;}
@@ -552,7 +564,7 @@ nav.tabs button.active .ic{filter:drop-shadow(0 0 5px #35e7ff) drop-shadow(0 0 8
 .current-time{background:linear-gradient(90deg,#35e7ff,#ff65db);-webkit-background-clip:text;background-clip:text;color:transparent;}
 .music-panel{border-color:rgba(30,215,96,.25);}
 .media-folder,.task-folder{background:rgba(7,15,30,.48);border-color:rgba(91,155,230,.20);}
-/* Light mode: same SHYAMA identity, brighter glass */
+/* Light mode: same Perihelion identity, brighter glass */
 body.theme-light{
  --bg:#f5f3fb;--panel:#ffffff;--border:#d8cce8;--accent:#087fa8;--text:#172033;--muted:#68748c;--danger:#c43d62;--good:#16845f;--warn:#9a6900;
  background:
@@ -629,13 +641,13 @@ body{background:radial-gradient(circle at 50% -20%,rgba(231,184,92,.06),transpar
 .shy-challenge-row{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}.shy-challenge-row .challenge-card{margin:0;min-height:122px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:10px 6px;background:#0b1113;border:1px solid rgba(255,255,255,.14)}.shy-challenge-row .challenge-main{width:100%}.shy-challenge-row .challenge-badge{width:34px;height:34px;margin:0 auto 6px;font-size:18px}.shy-challenge-row .challenge-main .row{display:block}.shy-challenge-row .challenge-main b{font-family:Georgia,"Times New Roman",serif;font-size:16px;display:block}.shy-challenge-row .challenge-state{font-size:11px;display:block;margin-top:3px}.shy-challenge-row .reward-bar{margin-top:8px}.shy-challenge-row .challenge-status{font-size:9px;line-height:1.2}.shy-challenge-row .challenge-next,.shy-challenge-row .challenge-complete{grid-column:1/-1;text-align:center;margin-top:5px}.shy-inspiration .inspiration-grid{grid-template-columns:repeat(5,1fr);gap:12px;margin-top:0}.shy-inspiration .inspiration-grid img{aspect-ratio:4/5;height:auto;object-fit:contain;background:#080c0d;border:1px solid rgba(255,255,255,.12);border-radius:13px}.home-secondary,.current-datetime-panel{display:none!important}
 nav.tabs{background:rgba(6,10,11,.96);border-top:1px solid rgba(255,255,255,.10);box-shadow:0 -10px 30px rgba(0,0,0,.35);padding:8px 12px calc(8px + env(safe-area-inset-bottom))}nav.tabs button{font-family:Georgia,"Times New Roman",serif;font-size:12px;color:#aaa7a0;gap:5px;padding:7px 3px}nav.tabs button.active{color:var(--shy-gold);background:transparent}nav.tabs button.active .ic{filter:none}
 body.theme-light{background:#f2eee7;color:#211f1a}body.theme-light .shy-hero .layer{background-color:#e9e4da}body.theme-light .shy-quote-bar,body.theme-light .shy-quick,body.theme-light .shy-challenges,body.theme-light .shy-inspiration{background:rgba(255,255,255,.82);border-color:rgba(0,0,0,.12)}body.theme-light #homeCards .card{background:#fff;border-color:rgba(0,0,0,.10)}body.theme-light nav.tabs{background:rgba(255,255,255,.94);border-top-color:rgba(0,0,0,.12)}
-@media(max-width:800px){.app{padding:6px 10px 96px}.top{padding:5px 4px 10px}.brand-logo{width:40px;height:40px}.brand .name{font-size:26px;letter-spacing:4px}.brand .sub{font-size:7px;letter-spacing:2px}.shy-date-pill{min-width:140px;padding:7px 10px}.shy-date-pill .date{font-size:10px}.shy-date-pill .time{font-size:12px}.shy-profile{width:40px;height:40px}.shy-hero{aspect-ratio:16/8.2}.shy-hero .overlay{padding:14px 16px}.shy-hero .eyebrow{font-size:18px}.shy-hero .quote-wrap{width:55%}.shy-hero .quote{font-size:16px}.shy-quote-bar .q{font-size:15px}.shy-actions{grid-template-columns:repeat(3,1fr)}.shy-challenge-row{grid-template-columns:repeat(4,1fr)}.challenge-rules{grid-template-columns:repeat(4,1fr)}.challenge-page-list{grid-template-columns:1fr}.shy-inspiration .inspiration-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:480px){.app{padding:5px 8px 94px}.brand .name{font-size:22px;letter-spacing:3px}.brand .sub{display:none}.shy-date-pill{min-width:105px;padding:6px}.shy-date-pill .date{font-size:8px}.shy-date-pill .time{font-size:10px}.shy-profile{width:36px;height:36px}.shy-hero{aspect-ratio:4/3.15}.shy-hero .quote-wrap{width:60%}.shy-hero .quote{font-size:14px}.shy-hero .eyebrow{font-size:15px}.shy-hero .refresh,.shy-next{width:38px;height:38px;font-size:21px}.shy-quote-bar{padding:12px 14px}.shy-quote-bar .q{font-size:13px}.shy-view{padding:8px 11px;font-size:10px}.shy-actions{gap:8px}.shy-action{min-height:90px;font-size:12px}.shy-action .aicon{font-size:27px}.shy-challenge-row{grid-template-columns:repeat(2,1fr)}.challenge-rules{grid-template-columns:repeat(4,1fr)}.shy-inspiration .inspiration-grid{grid-template-columns:repeat(2,1fr)}nav.tabs button{font-size:9px}.shy-section-head h3{font-size:18px}.shy-section-head span{font-size:11px}}
+@media(max-width:800px){.app{padding:6px 10px 96px}.top{padding:5px 4px 10px}.brand-logo-frame{width:40px;height:40px;flex-basis:40px}.brand-logo{width:40px;height:40px}.brand .name{font-size:26px;letter-spacing:4px}.brand .sub{font-size:7px;letter-spacing:2px}.shy-date-pill{min-width:140px;padding:7px 10px}.shy-date-pill .date{font-size:10px}.shy-date-pill .time{font-size:12px}.shy-profile{width:40px;height:40px}.shy-hero{aspect-ratio:16/8.2}.shy-hero .overlay{padding:14px 16px}.shy-hero .eyebrow{font-size:18px}.shy-hero .quote-wrap{width:55%}.shy-hero .quote{font-size:16px}.shy-quote-bar .q{font-size:15px}.shy-actions{grid-template-columns:repeat(3,1fr)}.shy-challenge-row{grid-template-columns:repeat(4,1fr)}.challenge-rules{grid-template-columns:repeat(4,1fr)}.challenge-page-list{grid-template-columns:1fr}.shy-inspiration .inspiration-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.app{padding:5px 8px 94px}.brand-logo-frame{width:36px;height:36px;flex-basis:36px}.brand .name{font-size:22px;letter-spacing:3px}.brand .sub{display:none}.shy-date-pill{min-width:105px;padding:6px}.shy-date-pill .date{font-size:8px}.shy-date-pill .time{font-size:10px}.shy-profile{width:36px;height:36px}.shy-hero{aspect-ratio:4/3.15}.shy-hero .quote-wrap{width:60%}.shy-hero .quote{font-size:14px}.shy-hero .eyebrow{font-size:15px}.shy-hero .refresh,.shy-next{width:38px;height:38px;font-size:21px}.shy-quote-bar{padding:12px 14px}.shy-quote-bar .q{font-size:13px}.shy-view{padding:8px 11px;font-size:10px}.shy-actions{gap:8px}.shy-action{min-height:90px;font-size:12px}.shy-action .aicon{font-size:27px}.shy-challenge-row{grid-template-columns:repeat(2,1fr)}.challenge-rules{grid-template-columns:repeat(4,1fr)}.shy-inspiration .inspiration-grid{grid-template-columns:repeat(2,1fr)}nav.tabs button{font-size:9px}.shy-section-head h3{font-size:18px}.shy-section-head span{font-size:11px}}
 </style>
 
 
 <style id="shyama-v29-all-pages-dark">
-/* V29 — make every non-home page match the dark SHYAMA home surface */
+/* V29 — make every non-home page match the dark Perihelion home surface */
 body.theme-glass .page{
   background:transparent;
   color:var(--text);
@@ -1201,9 +1213,13 @@ body.theme-light .page button.primary,body.theme-light .primary{background:linea
 .focus-right{justify-content:center;}.focus-panel-block,.focus-spotify{border:1px solid rgba(98,177,255,.18);border-radius:20px;padding:14px;background:linear-gradient(135deg,rgba(12,35,77,.58),rgba(46,21,82,.56));}.focus-block-head{display:flex;gap:9px;align-items:center;margin-bottom:11px}.focus-block-head>span{font-size:21px;color:#d8e8ff}.focus-block-head h3{margin:0;color:#eef5ff;font-size:15px}.focus-block-head small{color:#8fa9ce;font-size:9px}.focus-duration-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.focus-duration-grid button{min-width:0!important;padding:10px 4px!important;border-radius:13px!important;font-size:20px;font-weight:900;background:linear-gradient(135deg,rgba(20,94,164,.75),rgba(42,65,160,.65))!important;border:1px solid rgba(95,184,255,.25)!important;color:#fff!important}.focus-duration-grid button:nth-child(2){background:linear-gradient(135deg,#8b4dff,#bd49d9)!important}.focus-duration-grid button:nth-child(3){background:linear-gradient(135deg,#c75a38,#975044)!important}.focus-duration-grid button:nth-child(4){background:linear-gradient(135deg,#168e77,#087f63)!important}.focus-duration-grid button.active{box-shadow:0 0 0 2px rgba(255,255,255,.7) inset,0 0 20px rgba(126,92,255,.3)!important}.focus-duration-grid small{display:block;font-size:9px;font-weight:700;color:#e7eefb;margin-top:1px}
 .focus-bg-options{display:grid!important;grid-template-columns:repeat(5,1fr);gap:6px!important;margin-top:0!important}.focus-bg-options button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:0!important;background:transparent!important;border:0!important;color:#9eb6d7!important;font-size:8px!important;min-width:0!important}.focus-bg-options button.active{color:#fff!important;box-shadow:none!important}.bg-swatch{width:52px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.2);display:block;box-shadow:inset 0 0 16px rgba(255,255,255,.07)}.bg-swatch.aurora{background:radial-gradient(circle at 60% 35%,#49f1ff,#7a40e9 50%,#09172e)}.bg-swatch.ocean{background:linear-gradient(145deg,#0d77a5,#50d7ff 52%,#09253d)}.bg-swatch.forest{background:linear-gradient(145deg,#173e31,#2d8a5d 50%,#081c20)}.bg-swatch.sunset{background:linear-gradient(145deg,#ff9d4d,#d94b73 52%,#211b48)}.bg-swatch.moon{background:linear-gradient(145deg,#344b80,#11182e 52%,#080d1b)}.focus-bg-options button.active .bg-swatch{box-shadow:0 0 0 2px #35e7ff,0 0 18px rgba(53,231,255,.28)}
 .focus-spotify{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:10px;margin-top:0!important}.spotify-focus-icon .spotify-logo{width:46px;height:46px}.spotify-focus-icon .spotify-logo svg{width:29px;height:29px}.focus-spotify b{display:block;color:#f4f8ff;font-size:14px}.focus-spotify small{display:block;color:#94acce;font-size:9px;margin-top:3px}.focus-spotify a{padding:10px 13px!important;background:#18d76f!important;color:#03210f!important;border:0!important;font-size:10px!important;border-radius:999px!important;white-space:nowrap;}
-.focus-overlay.stopwatch-mode .focus-clock-wrap::before{background:conic-gradient(from -90deg,#ff46b5,#8c50ff,#20d9ff,#ff46b5)!important;animation:focusStopGlow 4s linear infinite}.focus-overlay.stopwatch-mode .focus-duration-block{opacity:.45}.focus-overlay.stopwatch-mode .focus-duration-block:after{content:"Stopwatch mode active";display:block;color:#b9c9e5;font-size:9px;margin-top:8px}.focus-overlay.minimized .focus-grid{display:block}.focus-overlay.minimized .focus-stage{width:340px!important;height:auto!important;padding:48px 12px 12px!important}.focus-overlay.minimized .focus-side,.focus-overlay.minimized .focus-right{display:none}.focus-overlay.minimized .focus-center{display:flex}.focus-overlay.minimized .focus-clock-wrap{width:190px!important;height:190px!important}.focus-overlay.minimized .focus-subtitle,.focus-overlay.minimized .focus-mode-switch,.focus-overlay.minimized .focus-caption{display:none}.focus-overlay.minimized .focus-controls{margin-top:6px}.focus-overlay.minimized .focus-controls #focusResetBtn{display:none}.focus-overlay.minimized .focus-controls .focus-main-start{min-width:100px!important;font-size:11px!important;padding:8px 13px!important}
+.focus-overlay.stopwatch-mode .focus-clock-wrap::before{background:conic-gradient(from -90deg,#ff46b5,#8c50ff,#20d9ff,#ff46b5)!important;animation:focusStopGlow 4s linear infinite}.focus-overlay.stopwatch-mode .focus-duration-block{opacity:.45}.focus-overlay.stopwatch-mode .focus-duration-block:after{content:"Stopwatch mode active";display:block;color:#b9c9e5;font-size:9px;margin-top:8px}.focus-overlay.minimized .focus-grid{display:block}.focus-overlay.minimized .focus-stage{width:340px!important;height:auto!important;padding:48px 12px 12px!important}.focus-overlay.minimized .focus-side,.focus-overlay.minimized .focus-right{display:none}.focus-overlay.minimized .focus-center{display:flex}.focus-overlay.minimized .focus-clock-wrap{width:190px!important;height:190px!important}.focus-overlay.minimized .focus-subtitle,.focus-overlay.minimized .focus-mode-switch,.focus-overlay.minimized .focus-mobile-mode-switch,.focus-overlay.minimized .focus-caption{display:none}.focus-overlay.minimized .focus-controls{margin-top:6px}.focus-overlay.minimized .focus-controls #focusResetBtn{display:none}.focus-overlay.minimized .focus-controls .focus-main-start{min-width:100px!important;font-size:11px!important;padding:8px 13px!important}
 @keyframes focusStopGlow{to{transform:rotate(360deg)}}
-@media(max-width:980px){.focus-grid{grid-template-columns:1fr 1.2fr!important;grid-template-rows:auto auto}.focus-left{display:none}.focus-right{grid-column:1/-1;flex-direction:row;align-items:stretch;overflow:auto}.focus-panel-block,.focus-spotify{min-width:240px}.focus-clock-wrap{width:min(430px,42vw,48vh)!important;height:min(430px,42vw,48vh)!important}.focus-stage{height:calc(100vh - 24px)!important;padding-top:58px!important;}}
+.focus-mobile-mode-switch{display:none;align-items:center;justify-content:center;gap:8px;margin:0 auto 12px;width:min(360px,92vw);padding:5px;border:1px solid rgba(111,205,255,.28);border-radius:14px;background:rgba(8,18,42,.68);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 24px rgba(0,0,0,.14);}
+.focus-mobile-mode-switch button{flex:1;border:1px solid transparent;border-radius:10px;padding:10px 12px;background:transparent;color:#aebed9;font-size:13px;font-weight:800;cursor:pointer;transition:.18s ease;}
+.focus-mobile-mode-switch button.active{color:#fff;background:linear-gradient(135deg,#8d3cff,#d83cff 50%,#18bfff);border-color:rgba(255,255,255,.3);box-shadow:0 6px 18px rgba(151,64,255,.28);}
+.focus-mobile-mode-switch button:active{transform:scale(.98);}
+@media(max-width:980px){.focus-mobile-mode-switch{display:flex}.focus-grid{grid-template-columns:1fr 1.2fr!important;grid-template-rows:auto auto}.focus-left{display:none}.focus-right{grid-column:1/-1;flex-direction:row;align-items:stretch;overflow:auto}.focus-panel-block,.focus-spotify{min-width:240px}.focus-clock-wrap{width:min(430px,42vw,48vh)!important;height:min(430px,42vw,48vh)!important}.focus-stage{height:calc(100vh - 24px)!important;padding-top:58px!important;}}
 @media(max-width:650px){.focus-stage{width:calc(100vw - 12px)!important;height:calc(100vh - 12px)!important;padding:52px 10px 10px!important;border-radius:22px!important}.focus-grid{display:flex!important;flex-direction:column!important;overflow:auto!important;justify-content:flex-start!important;gap:8px}.focus-center{order:1}.focus-right{order:2;width:100%;flex-direction:column!important;overflow:visible!important}.focus-clock-wrap{width:min(76vw,340px)!important;height:min(76vw,340px)!important}.focus-panel-block,.focus-spotify{min-width:0;width:100%;box-sizing:border-box}.focus-bg-options{grid-template-columns:repeat(5,1fr)!important}.bg-swatch{width:48px;height:40px}.focus-topbar{left:12px!important;right:12px!important}.focus-brand-name{font-size:14px}.focus-title{display:none}.focus-window-actions button{min-width:34px!important;padding:6px!important}.focus-overlay.minimized .focus-stage{width:calc(100vw - 30px)!important}.focus-overlay.minimized .focus-grid{overflow:visible!important}.focus-overlay.minimized .focus-right{display:none!important}}
 </style>
 <style id="shyama-v41-focus-clock-global-themes">
@@ -1371,12 +1387,232 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
 .shy-actions .shy-action{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.22)!important;color:#f7fbff!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 10px 24px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important}.shy-actions .shy-action:before{content:"";position:absolute;inset:-45% auto auto -20%;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.14);filter:blur(18px);pointer-events:none}.shy-actions .shy-action .aicon,.shy-actions .shy-action>span:last-child{position:relative;z-index:1}.shy-actions .shy-action.blue{background:linear-gradient(135deg,#1769ff,#4d42e8 52%,#7926c8)!important;border-color:rgba(113,188,255,.55)!important}.shy-actions .shy-action.green{background:linear-gradient(135deg,#00a878,#13c98b 48%,#27e7a4)!important;border-color:rgba(102,255,201,.55)!important}.shy-actions .shy-action.purple{background:linear-gradient(135deg,#6336dc,#8c42ef 50%,#c33bdb)!important;border-color:rgba(214,155,255,.55)!important}.shy-actions .shy-action.red{background:linear-gradient(135deg,#e33b68,#ff5269 48%,#ff8054)!important;border-color:rgba(255,170,151,.55)!important}.shy-actions .shy-action.teal{background:linear-gradient(135deg,#007f9e,#00b9c8 50%,#20d9ff)!important;border-color:rgba(101,239,255,.55)!important}.shy-actions .shy-action.cyan{background:linear-gradient(135deg,#087fbe,#1aa7df 50%,#3c68ff)!important;border-color:rgba(116,210,255,.55)!important}.shy-actions .shy-action:hover{transform:translateY(-3px)!important;box-shadow:0 14px 34px rgba(41,129,255,.22),inset 0 1px 0 rgba(255,255,255,.12)!important}.task-notify-panel{background:linear-gradient(135deg,rgba(11,26,65,.94),rgba(37,20,72,.90),rgba(8,52,65,.88));border:1px solid rgba(85,190,255,.28);border-radius:16px;padding:14px;margin-bottom:14px;box-shadow:0 12px 30px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.05)}.task-notify-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.task-notify-head h3{margin:0;font-size:15px}.task-notify-head p{margin:4px 0 0;font-size:11px;color:#9eb2d1}.task-notify-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}.task-notify-toggle{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800}.task-notify-toggle input{accent-color:#20d9ff}.task-notify-controls select{min-width:120px}.notify-status{font-size:10px;color:#9eb2d1;margin-top:8px}.notify-status.ok{color:#55e7ae}.notify-status.warn{color:#ffc85c}.notify-permission-btn{background:linear-gradient(90deg,#20d9ff,#8c42ef)!important;color:#fff!important;border:0!important}
 .notify-grid{display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));align-items:center}.notify-actions button{font-size:11px}.notify-permission-line{margin-top:9px;font-size:11px;color:#9eb2d1}.notify-permission-line b{color:#55e7ae}.notify-permission-line b.blocked{color:#ff7087}.notify-note{font-size:10px;line-height:1.45;margin-top:7px}.task-notify-panel select{background:rgba(8,16,40,.85);color:#f7fbff;border:1px solid rgba(85,190,255,.25);border-radius:9px;padding:6px 8px}@media(max-width:700px){.notify-grid{grid-template-columns:1fr}}
 </style>
+
+<style id="shyama-v52-stats-ai-settings">
+/* V52 — mobile-safe statistics, Perihelion AI, clickable Settings topics */
+#page-stats .stats-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#page-stats .stats-graph-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+#page-stats .stats-main-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+#page-stats .stats-history-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+#statsCards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}
+#statsCards .card{min-width:0}
+.trend-graph{width:100%;min-height:180px;overflow:hidden}
+.trend-graph svg{display:block;width:100%;height:190px}
+.stats-empty{padding:28px 12px;text-align:center;color:var(--muted);font-size:12px}
+
+.shy-ai-card{margin-top:16px;display:flex;align-items:center;gap:14px;padding:15px;border:1px solid rgba(98,175,255,.28);border-radius:18px;background:linear-gradient(135deg,rgba(12,27,67,.96),rgba(42,18,77,.92),rgba(8,55,68,.9));box-shadow:0 14px 34px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06)}
+.shy-ai-logo-wrap{width:58px;height:58px;flex:0 0 58px;border-radius:18px;padding:0;overflow:hidden;background:linear-gradient(135deg,#20d9ff,#8b5cf6,#ff46b5);box-shadow:0 0 25px rgba(32,217,255,.18)}
+.shy-ai-logo{width:100%;height:100%;display:block;object-fit:contain;border-radius:0;background:#060c1b;transform:scale(2.08);transform-origin:50% 44.4%}
+.shy-ai-copy{min-width:0;flex:1}.shy-ai-copy h3{margin:2px 0 4px;font-size:15px}.shy-ai-copy p{margin:0;color:#aabbd6;font-size:11px;line-height:1.45}.shy-ai-card .primary{white-space:nowrap}
+.shy-ai-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:flex-end;justify-content:center;padding:18px;background:rgba(1,5,16,.72);backdrop-filter:blur(10px)}
+.shy-ai-modal.open{display:flex}.shy-ai-window{width:min(620px,100%);max-height:min(760px,92vh);display:flex;flex-direction:column;overflow:hidden;border:1px solid rgba(111,190,255,.3);border-radius:24px;background:linear-gradient(145deg,#081329,#160d2c 55%,#08202a);box-shadow:0 25px 80px rgba(0,0,0,.55)}
+.shy-ai-head{display:flex;align-items:center;gap:10px;padding:14px;border-bottom:1px solid rgba(255,255,255,.08)}.shy-ai-head img{width:40px;height:40px;border-radius:12px}.shy-ai-head .ai-title{flex:1}.shy-ai-head b{display:block}.shy-ai-head span{font-size:10px;color:#8fa7c7}.shy-ai-messages{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:9px;min-height:220px}.shy-ai-msg{max-width:86%;padding:9px 11px;border-radius:14px;font-size:12px;line-height:1.5;white-space:pre-wrap}.shy-ai-msg.bot{align-self:flex-start;background:rgba(42,75,130,.32);border:1px solid rgba(89,175,255,.15)}.shy-ai-msg.user{align-self:flex-end;background:linear-gradient(135deg,#6336dc,#1b8bd4);color:white}.shy-ai-suggestions{display:flex;gap:6px;overflow:auto;padding:0 14px 9px}.shy-ai-suggestions button{white-space:nowrap;font-size:10px;padding:7px 9px}.shy-ai-input{display:flex;gap:7px;padding:10px 14px 14px;border-top:1px solid rgba(255,255,255,.08)}.shy-ai-input input{flex:1;min-width:0}.shy-ai-input button{flex:0 0 auto}.shy-ai-external{text-align:center;padding:0 14px 12px;font-size:10px}.shy-ai-external a{color:#59dcff}
+
+.settings-topics{margin-bottom:14px}.settings-topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}.settings-topic{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px;border-radius:14px;border:1px solid rgba(106,174,255,.16);background:linear-gradient(135deg,rgba(18,33,70,.8),rgba(41,20,67,.7));color:#eef4ff;cursor:pointer}.settings-topic:hover{border-color:rgba(70,218,255,.45);transform:translateY(-1px)}.settings-topic-icon{font-size:20px}.settings-topic-copy{min-width:0}.settings-topic-copy b{display:block;font-size:12px}.settings-topic-copy span{display:block;margin-top:2px;font-size:10px;color:#9bb0ce}.settings-topic-arrow{margin-left:auto;color:#6edcff}
+.settings-topic-modal{position:fixed;inset:0;z-index:990;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(1,5,16,.72);backdrop-filter:blur(9px)}.settings-topic-modal.open{display:flex}.settings-topic-window{width:min(920px,100%);height:min(88vh,900px);max-height:92vh;overflow:auto;padding:20px;border-radius:22px;border:1px solid rgba(104,187,255,.28);background:linear-gradient(145deg,#081329,#180e30);box-shadow:0 25px 70px rgba(0,0,0,.5)}.settings-topic-window h2{margin:4px 0 8px;font-size:20px}.settings-topic-window .topic-body{color:#aabbd6;font-size:12px;line-height:1.65}.settings-topic-window .topic-body ul{padding-left:19px}.settings-topic-window .topic-body li{margin:6px 0}
+@media(max-width:800px){#page-stats .stats-graph-grid,#page-stats .stats-main-grid,#page-stats .stats-history-grid{grid-template-columns:1fr}#statsCards{grid-template-columns:repeat(2,minmax(0,1fr))}.trend-graph{min-height:150px}.trend-graph svg{height:165px}.shy-ai-card{align-items:flex-start;flex-wrap:wrap}.shy-ai-card .primary{width:100%}}
+@media(max-width:520px){#statsCards{gap:8px}#statsCards .card{padding:10px 8px}.settings-topic-grid{grid-template-columns:1fr}.shy-ai-card{padding:12px}.shy-ai-logo-wrap{width:48px;height:48px;flex-basis:48px}}
+</style>
+
+<style id="shyama-v59-settings-theme-match">
+/* V59: keep the V58 reference layout, but restore Perihelion's existing gradient/glass visual language. */
+#page-settings{
+  background:
+    radial-gradient(900px 500px at 8% -8%,rgba(53,231,255,.14),transparent 60%),
+    radial-gradient(800px 500px at 100% 0%,rgba(139,92,246,.18),transparent 58%),
+    radial-gradient(900px 600px at 70% 100%,rgba(255,79,216,.11),transparent 62%),
+    linear-gradient(135deg,var(--v37-bg-a),var(--v37-bg-b) 52%,var(--v37-bg-c))!important;
+  color:var(--text)!important;
+}
+#page-settings .settings-page-title h1,#page-settings .settings-folder-header h1{
+  background:linear-gradient(90deg,#e7fbff,#9eeaff 35%,#c4b5fd 70%,#f9a8d4);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+#page-settings .settings-page-title p,#page-settings .settings-folder-description{color:var(--muted)!important}
+#page-settings .settings-section-label,#page-settings .settings-folder-header .settings-section-label{color:#67e8f9!important}
+#page-settings .settings-list-group,#page-settings .settings-detail-group{
+  background:var(--v37-card)!important;
+  border:1px solid var(--v37-line)!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 28px rgba(139,92,246,.035)!important;
+}
+#page-settings .settings-list-row,#page-settings .settings-info-row{
+  background:linear-gradient(135deg,rgba(16,25,52,.94),rgba(42,20,62,.86) 52%,rgba(8,42,55,.82))!important;
+  color:var(--text)!important;
+  border-bottom:1px solid var(--v37-line)!important;
+}
+#page-settings .settings-list-row:active{background:linear-gradient(135deg,rgba(24,42,70,.98),rgba(68,34,92,.9))!important}
+#page-settings .settings-row-icon{background:rgba(53,231,255,.08);border:1px solid rgba(112,180,255,.12);color:#67e8f9}
+#page-settings .settings-row-copy b{color:#eef7ff!important}
+#page-settings .settings-row-copy small{color:#8fa8c3!important}
+#page-settings .settings-row-chevron{color:#67e8f9!important;text-shadow:0 0 10px rgba(53,231,255,.25)}
+#page-settings .settings-back-button{
+  background:linear-gradient(135deg,rgba(24,42,70,.92),rgba(55,28,76,.82))!important;
+  border:1px solid var(--v37-line)!important;color:#fff!important;
+  box-shadow:0 8px 22px rgba(124,58,237,.18)!important;
+}
+#page-settings .settings-theme-panel{background:var(--v37-card)!important;color:var(--text)!important}
+#page-settings .settings-detail-title{border-bottom:1px solid var(--v37-line);color:#eef7ff}
+#page-settings .settings-detail-note,#page-settings .settings-status-line{color:#8fa8c3!important;border-color:var(--v37-line)!important}
+#page-settings .settings-field,#page-settings .settings-toggle-line,#page-settings .settings-action-row{border-color:var(--v37-line)!important;color:#dcecff}
+#page-settings .settings-field>span{color:#8fa8c3!important}
+#page-settings .settings-field input,#page-settings .settings-field select{
+  background:linear-gradient(135deg,rgba(9,20,38,.94),rgba(39,22,58,.88))!important;
+  color:#eef7ff!important;border:1px solid rgba(112,180,255,.25)!important;
+}
+#page-settings .settings-primary-row{background:linear-gradient(135deg,rgba(16,25,52,.94),rgba(42,20,62,.86) 52%,rgba(8,42,55,.82))!important;border-bottom:1px solid var(--v37-line);color:#eef7ff}
+#page-settings .settings-primary-row small{color:#8fa8c3!important}
+</style>
+
+<style id="shyama-v61-ai">
+.ai-status-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;font-size:10px;font-weight:800;border:1px solid rgba(106,174,255,.2);background:rgba(106,174,255,.07);color:#9fb3d0}.ai-status-dot{width:7px;height:7px;border-radius:50%;background:#7890aa}.ai-status-dot.ok{background:#33e39a;box-shadow:0 0 8px rgba(51,227,154,.6)}.ai-status-dot.warn{background:#ffb020;box-shadow:0 0 8px rgba(255,176,32,.45)}
+.shy-ai-config-note{font-size:11px;line-height:1.55;color:var(--muted);margin:0 0 12px}.shy-ai-config-code{display:block;padding:9px 10px;border-radius:10px;background:rgba(0,0,0,.22);border:1px solid var(--v37-line);font:10px ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere;color:#bfeaff}.shy-ai-test-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.shy-ai-test-row button{min-height:40px}.shy-ai-model-line{font-size:10px;color:var(--muted);margin-top:8px}
+.shy-ai-head .ai-title .ai-provider{display:block;font-size:9px;color:#63e6ff;margin-top:2px;text-transform:uppercase;letter-spacing:.8px}
+</style>
+<style id="shyama-v65-ai-ui">
+/* V65 — ChatGPT-like Perihelion AI workspace, preserving Perihelion visual language */
+#shyamaAIFloatingLauncher{position:fixed;overflow:hidden;right:18px;bottom:88px;z-index:99990;width:58px;height:58px;border:1px solid rgba(103,232,249,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(16,31,61,.96),rgba(86,25,91,.96));box-shadow:0 10px 30px rgba(0,0,0,.42),0 0 24px rgba(53,231,255,.22);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;backdrop-filter:blur(14px)}
+#shyamaAIFloatingLauncher:active{cursor:grabbing;transform:scale(.97)}
+#shyamaAIFloatingLauncher img{width:39px;height:39px;object-fit:contain;border-radius:50%;pointer-events:none;transform:scale(2.08);transform-origin:50% 44.4%}.shyama-ai-fab-label{position:absolute;z-index:4;right:0;bottom:-19px;font-size:8px;font-weight:900;letter-spacing:.7px;color:#9deeff;white-space:nowrap;pointer-events:none;text-shadow:0 2px 8px #000}
+#shyamaAIFloatingLauncher .ai-pulse{z-index:3;position:absolute;right:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#67f5cf;border:2px solid #11182a;box-shadow:0 0 10px rgba(103,245,207,.8)}
+.shy-ai-modal{padding:0!important;align-items:stretch!important;justify-content:stretch!important;background:rgba(1,5,16,.78)!important;backdrop-filter:blur(12px)!important}
+.shy-ai-window.v65{width:100vw!important;height:100dvh!important;max-height:none!important;border:0!important;border-radius:0!important;background:linear-gradient(145deg,#071126 0%,#100d27 52%,#061d28 100%)!important;box-shadow:none!important;display:flex;flex-direction:column;overflow:hidden}
+.shy-ai-v65-shell{display:flex;min-height:0;flex:1;overflow:hidden}.shy-ai-v65-sidebar{width:285px;flex:0 0 285px;display:flex;flex-direction:column;background:rgba(5,10,22,.93);border-right:1px solid rgba(149,135,255,.18);padding:14px 11px 10px;min-height:0}.shy-ai-v65-brand{display:flex;align-items:center;gap:10px;padding:5px 8px 13px}.shy-ai-v65-brand img{width:38px;height:38px;border-radius:12px;object-fit:cover;transform:scale(1.16);transform-origin:50% 44.4%}.shy-ai-v65-brand b{font-size:17px;letter-spacing:.2px}.shy-ai-v65-brand small{display:block;color:#8198b8;font-size:9px;margin-top:2px}.shy-ai-v65-search{display:flex;gap:7px;align-items:center;margin:0 4px 9px;padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.045);border:1px solid rgba(149,135,255,.15)}.shy-ai-v65-search span{color:#7f96b5;font-size:13px}.shy-ai-v65-search input{border:0!important;background:transparent!important;box-shadow:none!important;padding:0!important;min-width:0;color:#fff;font-size:11px}.shy-ai-v65-new{width:calc(100% - 8px);margin:0 4px 10px;border:1px solid rgba(103,232,249,.28);background:linear-gradient(135deg,rgba(53,231,255,.13),rgba(139,92,246,.22),rgba(255,79,216,.13));color:#fff;border-radius:12px;padding:11px 12px;font-weight:900;font-size:11px;text-align:left;cursor:pointer;box-shadow:0 8px 22px rgba(124,58,237,.13)}.shy-ai-v65-new:active{transform:scale(.99)}.shy-ai-v65-history-title{padding:4px 9px 7px;color:#7188a8;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase}.shy-ai-topic-list.v65{overflow:auto;min-height:0;display:flex;flex-direction:column;gap:3px;padding:0 3px}.shy-ai-topic.v65{display:flex;align-items:center;gap:4px;padding:8px 8px;border:1px solid transparent;border-radius:10px;background:transparent;color:#dbe7ff;text-align:left}.shy-ai-topic.v65:hover{background:rgba(255,255,255,.045)}.shy-ai-topic.v65.active{border-color:rgba(103,232,249,.2);background:linear-gradient(135deg,rgba(31,55,82,.72),rgba(61,30,76,.65))}.shy-ai-topic-name.v65{min-width:0;flex:1;border:0;background:transparent;color:inherit;text-align:left;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;padding:2px}.shy-ai-topic-del.v65{border:0;background:transparent;color:#7085a3;padding:5px;cursor:pointer;font-size:11px;opacity:.7}.shy-ai-topic-del.v65:hover{opacity:1;color:#ff8fae}.shy-ai-v65-profile{margin-top:auto;padding:9px 7px 3px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:9px}.shy-ai-v65-avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#19d7a0,#16a9d9);color:#06131b;font-size:11px;font-weight:900}.shy-ai-v65-profile b{font-size:11px}.shy-ai-v65-profile small{display:block;color:#7188a8;font-size:8px;margin-top:2px}
+.shy-ai-v65-main{min-width:0;display:flex;flex-direction:column;flex:1;background:radial-gradient(circle at 70% 10%,rgba(53,231,255,.07),transparent 25%),radial-gradient(circle at 35% 80%,rgba(255,79,216,.07),transparent 25%)}.shy-ai-v65-head{height:62px;flex:none;display:flex;align-items:center;gap:10px;padding:0 15px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(5,10,22,.36);backdrop-filter:blur(14px)}.shy-ai-v65-head .topic-toggle{display:none;border:1px solid rgba(103,232,249,.24);background:rgba(255,255,255,.05);color:#fff;border-radius:10px;padding:8px 9px}.shy-ai-v65-head .topic-title{min-width:0;flex:1}.shy-ai-v65-head .topic-title b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.shy-ai-v65-head .topic-title small{display:block;color:#7f96b5;font-size:9px;margin-top:2px}.shy-ai-v65-head .close{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#cfe3ff;border-radius:10px;padding:8px 10px}.shy-ai-v65-messages{flex:1;min-height:0;overflow:auto;padding:24px clamp(14px,5vw,70px);display:flex;flex-direction:column;gap:12px}.shy-ai-v65-welcome{max-width:680px;margin:auto;text-align:center;color:#90a6c4}.shy-ai-v65-welcome img{width:58px;height:58px;border-radius:18px;margin-bottom:9px}.shy-ai-v65-welcome h2{margin:0;color:#fff;font-size:20px}.shy-ai-v65-welcome p{font-size:11px;line-height:1.6}.shy-ai-msg.v65{max-width:min(78%,720px);padding:10px 12px;border-radius:14px;font-size:12px;line-height:1.55;white-space:pre-wrap;word-break:break-word}.shy-ai-msg.bot.v65{align-self:flex-start;background:linear-gradient(135deg,rgba(36,78,104,.5),rgba(85,35,99,.38));border:1px solid rgba(103,232,249,.13)}.shy-ai-msg.user.v65{align-self:flex-end;background:linear-gradient(135deg,#6336dc,#1b8bd4);color:#fff;box-shadow:0 8px 24px rgba(40,80,190,.16)}.shy-ai-v65-suggestions{display:flex;gap:7px;overflow-x:auto;padding:0 clamp(14px,5vw,70px) 9px}.shy-ai-v65-suggestions button{white-space:nowrap;border:1px solid rgba(103,232,249,.2);background:rgba(255,255,255,.045);color:#cfe3ff;border-radius:999px;padding:8px 10px;font-size:9px;cursor:pointer}.shy-ai-v65-suggestions button:hover{background:rgba(103,232,249,.08)}.shy-ai-v65-input-wrap{padding:8px clamp(14px,5vw,70px) 13px}.shy-ai-v65-input{display:flex;gap:7px;align-items:center;padding:6px 7px 6px 12px;border-radius:18px;background:rgba(8,14,31,.88);border:1px solid rgba(149,135,255,.28);box-shadow:0 10px 30px rgba(0,0,0,.2)}.shy-ai-v65-input input{flex:1;min-width:0;border:0!important;background:transparent!important;box-shadow:none!important;color:#fff;padding:9px 0!important}.shy-ai-v65-input button{width:38px;height:38px;border:0;border-radius:50%;background:linear-gradient(135deg,#21d88f,#18a7d9);color:#03141b;font-weight:900}.shy-ai-v65-footer{text-align:center;color:#566d8d;font-size:8px;padding:0 14px 7px}.shy-ai-v65-footer a{color:#61cfff}
+@media(max-width:700px){#shyamaAIFloatingLauncher{right:14px;bottom:82px;width:55px;height:55px}.shy-ai-v65-sidebar{position:absolute;z-index:20;left:0;top:0;bottom:0;width:min(84vw,310px);transform:translateX(-105%);transition:transform .22s ease;box-shadow:24px 0 60px rgba(0,0,0,.5)}.shy-ai-v65-sidebar.open{transform:translateX(0)}.shy-ai-v65-head .topic-toggle{display:inline-flex}.shy-ai-v65-messages{padding:18px 12px}.shy-ai-msg.v65{max-width:88%}.shy-ai-v65-suggestions{padding:0 12px 8px}.shy-ai-v65-input-wrap{padding:7px 10px 10px}.shy-ai-v65-footer{padding-bottom:6px}.shy-ai-v65-search{margin-top:0}.shy-ai-v65-overlay{position:absolute;z-index:19;inset:0;background:rgba(0,0,0,.4);display:none}.shy-ai-v65-overlay.open{display:block}}
+@media(min-width:701px){.shy-ai-v65-overlay{display:none!important}}
+/* Perihelion AI V69 — Markdown/LaTeX + browser voice */
+
+
+/* V72 — ChatGPT-style composer + message actions */
+.shy-ai-v72-composer{display:flex;align-items:center;gap:8px;width:100%;min-height:56px;padding:7px 8px 7px 10px;border-radius:20px;background:rgba(7,12,27,.94);border:1px solid rgba(154,143,255,.30);box-shadow:0 8px 28px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.035)}
+.shy-ai-v72-composer input{flex:1;min-width:0;height:42px!important;padding:8px 2px!important;border:0!important;background:transparent!important;box-shadow:none!important;color:#f7fbff!important;font-size:15px!important;outline:none!important}
+.shy-ai-v72-composer input::placeholder{color:#7f899b}
+.shy-ai-composer-plus,.shy-ai-composer-mic,.shy-ai-composer-voice,.shy-ai-composer-send{width:42px!important;height:42px!important;min-width:42px!important;padding:0!important;border:0!important;border-radius:50%!important;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px!important}
+.shy-ai-composer-plus{background:rgba(255,255,255,.065)!important;color:#eef5ff!important;font-size:28px!important;font-weight:300!important}
+.shy-ai-composer-mic{background:rgba(255,255,255,.055)!important;color:#d9e9ff!important;font-size:21px!important}.shy-ai-composer-mic svg,.shy-ai-composer-voice svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.shy-ai-composer-mic.listening{background:rgba(40,222,164,.18)!important;color:#56f1bd!important;box-shadow:0 0 0 2px rgba(40,222,164,.22),0 0 18px rgba(40,222,164,.18)}
+.shy-ai-composer-voice{background:rgba(255,255,255,.055)!important;color:#d7e4ff!important;font-size:20px!important}
+.shy-ai-composer-voice.on{background:linear-gradient(135deg,#16d78f,#13a9dc)!important;color:#03131a!important}
+.shy-ai-composer-send{background:linear-gradient(135deg,#6336dc,#1598df)!important;color:#fff!important;font-size:22px!important;font-weight:800!important}
+.shy-ai-composer-send:disabled{opacity:.38;filter:saturate(.4)}
+.ai-voice-status{min-height:13px;text-align:center;color:#69f0c0;font-size:9px;margin-top:4px}
+.ai-msg-actions{display:flex;align-items:center;gap:3px;justify-content:flex-start;margin:10px 0 0 40px;flex-wrap:wrap}
+.ai-msg-action{border:0!important;background:transparent!important;color:#8fa2bd!important;font-size:11px!important;padding:6px 8px!important;border-radius:9px!important;cursor:pointer!important;min-height:30px!important;transition:background .15s,color .15s,transform .15s!important}.ai-msg-action:active{transform:scale(.96)}
+.ai-msg-action:hover{background:rgba(255,255,255,.065)!important;color:#dce9ff!important}
+.ai-msg-action.speaking{color:#64efbb!important;background:rgba(50,230,167,.08)!important}
+@media(max-width:700px){.shy-ai-v72-composer{border-radius:22px;min-height:58px}.shy-ai-composer-plus,.shy-ai-composer-mic,.shy-ai-composer-voice,.shy-ai-composer-send{width:40px!important;height:40px!important;min-width:40px!important}.shy-ai-v72-composer input{font-size:15px!important}.ai-msg-actions{margin-left:37px}}
+/* V75 — attachments, stable thinking state and clean answer actions */
+.shy-ai-attachment-tray{display:none;gap:7px;align-items:center;flex-wrap:wrap;padding:7px 9px;margin:0 0 7px;border:1px solid rgba(103,232,249,.14);border-radius:14px;background:rgba(8,14,31,.72)}
+.shy-ai-attachment-tray.show{display:flex}
+.shy-ai-attachment-chip{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:6px 8px;border-radius:10px;background:linear-gradient(135deg,rgba(99,54,220,.25),rgba(21,152,223,.16));border:1px solid rgba(103,232,249,.2);color:#dbeaff;font-size:10px}
+.shy-ai-attachment-chip span{max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shy-ai-attachment-chip button{border:0;background:transparent;color:#9eb0c9;cursor:pointer;padding:1px 3px;font-size:13px}
+.shy-ai-attach-menu{position:absolute;bottom:66px;left:0;display:none;z-index:50;min-width:170px;padding:7px;border-radius:14px;background:rgba(8,14,31,.98);border:1px solid rgba(154,143,255,.3);box-shadow:0 14px 35px rgba(0,0,0,.45)}
+.shy-ai-attach-menu.open{display:block}
+.shy-ai-attach-menu button{display:flex;width:100%;gap:9px;align-items:center;border:0;background:transparent;color:#e9f3ff;border-radius:10px;padding:10px;font-size:11px;text-align:left;cursor:pointer}
+.shy-ai-attach-menu button:hover{background:rgba(255,255,255,.06)}
+.shy-ai-plus-wrap{position:relative;display:flex;align-items:center}
+.shy-ai-thinking{opacity:.9}
+.shy-ai-thinking .ai-rich{display:flex;align-items:center;gap:9px;color:#a9bad2}
+.shy-ai-thinking .thinking-dots{display:inline-flex;gap:4px}
+.shy-ai-thinking .thinking-dots i{width:5px;height:5px;border-radius:50%;background:#62eac1;animation:thinkingDot 1s infinite ease-in-out}
+.shy-ai-thinking .thinking-dots i:nth-child(2){animation-delay:.15s}.shy-ai-thinking .thinking-dots i:nth-child(3){animation-delay:.3s}
+@keyframes thinkingDot{0%,80%,100%{transform:scale(.55);opacity:.35}40%{transform:scale(1);opacity:1}}
+.ai-msg-actions{justify-content:flex-start!important;margin:8px 0 0 40px!important;gap:2px!important}
+.ai-msg-action{font-size:10px!important;padding:5px 7px!important;opacity:.8}
+.ai-msg-action:hover{opacity:1}
+@media(max-width:700px){.shy-ai-attach-menu{bottom:68px}.ai-msg-actions{margin-left:0!important}}
+
+
+/* V70 — Perihelion Voice Mode: dark, orb-centered answering UI */
+#periVoiceMode{position:fixed;inset:0;z-index:100050;display:none;align-items:center;justify-content:center;background:#000;color:#fff;overflow:hidden}
+#periVoiceMode.open{display:flex}
+.peri-voice-bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(24,221,139,.10),transparent 24%),radial-gradient(circle at 50% 55%,rgba(34,211,238,.07),transparent 40%),#000}
+.peri-voice-top{position:absolute;top:env(safe-area-inset-top,0);left:0;right:0;height:92px;display:flex;align-items:center;justify-content:space-between;padding:18px 20px 0;z-index:2}
+.peri-voice-brand{display:flex;align-items:center;gap:10px}.peri-voice-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;transform:scale(1.7);transform-origin:50% 44.4%}.peri-voice-brand b{font-size:17px}.peri-voice-brand small{display:block;color:#8d8d98;font-size:10px;margin-top:2px}
+.peri-voice-close{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(35,35,38,.9);color:#fff;font-size:24px;cursor:pointer}
+.peri-voice-center{position:relative;z-index:1;width:min(92vw,620px);height:68vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.peri-voice-orb-wrap{width:250px;height:250px;border-radius:50%;display:grid;place-items:center;position:relative;margin-bottom:30px}
+.peri-voice-orb-wrap:before,.peri-voice-orb-wrap:after{content:"";position:absolute;border-radius:50%;inset:-18px;border:1px solid rgba(0,255,180,.12);box-shadow:0 0 55px rgba(0,255,180,.08)}
+.peri-voice-orb-wrap:after{inset:-42px;border-color:rgba(0,220,255,.06);box-shadow:none}
+.peri-voice-orb{width:250px;height:250px;border-radius:50%;overflow:hidden;background:#07110b;box-shadow:0 0 55px rgba(0,255,142,.12),0 0 120px rgba(0,180,255,.08)}
+.peri-voice-orb img{width:100%;height:100%;object-fit:cover;transform:scale(1.55);transform-origin:50% 44.4%;filter:saturate(1.15)}
+.peri-voice-status{font-size:22px;font-weight:700;min-height:30px;letter-spacing:.1px}.peri-voice-substatus{margin-top:8px;color:#8e8e99;font-size:14px;min-height:20px}
+.peri-wave{height:54px;display:flex;align-items:center;justify-content:center;gap:4px;margin:22px 0 28px}.peri-wave i{display:block;width:4px;height:10px;border-radius:99px;background:#54efc0;box-shadow:0 0 9px rgba(84,239,192,.6);animation:periWave 1s ease-in-out infinite}.peri-wave i:nth-child(2){animation-delay:.08s}.peri-wave i:nth-child(3){animation-delay:.16s}.peri-wave i:nth-child(4){animation-delay:.24s}.peri-wave i:nth-child(5){animation-delay:.32s}.peri-wave i:nth-child(6){animation-delay:.4s}.peri-wave i:nth-child(7){animation-delay:.48s}.peri-wave i:nth-child(8){animation-delay:.56s}.peri-wave i:nth-child(9){animation-delay:.64s}.peri-wave i:nth-child(10){animation-delay:.72s}.peri-wave i:nth-child(11){animation-delay:.8s}
+@keyframes periWave{0%,100%{height:9px;opacity:.55}50%{height:44px;opacity:1}}
+.peri-voice-answer{max-width:min(88vw,620px);max-height:23vh;overflow:auto;color:#e9e9ee;font-size:16px;line-height:1.55;white-space:pre-wrap;display:none}.peri-voice-answer.show{display:block}
+.peri-voice-bottom{position:absolute;left:0;right:0;bottom:max(22px,env(safe-area-inset-bottom,0));z-index:2;display:flex;flex-direction:column;align-items:center;gap:12px;padding:0 18px}.peri-voice-controls{display:flex;align-items:center;gap:14px}.peri-voice-control{width:62px;height:62px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:#202023;color:#fff;font-size:25px;cursor:pointer}.peri-voice-control.primary{width:70px;height:70px;background:linear-gradient(145deg,#12d88a,#09a88c);box-shadow:0 0 30px rgba(18,216,138,.22)}.peri-voice-control.muted{background:#222225;color:#eee}.peri-voice-input{width:min(92vw,560px);display:flex;align-items:center;gap:8px;background:#242426;border:1px solid rgba(255,255,255,.12);border-radius:32px;padding:6px 8px 6px 14px}.peri-voice-input input{flex:1;border:0!important;background:transparent!important;box-shadow:none!important;color:#fff;padding:10px 0!important}.peri-voice-input button{width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:#000;font-size:19px}.peri-voice-poor{font-size:12px;color:#777780;display:none}.peri-voice-mode-answering .peri-wave i{animation-duration:.55s}.peri-voice-mode-answering .peri-voice-status{font-size:20px}
+@media(max-width:700px){.peri-voice-center{height:72vh}.peri-voice-orb-wrap,.peri-voice-orb{width:245px;height:245px}.peri-voice-status{font-size:20px}.peri-voice-answer{font-size:15px;max-height:20vh}.peri-voice-input{width:94vw}.peri-voice-control{width:58px;height:58px}.peri-voice-control.primary{width:68px;height:68px}}
+.shy-ai-msg.v65 .ai-rich{white-space:normal;line-height:1.62;}
+.shy-ai-msg.v65 .ai-rich p{margin:.25em 0 .7em;}
+.shy-ai-msg.v65 .ai-rich p:last-child{margin-bottom:0;}
+.shy-ai-msg.v65 .ai-rich h1,.shy-ai-msg.v65 .ai-rich h2,.shy-ai-msg.v65 .ai-rich h3{margin:.45em 0 .35em;color:#fff;}
+.shy-ai-msg.v65 .ai-rich ul,.shy-ai-msg.v65 .ai-rich ol{margin:.35em 0 .7em;padding-left:1.35em;}
+.shy-ai-msg.v65 .ai-rich li{margin:.18em 0;}
+.shy-ai-msg.v65 .ai-rich blockquote{margin:.5em 0;padding:.4em .8em;border-left:3px solid #20d9ff;background:rgba(32,217,255,.06);color:#c8d8ed;}
+.shy-ai-msg.v65 .ai-rich code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(0,0,0,.28);padding:2px 5px;border-radius:5px;font-size:.92em;}
+.shy-ai-msg.v65 .ai-rich pre{overflow:auto;padding:10px;border-radius:10px;background:rgba(0,0,0,.3);}
+.shy-ai-msg.v65 .ai-rich pre code{background:none;padding:0;}
+.shy-ai-msg.v65 .ai-rich table{border-collapse:collapse;width:100%;margin:.65em 0;font-size:.94em;}
+.shy-ai-msg.v65 .ai-rich th,.shy-ai-msg.v65 .ai-rich td{border:1px solid rgba(149,180,220,.25);padding:6px 8px;text-align:left;vertical-align:top;}
+.shy-ai-msg.v65 .ai-rich th{background:rgba(103,232,249,.08);color:#e9f5ff;}
+.shy-ai-msg.v65 .ai-rich .MathJax{font-size:1.02em;}
+.ai-msg-actions{display:flex;justify-content:flex-end;margin-top:6px;}
+.ai-speak-msg{font-size:9px!important;padding:5px 8px!important;border-radius:999px!important;background:rgba(255,255,255,.05)!important;border:1px solid rgba(103,232,249,.18)!important;color:#a8c8e9!important;}
+.ai-speak-msg.speaking{color:#65f3ba!important;border-color:#65f3ba!important;}
+.shy-ai-voice-btn{width:38px!important;height:38px!important;border:1px solid rgba(103,232,249,.2)!important;background:rgba(255,255,255,.05)!important;color:#bfeaff!important;font-size:17px!important;}
+.shy-ai-voice-btn.listening{background:linear-gradient(135deg,#ff46b5,#7b5cff)!important;color:#fff!important;animation:orbPulseSpeak 1.2s infinite;}
+.shy-ai-voice-toggle{font-size:9px!important;padding:6px 8px!important;border-radius:999px!important;background:rgba(255,255,255,.045)!important;color:#91a9c7!important;}
+.shy-ai-voice-toggle.on{color:#66f0ba!important;border-color:#66f0ba!important;}
+.ai-voice-status{font-size:9px;color:#6f88a8;min-width:55px;text-align:center;}
+@media(max-width:520px){.shy-ai-msg.v65 .ai-rich table{font-size:10px;}.shy-ai-msg.v65 .ai-rich th,.shy-ai-msg.v65 .ai-rich td{padding:5px 6px;}}
+
+
+/* V72 — ChatGPT-like message typography, preserving Perihelion colours */
+.shy-ai-v65-messages{padding-top:22px;padding-bottom:18px;scroll-behavior:smooth}
+.shy-ai-msg.v65{max-width:min(90%,760px);padding:0;border:0!important;background:none!important;box-shadow:none!important;font-size:15px;line-height:1.68;letter-spacing:.005em;white-space:normal}
+.shy-ai-msg.v65.bot{align-self:flex-start;display:flex;gap:10px;align-items:flex-start;width:min(90%,760px)}
+.shy-ai-msg.v65.bot:before{content:"";flex:0 0 30px;width:30px;height:30px;border-radius:50%;background:linear-gradient(145deg,rgba(16,31,61,.98),rgba(86,25,91,.98)) url('icons/perihelion-logo.png') center/70% no-repeat;border:1px solid rgba(103,232,249,.28);box-shadow:0 0 16px rgba(53,231,255,.12);margin-top:2px}
+.shy-ai-msg.v65.user{align-self:flex-end;max-width:min(84%,650px);padding:11px 15px;border-radius:20px 20px 6px 20px!important;background:linear-gradient(135deg,#6336dc,#1b8bd4)!important;color:#fff;box-shadow:0 6px 18px rgba(40,80,190,.18)!important}
+.shy-ai-msg.v65 .ai-rich{min-width:0;white-space:normal;line-height:1.68;color:#eaf2ff}
+.shy-ai-msg.v65 .ai-rich p{margin:.15em 0 .9em}.shy-ai-msg.v65 .ai-rich p:last-child{margin-bottom:0}
+.shy-ai-msg.v65 .ai-rich h1,.shy-ai-msg.v65 .ai-rich h2,.shy-ai-msg.v65 .ai-rich h3{margin:1em 0 .45em;color:#fff;line-height:1.3}
+.shy-ai-msg.v65 .ai-rich ul,.shy-ai-msg.v65 .ai-rich ol{margin:.35em 0 .85em;padding-left:1.35em}.shy-ai-msg.v65 .ai-rich li{margin:.25em 0}
+.shy-ai-msg.v65 .ai-rich strong{color:#fff;font-weight:750}.shy-ai-msg.v65 .ai-rich em{color:#c8d9ee}
+.shy-ai-msg.v65 .ai-rich blockquote{margin:.7em 0;padding:.5em .9em;border-left:3px solid #20d9ff;background:rgba(32,217,255,.055);color:#c8d8ed;border-radius:0 10px 10px 0}
+.shy-ai-msg.v65 .ai-rich code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(0,0,0,.28);padding:2px 5px;border-radius:5px;font-size:.88em;color:#d7f6ff}
+.shy-ai-msg.v65 .ai-rich pre{overflow:auto;padding:12px 13px;border-radius:12px;background:rgba(3,9,22,.72);border:1px solid rgba(149,135,255,.16);margin:.7em 0}
+.shy-ai-msg.v65 .ai-rich pre code{background:none;padding:0}
+.shy-ai-msg.v65 .ai-rich table{border-collapse:collapse;width:100%;margin:.8em 0;font-size:.92em;overflow:hidden;border-radius:10px}
+.shy-ai-msg.v65 .ai-rich th,.shy-ai-msg.v65 .ai-rich td{border:1px solid rgba(149,180,220,.22);padding:7px 9px;text-align:left;vertical-align:top}.shy-ai-msg.v65 .ai-rich th{background:rgba(103,232,249,.08);color:#e9f5ff}
+.shy-ai-msg.v65 .ai-rich .MathJax{font-size:1.04em;color:#f4fbff;margin:.15em 0}.shy-ai-msg.v65 .ai-rich mjx-container[display="true"]{margin:1em 0!important;overflow-x:auto;overflow-y:hidden;max-width:100%}
+.ai-msg-actions{justify-content:flex-start;margin:10px 0 0 40px}.ai-speak-msg{font-size:9px!important;opacity:.72}
+@media(max-width:700px){.shy-ai-msg.v65{font-size:15px;line-height:1.65}.shy-ai-msg.v65.bot{width:94%;max-width:94%}.shy-ai-msg.v65.bot:before{flex-basis:27px;width:27px;height:27px}.shy-ai-msg.v65.user{max-width:86%;padding:10px 14px}.shy-ai-msg.v65 .ai-rich mjx-container[display="true"]{font-size:92%!important}}
+
+</style>
+
+<style id="perihelion-opening-splash">
+#perihelionOpeningSplash{position:fixed;inset:0;z-index:2147483000;background:#17344f;display:flex;align-items:center;justify-content:center;overflow:hidden;opacity:1;visibility:visible;transition:opacity .45s ease,visibility .45s ease}
+#perihelionOpeningSplash.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+#perihelionOpeningSplash video{width:100%;height:100%;object-fit:cover;background:#17344f}
+#perihelionOpeningSplash .opening-skip{position:absolute;right:18px;bottom:18px;border:1px solid rgba(255,255,255,.32);background:rgba(8,22,36,.55);color:#fff;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;backdrop-filter:blur(10px);cursor:pointer}
+#perihelionOpeningSplash .opening-brand{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);color:rgba(255,255,255,.88);font-size:12px;letter-spacing:2px;font-weight:800;text-transform:uppercase;text-shadow:0 2px 10px rgba(0,0,0,.5);pointer-events:none}
+@media(max-width:600px){#perihelionOpeningSplash .opening-skip{right:14px;bottom:14px;padding:8px 12px;font-size:12px}#perihelionOpeningSplash .opening-brand{bottom:16px;font-size:10px;letter-spacing:1.6px}}
+</style>
 </head>
 <body>
+  <div id="perihelionOpeningSplash" aria-label="Perihelion opening">
+    <video id="perihelionOpeningVideo" autoplay muted playsinline preload="auto" poster="icons/perihelion-logo.png">
+      <source src="assets/branding/perihelion-opening.mp4" type="video/mp4">
+    </video>
+    <div class="opening-brand">Perihelion</div>
+    <button class="opening-skip" id="perihelionOpeningSkip" type="button">Skip</button>
+  </div>
+
 
 <div class="app">
   <div class="top">
-    <div class="brand brand-vibe"><img class="brand-logo" src="icons/shyama-logo.png" alt="SHYAMA logo"><div class="brand-copy"><span class="name">SHYAMA</span><span class="sub">DISCIPLINE · PROGRESS · A BETTER YOU</span></div></div>
+    <div class="brand brand-vibe"><span class="brand-logo-frame"><img class="brand-logo" src="icons/perihelion-logo.png" alt="Perihelion logo"></span><div class="brand-copy"><span class="name">Perihelion</span><span class="sub">DISCIPLINE · PROGRESS · A BETTER YOU</span></div></div>
     <div class="shy-header-tools"><div class="shy-date-pill" id="topDateTime"><div class="date">Loading date…</div><div class="time">--:--:--</div></div><div class="shy-profile" aria-label="Profile">●</div></div>
   </div>
   <div class="top-theme-bar"><span class="top-theme-label">THEME</span><div class="top-theme-scroll" id="topThemeBar"><button class="theme-choice" data-theme="glass">🌙 Dark</button><button class="theme-choice" data-theme="light">☀️ Light</button><button class="theme-choice" data-theme="aurora">🌌 Aurora</button><button class="theme-choice" data-theme="ocean">🌊 Ocean</button><button class="theme-choice" data-theme="forest">🌲 Forest</button><button class="theme-choice" data-theme="sunset">🌅 Sunset</button><button class="theme-choice" data-theme="moon">🌙 Night</button></div></div>
@@ -1384,14 +1620,19 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
   <!-- HOME -->
   <div class="page active" id="page-home">
     <div class="home-shell">
-      <div class="shy-dashboard-intro"><div><span class="eyebrow">TODAY · SHYAMA</span><h1>Discipline. Progress. A better you.</h1><p>Track the work that matters and watch your consistency grow.</p></div><div class="intro-status"><b id="homeFocusPct">0%</b><span>today complete</span></div></div>
+      <div class="shy-dashboard-intro"><div><span class="eyebrow">TODAY · Perihelion</span><h1>Discipline. Progress. A better you.</h1><p>Track the work that matters and watch your consistency grow.</p></div><div class="intro-status"><b id="homeFocusPct">0%</b><span>today complete</span></div></div>
       <div class="shy-quote-bar"><div class="q">“Small steps every day lead to big results.”</div><span class="muted">Daily focus</span></div>
       <div class="grid cards" id="homeCards"></div>
       <section class="shy-quick"><div class="shy-section-head"><h3>Quick Actions</h3><span>Discipline Today, Freedom Tomorrow.</span></div><div class="shy-actions">
         <button class="shy-action blue" data-quick="today"><span class="aicon">☑</span><span>Today's Tasks</span></button><button class="shy-action green" data-quick="upload"><span class="aicon">↥</span><span>Upload Proof</span></button><button class="shy-action purple" data-quick="routine"><span class="aicon">▤</span><span>Full Routine</span></button><button class="shy-action red" data-quick="stats"><span class="aicon">▥</span><span>Statistics</span></button><button class="shy-action teal" data-quick="focus"><span class="aicon">⌛</span><span>Focus Mode</span></button><button class="shy-action cyan" data-quick="today"><span class="aicon">▦</span><span>All Tasks</span></button>
       </div></section>
       <div class="home-secondary"><div class="panel"><div class="row between"><h3>🎯 Category Progress — Today</h3></div><div id="catProgress"></div></div><div class="panel"><h3>🥧 Category Split — Today</h3><div id="catDonut"></div></div></div>
-    </div>
+    <section class="shy-ai-card" aria-label="Perihelion AI">
+        <div class="shy-ai-logo-wrap"><img src="icons/perihelion-logo.png" alt="Perihelion logo" class="shy-ai-logo"></div>
+        <div class="shy-ai-copy"><span class="eyebrow">Perihelion AI</span><h3>Talk to your routine assistant</h3><p>Ask about your next task, today's progress, XP, streak or focus session.</p></div>
+        <button type="button" class="primary" id="openShyamaAI">💬 Open AI Chat</button>
+      </section>
+      </div>
   </div>
 
   <!-- TODAY -->
@@ -1455,7 +1696,7 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
 
   <!-- STATS -->
   <div class="page" id="page-stats">
-    <div class="stats-heading"><div><span class="eyebrow">SHYAMA ANALYTICS</span><h2>Stats</h2><p class="muted">Daily performance, XP growth, challenges and history in one place.</p></div><div class="stats-live"><span class="live-dot"></span><span>Live progress</span></div></div>
+    <div class="stats-heading"><div><span class="eyebrow">Perihelion ANALYTICS</span><h2>Stats</h2><p class="muted">Daily performance, XP growth, challenges and history in one place.</p></div><div class="stats-live"><span class="live-dot"></span><span>Live progress</span></div></div>
     <div class="grid cards" style="grid-template-columns:repeat(4,1fr);" id="statsCards"></div>
     <div class="stats-graph-grid">
       <div class="panel graph-panel"><div class="graph-head"><div><h3>📈 Daily Task Completion</h3><span>Completed tasks per day · last 30 days</span></div><b id="completionGraphTotal">0</b></div><div id="dailyCompletionGraph" class="trend-graph"></div></div>
@@ -1496,79 +1737,136 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
 
   <!-- SETTINGS -->
   <div class="page" id="page-settings">
-    <div class="settings-theme-panel">
-      <div class="settings-theme-info">
-        <b>Appearance</b>
-        <span id="settingsThemeStatus">Dark mode</span>
+    <div id="settingsMainScreen" class="settings-settings-screen">
+      <div class="settings-page-title">
+        <h1>Settings</h1>
+        <p>Manage Perihelion, your routine and app preferences.</p>
       </div>
-      <div class="settings-theme-switch" aria-label="Choose appearance">
-        <button type="button" class="theme-choice" data-theme="glass">🌙 Dark</button>
-        <button type="button" class="theme-choice" data-theme="light">☀️ Light</button>
-        <button type="button" class="theme-choice" data-theme="aurora">🌌 Aurora</button>
-        <button type="button" class="theme-choice" data-theme="ocean">🌊 Ocean</button>
-        <button type="button" class="theme-choice" data-theme="forest">🌲 Forest</button>
-        <button type="button" class="theme-choice" data-theme="sunset">🌅 Sunset</button>
-        <button type="button" class="theme-choice" data-theme="moon">🌙 Night</button>
+
+      <div class="settings-section-label">General</div>
+      <div class="settings-list-group">
+        <button class="settings-list-row" data-settings-topic="sync" type="button">
+          <span class="settings-row-icon">🔄</span><span class="settings-row-copy"><b>Cross-Device Sync</b><small>Phone, laptop and cloud data</small></span><span class="settings-row-chevron">›</span>
+        </button>
+        <button class="settings-list-row" data-settings-topic="notifications" type="button">
+          <span class="settings-row-icon">🔔</span><span class="settings-row-copy"><b>Task Notifications</b><small>Reminder timing and permissions</small></span><span class="settings-row-chevron">›</span>
+        </button>
+        <button class="settings-list-row" data-settings-topic="backup" type="button">
+          <span class="settings-row-icon">💾</span><span class="settings-row-copy"><b>Backup &amp; Restore</b><small>Export or import your Perihelion data</small></span><span class="settings-row-chevron">›</span>
+        </button>
+        <button class="settings-list-row" data-settings-topic="install" type="button">
+          <span class="settings-row-icon">📲</span><span class="settings-row-copy"><b>Install as App</b><small>Use Perihelion like a phone or desktop app</small></span><span class="settings-row-chevron">›</span>
+        </button>
+        <button class="settings-list-row" data-settings-topic="ai" type="button">
+          <span class="settings-row-icon">🤖</span><span class="settings-row-copy"><b>Perihelion AI</b><small>Open-source local AI + free cloud AI</small></span><span class="settings-row-chevron">›</span>
+        </button>
+      </div>
+
+      <div class="settings-section-label">Appearance</div>
+      <div class="settings-list-group">
+        <button class="settings-list-row settings-appearance-row" id="settingsAppearanceToggle" type="button" aria-expanded="false">
+          <span class="settings-row-icon">☀️</span><span class="settings-row-copy"><b>Appearance</b><small id="settingsThemeStatus">Dark mode</small></span><span class="settings-row-chevron">⌄</span>
+        </button>
+        <div class="settings-theme-panel" id="settingsThemePanel">
+          <div class="settings-theme-switch" aria-label="Choose appearance">
+            <button type="button" class="theme-choice" data-theme="glass">🌙 Dark</button>
+            <button type="button" class="theme-choice" data-theme="light">☀️ Light</button>
+            <button type="button" class="theme-choice" data-theme="aurora">🌌 Aurora</button>
+            <button type="button" class="theme-choice" data-theme="ocean">🌊 Ocean</button>
+            <button type="button" class="theme-choice" data-theme="forest">🌲 Forest</button>
+            <button type="button" class="theme-choice" data-theme="sunset">🌅 Sunset</button>
+            <button type="button" class="theme-choice" data-theme="moon">🌙 Night</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section-label">Perihelion</div>
+      <div class="settings-list-group">
+        <div class="settings-info-row"><span class="settings-row-icon">✦</span><span class="settings-row-copy"><b>Perihelion Routine Quest</b><small>Discipline · Progress · A better you</small></span></div>
+        <div class="settings-info-row"><span class="settings-row-icon">💾</span><span class="settings-row-copy"><b>Local-first data</b><small>Your routine data remains stored on this device unless you enable sync.</small></span></div>
       </div>
     </div>
-    <div class="panel">
-      <h3>🔄 Cross-Device Sync</h3>
-      <p class="muted" style="font-size:12px;line-height:1.5;">
-        Free &amp; runs on your own Supabase project. Create a free project at
-        <a href="https://supabase.com" target="_blank">supabase.com</a>, run the SQL from
-        <code>supabase-schema.sql</code> (included in your download) in its SQL editor, then paste your
-        Project URL and anon key below. Use the <b>same Sync Code</b> on your phone and laptop installs to link them.
-      </p>
-      <div class="field"><label>Supabase Project URL</label><input id="sbUrl" placeholder="https://xxxx.supabase.co"></div>
-      <div class="credentials-head"><b>🔐 Keys &amp; Passwords</b><label class="credential-toggle"><input type="checkbox" id="hideCredentials" checked> Hide sensitive values</label></div>
-      <div class="field"><label>Supabase anon public key</label><input id="sbKey" type="password" autocomplete="off" placeholder="eyJhbGciOi..."></div>
-      <div class="field"><label>Sync Code (pick any private word/phrase — same on all your devices)</label><input id="sbCode" type="password" autocomplete="off" placeholder="e.g. subhranil-shyama-2026"></div>
-      <div class="muted credentials-note">Your key and Sync Code are hidden by default. Use the switch above when you need to view or edit them.</div>
-      <div class="row"><button class="primary" id="saveSyncBtn">Save & Connect</button><button id="syncNowBtn">Sync Now</button></div>
-      <div style="margin-top:10px;font-size:12px;" id="syncStatus"><span class="sync-dot off"></span>Not connected — running locally only.</div>
+
+    <!-- V57/V58: independent Settings folder pages. They are hidden until a folder is opened. -->
+    <div class="settings-subpage" id="settingsSubpageSync" aria-hidden="true">
+      <div class="settings-folder-header">
+        <button class="settings-back-button" data-settings-back type="button">‹</button>
+        <div><span class="settings-section-label">GENERAL</span><h1>Cross-Device Sync</h1></div>
+      </div>
+      <div class="settings-folder-description">Connect your phone, laptop and cloud using the same Sync Code.</div>
+      <div class="settings-detail-group" id="settingsFunctionSync">
+        <div class="settings-detail-title">🔄 Sync</div>
+        <p class="settings-detail-note">Free &amp; runs on your own Supabase project. Create a free project at <a href="https://supabase.com" target="_blank">supabase.com</a>, run the SQL from <code>supabase-schema.sql</code> in your SQL editor, then paste your Project URL and anon key below.</p>
+        <label class="settings-field"><span>Supabase Project URL</span><input id="sbUrl" placeholder="https://xxxx.supabase.co"></label>
+        <div class="settings-subgroup-title">🔐 Keys &amp; Passwords</div>
+        <label class="settings-toggle-line"><input type="checkbox" id="hideCredentials" checked> <span>Hide sensitive values</span></label>
+        <label class="settings-field"><span>Supabase anon public key</span><input id="sbKey" type="password" autocomplete="off" placeholder="eyJhbGciOi..."></label>
+        <label class="settings-field"><span>Sync Code</span><input id="sbCode" type="password" autocomplete="off" placeholder="e.g. subhranil-shyama-2026"></label>
+        <div class="settings-detail-note">Use the same Sync Code on your phone and laptop installs to link them.</div>
+        <div class="settings-action-row"><button class="primary" id="saveSyncBtn">Save &amp; Connect</button><button id="syncNowBtn">Sync Now</button></div>
+        <div class="settings-status-line" id="syncStatus"><span class="sync-dot off"></span>Not connected — running locally only.</div>
+      </div>
     </div>
-<div class="task-notify-panel">
-  <div class="task-notify-head">
-    <div><h3>🔔 Task Notifications</h3><p>Precise reminders for every task scheduled on the current day.</p></div>
-    <button type="button" class="notify-permission-btn" id="enableTaskNotificationsBtn">Allow Notifications</button>
-  </div>
-  <div class="task-notify-controls notify-grid">
-    <label class="task-notify-toggle"><input type="checkbox" id="taskNotificationsEnabled"> Enable task reminders</label>
-    <label>Notify <select id="taskNotificationLead"><option value="1">1 minute</option><option value="5" selected>5 minutes</option><option value="10">10 minutes</option><option value="15">15 minutes</option><option value="30">30 minutes</option></select> before start</label>
-    <label class="task-notify-toggle"><input type="checkbox" id="taskNotificationSkipDone" checked> Skip tasks already completed</label>
-    <label class="task-notify-toggle"><input type="checkbox" id="taskNotificationIncludeAdded" checked> Include Today-only added tasks</label>
-  </div>
-  <div class="row wrap notify-actions" style="margin-top:10px;">
-    <button type="button" id="testTaskNotificationBtn">🔔 Send Test Notification</button>
-    <button type="button" id="resetTaskNotificationDayBtn">↺ Reset Today's Reminders</button>
-  </div>
-  <div class="notify-permission-line"><span>Browser permission:</span> <b id="taskNotificationPermission">Not requested</b></div>
-  <div id="taskNotificationStatus" class="notify-status">Notifications are off until you enable them.</div>
-  <div class="muted notify-note">Reminder timing follows the task start time. SHYAMA checks while the app/PWA is running; browser background throttling can affect exact delivery.</div>
-</div>
-<div class="panel"><h3>💾 Backup</h3>
-      <div class="row wrap">
-        <button id="exportBtn">Export JSON</button>
-        <button id="importBtn">Import JSON</button>
+
+    <div class="settings-subpage" id="settingsSubpageNotifications" aria-hidden="true">
+      <div class="settings-folder-header"><button class="settings-back-button" data-settings-back type="button">‹</button><div><span class="settings-section-label">GENERAL</span><h1>Task Notifications</h1></div></div>
+      <div class="settings-folder-description">Control reminder permissions and timing for your routine tasks.</div>
+      <div class="settings-detail-group" id="settingsFunctionNotifications">
+        <div class="settings-detail-title">🔔 Reminders</div>
+        <button type="button" class="settings-primary-row" id="enableTaskNotificationsBtn"><span>Allow Notifications</span><span>›</span></button>
+        <label class="settings-toggle-line"><input type="checkbox" id="taskNotificationsEnabled"> <span>Enable task reminders</span></label>
+        <label class="settings-field"><span>Notify before start</span><select id="taskNotificationLead"><option value="1">1 minute</option><option value="5" selected>5 minutes</option><option value="10">10 minutes</option><option value="15">15 minutes</option><option value="30">30 minutes</option></select></label>
+        <label class="settings-toggle-line"><input type="checkbox" id="taskNotificationSkipDone" checked> <span>Skip tasks already completed</span></label>
+        <label class="settings-toggle-line"><input type="checkbox" id="taskNotificationIncludeAdded" checked> <span>Include Today-only added tasks</span></label>
+        <div class="settings-action-row"><button type="button" id="testTaskNotificationBtn">🔔 Send Test Notification</button><button type="button" id="resetTaskNotificationDayBtn">↺ Reset Today's Reminders</button></div>
+        <div class="settings-status-line"><span>Browser permission:</span> <b id="taskNotificationPermission">Not requested</b></div>
+        <div id="taskNotificationStatus" class="settings-detail-note">Notifications are off until you enable them.</div>
+      </div>
+    </div>
+
+    <div class="settings-subpage" id="settingsSubpageBackup" aria-hidden="true">
+      <div class="settings-folder-header"><button class="settings-back-button" data-settings-back type="button">‹</button><div><span class="settings-section-label">GENERAL</span><h1>Backup &amp; Restore</h1></div></div>
+      <div class="settings-folder-description">Keep a local copy of your routine, tasks and app settings.</div>
+      <div class="settings-detail-group" id="settingsFunctionBackup">
+        <div class="settings-detail-title">💾 Your Data</div>
+        <div class="settings-primary-row"><span>Export your Perihelion data</span><button id="exportBtn">Export JSON</button></div>
+        <div class="settings-primary-row"><span>Restore a previous backup</span><button id="importBtn">Import JSON</button></div>
         <input type="file" id="importFile" accept="application/json" style="display:none;">
       </div>
     </div>
 
-    <div class="panel">
-      <h3>📲 Install as an App</h3>
-      <p class="muted" style="font-size:12px;line-height:1.5;">
-        On your phone: open this page in Chrome/Safari → menu → <b>"Add to Home Screen"</b>.
-        On your laptop: click the install icon in the address bar. It then opens full-screen, with its own
-        icon, independent of any browser tab or Claude.
-      </p>
+    <div class="settings-subpage" id="settingsSubpageInstall" aria-hidden="true">
+      <div class="settings-folder-header"><button class="settings-back-button" data-settings-back type="button">‹</button><div><span class="settings-section-label">GENERAL</span><h1>Install as App</h1></div></div>
+      <div class="settings-folder-description">Use Perihelion like a phone or desktop app.</div>
+      <div class="settings-detail-group" id="settingsFunctionInstall">
+        <div class="settings-detail-title">📲 Install Perihelion</div>
+        <div class="settings-primary-row settings-install-row"><span><b>Phone</b><small>Chrome/Safari → browser menu → Add to Home Screen or Install App.</small></span></div>
+        <div class="settings-primary-row settings-install-row"><span><b>Laptop</b><small>Use the install icon in the browser address bar or choose Install Perihelion from the browser menu.</small></span></div>
+      </div>
+    </div>
+
+    <div class="settings-subpage" id="settingsSubpageAI" aria-hidden="true">
+      <div class="settings-folder-header"><button class="settings-back-button" data-settings-back type="button">‹</button><div><span class="settings-section-label">Perihelion</span><h1>Perihelion AI</h1></div></div>
+      <div class="settings-folder-description">Use an open model locally with Ollama, or connect a free OpenRouter model through your own backend.</div>
+      <div class="settings-detail-group" id="settingsFunctionAI">
+        <div class="settings-detail-title">🤖 AI Connection <span class="ai-status-pill" id="shyamaAIStatus"><span class="ai-status-dot" id="shyamaAIStatusDot"></span><span id="shyamaAIStatusText">Cloud backend</span></span></div>
+        <p class="shy-ai-config-note">Perihelion uses the secure Supabase Edge Function for cloud AI. Your OpenRouter secret stays on the server and is never stored in this PWA.</p>
+        <label class="settings-field"><span>Backend URL</span><input id="shyamaAIBackendUrl" type="url" readonly placeholder="https://tbobifccrwuwlomjxqqa.supabase.co/functions/v1/perihelion-ai"><small style="display:block;margin-top:5px;color:#8ea3c2">OpenRouter mode uses the secure Supabase Edge Function automatically. Never paste an OpenRouter API key here.</small></label>
+        <label class="settings-field"><span>Mode</span><select id="shyamaAIMode"><option value="openrouter">OpenRouter · free open models</option><option value="ollama">Ollama · local / open model</option></select></label>
+        <div class="shy-ai-model-line" id="shyamaAIModelLine">Free cloud model: openrouter/free</div>
+        <div class="settings-action-row"><button class="primary" id="saveShyamaAIConfigBtn">Save AI Connection</button><button id="testShyamaAIBtn">Test Connection</button></div>
+        <div id="shyamaAIConfigStatus" class="settings-detail-note">Cloud endpoint is prefilled. Tap Test Connection.</div>
+        <div class="settings-detail-note">If Test Connection reports <b>OPENROUTER_API_KEY is not configured</b>, the frontend is working but the Supabase Edge Function still needs its OpenRouter secret configured.</div>
+        <div class="settings-detail-note">Local option: install Ollama and run the included Perihelion AI server on the laptop.</div>
+        <div class="shy-ai-config-code">Cloud → Supabase Edge Function → OpenRouter<br>Model → openrouter/free<br>Frontend never receives the OpenRouter key.</div>
+      </div>
     </div>
   </div>
-</div>
 
 <div class="focus-overlay" id="focusOverlay" data-bg="aurora" style="--focus-accent:#35e7ff;--focus-progress:0%;">
   <div class="focus-stage">
     <div class="focus-topbar">
-      <div><span class="focus-brand-name">SHYAMA</span><span class="focus-brand-sub">ROUTINE QUEST</span></div>
+      <div><span class="focus-brand-name">Perihelion</span><span class="focus-brand-sub">ROUTINE QUEST</span></div>
       <div class="focus-title">DEEP FOCUS · <span id="focusModeTitle">TIMER</span></div>
       <div class="focus-window-actions"><button id="focusMinBtn" title="Minimize">—</button><button id="focusMaxBtn" title="Maximize">⛶</button><button id="focusCloseBtn" title="Close">×</button></div>
     </div>
@@ -1581,6 +1879,10 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
       </aside>
 
       <main class="focus-center">
+        <div class="focus-mobile-mode-switch" id="focusMobileModeSwitch" role="group" aria-label="Focus mode">
+          <button type="button" data-focus-view="timer" class="active">◷ Timer</button>
+          <button type="button" data-focus-view="stopwatch">⏱ Stopwatch</button>
+        </div>
         <div class="focus-clock-wrap" id="focusClockWrap">
           <div class="focus-clock" id="focusClock">
             <div class="clock-dot" aria-hidden="true"></div>
@@ -1624,6 +1926,74 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
   <button data-page="media"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/><circle cx="8" cy="10" r="1.5"/><path d="m4 17 4.5-4 3.5 3 2.5-2 5.5 5"/></svg></span>MEDIA</button>
   <button data-page="settings"><span class="ic"><svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.4 15 .1.1-1.7 3-1.8-.7a7.8 7.8 0 0 1-2.1 1.2L13.7 20h-3.4l-.2-1.4a7.8 7.8 0 0 1-2.1-1.2l-1.8.7-1.7-3 1.1-.9a7.7 7.7 0 0 1 0-2.4l-1.1-.9 1.7-3 1.8.7A7.8 7.8 0 0 1 10.1 7L10.3 5h3.4l.2 2a7.8 7.8 0 0 1 2.1 1.2l1.8-.7 1.7 3-1.1.9a7.7 7.7 0 0 1 0 2.4Z"/></svg></span>SETTINGS</button>
 </nav>
+
+
+<!-- V64 FLOATING Perihelion AI LAUNCHER -->
+<button id="shyamaAIFloatingLauncher" type="button" aria-label="Open Perihelion AI" title="Perihelion AI"><img src="icons/perihelion-logo.png" alt="Perihelion AI"><span class="ai-pulse"></span><span class="shyama-ai-fab-label">Perihelion AI</span></button>
+
+<!-- V70 Perihelion Voice Mode -->
+<div id="periVoiceMode" aria-hidden="true">
+  <div class="peri-voice-bg"></div>
+  <div class="peri-voice-top"><div class="peri-voice-brand"><img src="icons/perihelion-logo.png" alt="Perihelion"><div><b>Perihelion AI</b><small id="periVoiceProvider">Open Model</small></div></div><button class="peri-voice-close" id="periVoiceClose" type="button" aria-label="Close voice mode">×</button></div>
+  <div class="peri-voice-center">
+    <div class="peri-voice-orb-wrap"><div class="peri-voice-orb"><img src="icons/perihelion-logo.png" alt="Perihelion AI"></div></div>
+    <div class="peri-voice-status" id="periVoiceStatus">Listening…</div>
+    <div class="peri-voice-substatus" id="periVoiceSubstatus">Speak or type your question</div>
+    <div class="peri-wave" id="periVoiceWave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="peri-voice-answer" id="periVoiceAnswer"></div>
+  </div>
+  <div class="peri-voice-bottom">
+    <div class="peri-voice-input"><span style="font-size:22px">＋</span><input id="periVoiceInput" type="text" placeholder="Ask Perihelion…" autocomplete="off"><button id="periVoiceSend" type="button" aria-label="Send">➤</button></div>
+    <div class="peri-voice-controls"><button class="peri-voice-control" id="periVoiceKeyboard" type="button" aria-label="Keyboard">⌨</button><button class="peri-voice-control primary" id="periVoiceMic" type="button" aria-label="Microphone">🎙</button><button class="peri-voice-control muted" id="periVoiceMute" type="button" aria-label="Toggle voice replies">🔇</button></div>
+    <div class="peri-voice-poor" id="periVoicePoor">Connection problem — check Perihelion AI settings.</div>
+  </div>
+</div>
+
+<!-- V65 Perihelion AI — ChatGPT-like chat workspace, Perihelion themed -->
+<div class="shy-ai-modal" id="shyamaAIModal" aria-hidden="true">
+  <div class="shy-ai-window v65" role="dialog" aria-modal="true" aria-labelledby="shyamaAITitle">
+    <div class="shy-ai-v65-shell">
+      <aside class="shy-ai-v65-sidebar" id="shyamaAITopicsPanel" aria-label="Perihelion chat history">
+        <div class="shy-ai-v65-brand"><img src="icons/perihelion-logo.png" alt="Perihelion"><div><b>Perihelion AI</b><small>Personal assistant · study companion</small></div></div>
+        <div class="shy-ai-v65-search"><span>⌕</span><input id="shyamaAITopicSearch" type="search" placeholder="Search chats…" autocomplete="off"></div>
+        <button class="shy-ai-v65-new" id="shyamaAINewChat" type="button">✎ &nbsp; New Chat</button>
+        <div class="shy-ai-v65-history-title">Chat History</div>
+        <div class="shy-ai-topic-list v65" id="shyamaAITopicList"></div>
+        <div class="shy-ai-v65-profile"><div class="shy-ai-v65-avatar">SM</div><div><b>Perihelion</b><small>Routine AI · Open Model</small></div></div>
+      </aside>
+      <div class="shy-ai-v65-overlay" id="shyamaAITopicsOverlay"></div>
+      <section class="shy-ai-v65-main">
+        <header class="shy-ai-v65-head">
+          <button class="topic-toggle" id="shyamaAITopicToggle" type="button">☰</button>
+          <img src="icons/perihelion-logo.png" alt="Perihelion" style="width:34px;height:34px;border-radius:10px;object-fit:cover;transform:scale(1.16);transform-origin:50% 44.4%">
+          <div class="topic-title"><b id="shyamaAICurrentTopic">New Chat</b><small id="shyamaAIProviderLabel">LOCAL / OPEN MODEL</small></div>
+          <button class="close" id="closeShyamaAI" type="button" aria-label="Close">✕</button>
+        </header>
+        <div class="shy-ai-v65-messages" id="shyamaAIMessages"></div>
+        <div class="shy-ai-v65-suggestions"><button type="button" data-ai-prompt="What is my next task?">Next task</button><button type="button" data-ai-prompt="How much did I complete today?">Today's progress</button><button type="button" data-ai-prompt="How much XP do I have?">My XP</button><button type="button" data-ai-prompt="Explain a chemistry concept to me">Chemistry concept</button></div>
+        <div class="shy-ai-v65-input-wrap">
+  <div id="shyamaAIAttachmentTray" class="shy-ai-attachment-tray" aria-live="polite"></div>
+  <div class="shy-ai-v72-composer">
+    <div class="shy-ai-plus-wrap">
+      <button id="shyamaAIPlus" class="shy-ai-composer-plus" type="button" aria-label="Add files" title="Add PDF or image">＋</button>
+      <div id="shyamaAIAttachMenu" class="shy-ai-attach-menu">
+        <button id="shyamaAIAddImage" type="button">🖼️ <span>Add image</span></button>
+        <button id="shyamaAIAddPDF" type="button">📄 <span>Add PDF</span></button>
+      </div>
+    </div>
+    <input id="shyamaAIFileInput" type="file" accept="image/*,.pdf,application/pdf" multiple hidden>
+    <input id="shyamaAIInput" type="text" placeholder="Message Perihelion…" autocomplete="off">
+    <button id="shyamaAIVoiceBtn" class="shy-ai-composer-mic" type="button" aria-label="Voice typing" title="Voice typing"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"></path></svg></button>
+    <button id="shyamaAIVoiceToggle" class="shy-ai-composer-voice" type="button" aria-label="Open Perihelion Voice Mode" title="Open Perihelion Voice Mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h2M10 9v6M14 6v12M18 9v6M21 12h-2"></path></svg></button>
+    <button id="sendShyamaAI" class="shy-ai-composer-send" type="button" aria-label="Send">↑</button>
+  </div>
+  <div id="shyamaAIVoiceStatus" class="ai-voice-status"></div>
+</div>
+        <div class="shy-ai-v65-footer">Perihelion can use your routine and progress to personalize answers · <a href="https://chatgpt.com" target="_blank" rel="noopener">Open ChatGPT</a></div>
+      </section>
+    </div>
+  </div>
+</div>
 
 <!-- ROUTINE EDIT MODAL -->
 <div class="modal-backdrop" id="routineEditModal" aria-hidden="true">
@@ -1706,7 +2076,7 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
 
 <script>
 /* =========================================================
-   SHYAMA ROUTINE QUEST — PWA
+   Perihelion ROUTINE QUEST — PWA
    Same routine as the original desktop app. Local-first
    (IndexedDB) with optional Supabase sync for phone<->laptop.
    ========================================================= */
@@ -1944,6 +2314,20 @@ function idbGet(store,key){ return new Promise((res)=>{ const r=tx(store).get(ke
 function idbPut(store,val){ return new Promise((res)=>{ const r=tx(store,"readwrite").put(val); r.onsuccess=()=>res(r.result); }); }
 function idbDelete(store,key){ return new Promise((res)=>{ const r=tx(store,"readwrite").delete(key); r.onsuccess=()=>res(); }); }
 
+function localDateKey(dateLike){
+  const d = dateLike instanceof Date ? new Date(dateLike.getTime()) : new Date(dateLike);
+  if(Number.isNaN(d.getTime())) return todayStr();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+function localMinuteKey(dateLike){
+  const d = dateLike instanceof Date ? new Date(dateLike.getTime()) : new Date(dateLike);
+  if(Number.isNaN(d.getTime())) return `${todayStr()} 00:00`;
+  return `${localDateKey(d)} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+}
+
 function todayStr(){
   // Use the browser's local calendar date, not UTC. This prevents the app from
   // showing yesterday's routine/tasks after local midnight (e.g. 00:21 IST).
@@ -1967,7 +2351,7 @@ function scheduleMidnightRefresh(){
       await renderToday();
       renderRoutine();
       await renderStats();
-    }catch(e){ console.warn("SHYAMA midnight refresh",e); }
+    }catch(e){ console.warn("Perihelion midnight refresh",e); }
     scheduleMidnightRefresh();
   },delay);
 }
@@ -2008,7 +2392,7 @@ async function totalQuests(){
 async function streak(){
   let s=0; let d=new Date();
   while(true){
-    const day = d.toISOString().slice(0,10);
+    const day = localDateKey(d);
     const {done} = await dayStats(day);
     if(done===0) break;
     s++; d.setDate(d.getDate()-1);
@@ -2031,7 +2415,7 @@ async function perfectDayStreak(){
   // A missed day therefore resets the run from the following calendar day.
   if(!today) d.setDate(d.getDate()-1);
   while(true){
-    const day=d.toISOString().slice(0,10);
+    const day=localDateKey(d);
     if(!(await isPerfectDay(day))) break;
     s++; d.setDate(d.getDate()-1);
   }
@@ -2099,7 +2483,9 @@ async function openProof(day,taskIndex){
   if(!p) return;
   const w=window.open();
   if(!w){toast("Allow pop-ups to view the proof.");return;}
-  w.document.write(`<title>${p.name}</title><body style="margin:0;background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh">${p.type==="image"?`<img src="${p.data}" style="max-width:100%;max-height:100vh;object-fit:contain">`:`<iframe src="${p.data}" style="width:100%;height:100vh;border:0"></iframe>`}</body>`);
+  w.document.write(`<title>${p.name}</title><body style="margin:0;background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh">${p.type==="image"?`<img src="${p.data}" style="max-width:100%;max-height:100vh;object-fit:contain">`:`<iframe src="${p.data}" style="width:100%;height:100vh;border:0"></iframe>`}
+
+</body>`);
 }
 
 // ---------- 3. UI HELPERS ----------
@@ -2162,6 +2548,8 @@ function showPage(name){
   $all(".page").forEach(p=>p.classList.remove("active"));
   $("#page-"+name).classList.add("active");
   $all("nav.tabs button").forEach(b=>b.classList.toggle("active", b.dataset.page===name));
+  if(name!=="settings" && typeof closeAllSettingsFolders==="function") closeAllSettingsFolders();
+  if(name==="settings" && typeof closeAllSettingsFolders==="function") closeAllSettingsFolders();
   if(name==="media") renderMedia();
 }
 
@@ -2400,7 +2788,7 @@ async function renderCalendar(){
   let cells = [];
   for(let i=0;i<startPad;i++) cells.push('<div class="cell" style="opacity:0;"></div>');
   for(let d=1; d<=daysInMonth; d++){
-    const iso = new Date(y,m,d).toISOString().slice(0,10);
+    const iso = localDateKey(new Date(y,m,d));
     const {done} = await dayStats(iso);
     const dayRoutine = activeRoutine(iso);
     const pct = dayRoutine.length ? done/dayRoutine.length : 0;
@@ -2440,7 +2828,7 @@ async function renderYear(){
     const days = new Date(viewYear, m+1, 0).getDate();
     let sumXp = 0;
     for(let d=1; d<=days; d++){
-      const iso = new Date(viewYear,m,d).toISOString().slice(0,10);
+      const iso = localDateKey(new Date(viewYear,m,d));
       const {xp} = await dayStats(iso);
       sumXp += xp;
     }
@@ -2508,7 +2896,7 @@ function trendSvg(rows, lineClass, areaClass, valueLabel, suffix=""){
 }
 async function getLast30Trend(){
   const out=[]; const now=new Date(); now.setHours(0,0,0,0);
-  for(let i=29;i>=0;i--){ const d=new Date(now); d.setDate(now.getDate()-i); const iso=d.toISOString().slice(0,10); const st=await dayStats(iso); out.push({iso,label:d.toLocaleDateString(undefined,{day:"2-digit",month:"short"}),tasks:st.done,xp:st.xp}); }
+  for(let i=29;i>=0;i--){ const d=new Date(now); d.setDate(now.getDate()-i); const iso=localDateKey(d); const st=await dayStats(iso); out.push({iso,label:d.toLocaleDateString(undefined,{day:"2-digit",month:"short"}),tasks:st.done,xp:st.xp}); }
   return out;
 }
 async function renderTrendGraphs(){
@@ -2523,29 +2911,34 @@ async function renderTrendGraphs(){
 }
 
 async function renderStats(){
-  const all=await idbGetAll("task_log");
-  const done=all.filter(r=>r.done);
-  const xp=done.reduce((sum,r)=>sum+(effectiveRoutine(r.day)[r.task_index]?.[4]||0),0);
-  const st=await streak();
-  const todayDone=done.filter(r=>r.day===todayStr()).length;
-  const activeToday=activeRoutine(todayStr()).length;
-  const pct=activeToday?Math.round(todayDone/activeToday*100):0;
-  $("#statsCards").innerHTML=[
-    ["⭐",xp,"Total XP"],["🔥",st,"Day Streak"],["✅",todayDone,`Today (${pct}%)`],["🎯",done.length,"Quests Done"]
-  ].map(x=>`<div class="card"><div class="val">${x[0]} ${x[1]}</div><div class="lbl">${x[2]}</div></div>`).join("");
-  $("#statsProgress").innerHTML=`<div class="row between" style="font-size:11px;"><span>Today's completion</span><b>${pct}%</b></div><div class="stat-bar" style="margin-top:7px;"><div class="stat-fill" style="width:${pct}%"></div></div>`;
-  const counts=await monthCategoryCounts(new Date().getFullYear(),new Date().getMonth());
-  const total=Object.values(counts).reduce((a,b)=>a+b,0);
-  renderDonut($("#statsDonut"),counts,total,"quests this month");
-  const catXP={}; CATEGORIES.forEach(c=>catXP[c]=0);
-  for(const r of done) catXP[effectiveRoutine(r.day)[r.task_index]?.[3]]=(catXP[effectiveRoutine(r.day)[r.task_index]?.[3]]||0)+(effectiveRoutine(r.day)[r.task_index]?.[4]||0);
-  $("#statsCategoryXP").innerHTML=CATEGORIES.map(c=>`<div style="margin:8px 0"><div class="row between" style="font-size:11px"><span>${c}</span><b>${catXP[c]} XP</b></div><div class="stat-bar"><div class="stat-fill" style="width:${xp?Math.round(catXP[c]/xp*100):0}%"></div></div></div>`).join("");
-  renderXPRewards(xp);
-  if($("#statsTodayPct")) $("#statsTodayPct").textContent=pct+"%";
-  if($("#homeFocusPct")) $("#homeFocusPct").textContent=pct+"%";
-  await renderChallenges();
-  await renderHistory();
-  await renderTrendGraphs();
+  try{
+    const all=await idbGetAll("task_log");
+    const done=all.filter(r=>r.done);
+    const xp=done.reduce((sum,r)=>sum+(effectiveRoutine(r.day)[r.task_index]?.[4]||0),0);
+    const st=await streak();
+    const todayDone=done.filter(r=>r.day===todayStr()).length;
+    const activeToday=activeRoutine(todayStr()).length;
+    const pct=activeToday?Math.min(100,Math.round(todayDone/activeToday*100)):0;
+    const cards=$("#statsCards");
+    if(cards) cards.innerHTML=[["⭐",xp,"Total XP"],["🔥",st,"Day Streak"],["✅",todayDone,`Today (${pct}%)`],["🎯",done.length,"Quests Done"]].map(x=>`<div class="card"><div class="val">${x[0]} ${Number(x[1]).toLocaleString()}</div><div class="lbl">${x[2]}</div></div>`).join("");
+    if($("#statsProgress")) $("#statsProgress").innerHTML=`<div class="row between" style="font-size:11px;"><span>Today's completion</span><b>${pct}%</b></div><div class="stat-bar" style="margin-top:7px;"><div class="stat-fill" style="width:${pct}%"></div></div>`;
+    const counts=await monthCategoryCounts(new Date().getFullYear(),new Date().getMonth());
+    const total=Object.values(counts).reduce((a,b)=>a+b,0); renderDonut($("#statsDonut"),counts,total,"quests this month");
+    const catXP={}; CATEGORIES.forEach(c=>catXP[c]=0);
+    for(const r of done){const task=effectiveRoutine(r.day)[r.task_index];const cat=task?.[3];if(cat)catXP[cat]=(catXP[cat]||0)+(task?.[4]||0);}
+    if($("#statsCategoryXP")) $("#statsCategoryXP").innerHTML=CATEGORIES.map(c=>`<div style="margin:8px 0"><div class="row between" style="font-size:11px"><span>${c}</span><b>${catXP[c]||0} XP</b></div><div class="stat-bar"><div class="stat-fill" style="width:${xp?Math.min(100,Math.round((catXP[c]||0)/xp*100)):0}%"></div></div></div>`).join("");
+    renderXPRewards(xp); if($("#statsTodayPct")) $("#statsTodayPct").textContent=pct+"%"; if($("#homeFocusPct")) $("#homeFocusPct").textContent=pct+"%";
+    try{await renderChallenges();}catch(e){console.warn("stats challenges",e)}
+    try{await renderHistory();}catch(e){console.warn("stats history",e)}
+    try{await renderTrendGraphs();}catch(e){console.warn("stats graphs",e);$("#dailyCompletionGraph")&&( $("#dailyCompletionGraph").innerHTML='<div class="stats-empty">Statistics graph is temporarily unavailable.</div>');$("#dailyXPGraph")&&( $("#dailyXPGraph").innerHTML='<div class="stats-empty">Statistics graph is temporarily unavailable.</div>');}
+  }catch(e){
+    console.error("Perihelion Stats render failed",e);
+    const cards=$("#statsCards");
+    if(cards) cards.innerHTML=`<div class="stats-empty" style="grid-column:1/-1">Stats is recovering… <button type="button" class="primary" style="margin-top:10px" onclick="renderStats()">↻ Reload Stats</button></div>`;
+    ["#dailyCompletionGraph","#dailyXPGraph","#statsProgress","#statsDonut","#statsCategoryXP","#xpRewards"].forEach(sel=>{
+      const el=$(sel); if(el && !el.innerHTML.trim()) el.innerHTML='<div class="stats-empty">No statistics available yet.</div>';
+    });
+  }
 }
 
 // ---------- 7. TIMER / STOPWATCH ----------
@@ -2567,16 +2960,20 @@ function updateTimerLabel(){
     : ((stopwatchSeconds%3600)/3600*100);
   focusOverlay.style.setProperty("--focus-progress",pct+"%");
   focusOverlay.style.setProperty("--focus-progress-angle",(pct*3.6)+"deg");
-  const light=$("#focusProgressLight");
-  if(light){
-    const wrap=$("#focusClockWrap");
-    const size=wrap ? Math.min(wrap.clientWidth,wrap.clientHeight) : 360;
-    const radius=Math.max(30,size/2-16);
-    const angle=(pct/100)*Math.PI*2-Math.PI/2;
-    const x=Math.cos(angle)*radius;
-    const y=Math.sin(angle)*radius;
-    light.style.transform=`translate(-50%,-50%) translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`;
-  }
+  updateFocusProgressLight(pct);
+}
+
+/* V77: keep the moving time light locked to the actual ring size, including
+   after minimize/restore and responsive viewport changes. */
+function updateFocusProgressLight(pct){
+  const light=$("#focusProgressLight"),wrap=$("#focusClockWrap");
+  if(!light||!wrap) return;
+  const size=Math.min(wrap.clientWidth||360,wrap.clientHeight||360);
+  const radius=Math.max(30,size/2-10);
+  const angle=(pct/100)*Math.PI*2-Math.PI/2;
+  const x=Math.cos(angle)*radius;
+  const y=Math.sin(angle)*radius;
+  light.style.transform=`translate(-50%,-50%) translate(${x.toFixed(2)}px,${y.toFixed(2)}px)`;
 }
 function setTimerMinutes(min){
   focusMode="timer";
@@ -2647,10 +3044,90 @@ $("#focusStartBtn").onclick=toggleTimer;
 $("#timerResetBtn").onclick=()=>{setTimerMinutes(25)};
 $("#focusResetBtn").onclick=resetFocus;
 $all("[data-focus-view]").forEach(b=>b.addEventListener("click",()=>setFocusMode(b.dataset.focusView)));
-$("#focusModeBtn").onclick=()=>{focusOverlay.classList.remove("minimized");focusOverlay.classList.add("open");document.body.style.overflow="hidden";updateTimerLabel()};
-$("#focusCloseBtn").onclick=()=>{focusOverlay.classList.remove("open","minimized");document.body.style.overflow=""};
-$("#focusMinBtn").onclick=()=>focusOverlay.classList.add("minimized");
-$("#focusMaxBtn").onclick=()=>focusOverlay.classList.remove("minimized");
+/* V78 — Deep Focus window state + drag fix.
+   Keep the three window actions isolated from drag handling and use one
+   explicit state transition for open/minimize/maximize/close. */
+function setFocusWindowState(state){
+  if(!focusOverlay) return;
+  const isMin=state==="minimized";
+  const isOpen=state!=="closed";
+  focusOverlay.classList.toggle("open",isOpen);
+  focusOverlay.classList.toggle("minimized",isMin);
+  if(state==="normal"){
+    focusOverlay.style.left=""; focusOverlay.style.top="";
+    focusOverlay.style.right=""; focusOverlay.style.bottom="";
+    document.body.style.overflow="hidden";
+    const maxBtn=$("#focusMaxBtn");
+    if(maxBtn){maxBtn.textContent="⛶";maxBtn.title="Maximize";maxBtn.setAttribute("aria-label","Maximize");}
+  }else if(state==="minimized"){
+    document.body.style.overflow="";
+    const maxBtn=$("#focusMaxBtn");
+    if(maxBtn){maxBtn.textContent="⛶";maxBtn.title="Restore";maxBtn.setAttribute("aria-label","Restore Deep Focus");}
+    requestAnimationFrame(()=>{
+      const r=focusOverlay.getBoundingClientRect();
+      const left=Math.max(8,Math.min(r.left,window.innerWidth-r.width-8));
+      const top=Math.max(8,Math.min(r.top,window.innerHeight-r.height-8));
+      focusOverlay.style.right="auto"; focusOverlay.style.bottom="auto";
+      focusOverlay.style.left=left+"px"; focusOverlay.style.top=top+"px";
+      updateTimerLabel();
+    });
+  }else{
+    focusOverlay.style.left=""; focusOverlay.style.top="";
+    focusOverlay.style.right=""; focusOverlay.style.bottom="";
+    document.body.style.overflow="";
+  }
+  requestAnimationFrame(()=>updateTimerLabel());
+}
+
+$("#focusModeBtn").addEventListener("click",()=>setFocusWindowState("normal"));
+$("#focusCloseBtn").addEventListener("click",e=>{e.stopPropagation();setFocusWindowState("closed")});
+$("#focusMinBtn").addEventListener("click",e=>{e.stopPropagation();setFocusWindowState("minimized")});
+$("#focusMaxBtn").addEventListener("click",e=>{
+  e.stopPropagation();
+  if(focusOverlay.classList.contains("minimized")) setFocusWindowState("normal");
+  else setFocusWindowState("normal");
+});
+
+/* V78 — drag the minimized floating window itself, not only its title text.
+   Buttons/inputs/links remain clickable. Pointer capture keeps the drag
+   continuous even when the finger/mouse leaves the element. */
+(function setupMinimizedFocusDragV78(){
+  const target=$("#focusOverlay .focus-stage");
+  if(!target||!focusOverlay) return;
+  let drag=null;
+  const clamp=(v,min,max)=>Math.min(Math.max(v,min),Math.max(min,max));
+  const isInteractive=e=>!!e.target.closest("button,input,a,select,textarea,.focus-controls,.focus-duration-grid,.focus-bg-options,.focus-custom-time,.focus-spotify");
+  target.addEventListener("pointerdown",e=>{
+    if(!focusOverlay.classList.contains("minimized")||isInteractive(e)) return;
+    const r=focusOverlay.getBoundingClientRect();
+    drag={id:e.pointerId,sx:e.clientX,sy:e.clientY,left:r.left,top:r.top,w:r.width,h:r.height};
+    try{target.setPointerCapture(e.pointerId)}catch(_){ }
+    target.classList.add("focus-dragging");
+    e.preventDefault();
+  });
+  target.addEventListener("pointermove",e=>{
+    if(!drag||e.pointerId!==drag.id) return;
+    const left=clamp(drag.left+(e.clientX-drag.sx),8,window.innerWidth-drag.w-8);
+    const top=clamp(drag.top+(e.clientY-drag.sy),8,window.innerHeight-drag.h-8);
+    focusOverlay.style.right="auto";focusOverlay.style.bottom="auto";
+    focusOverlay.style.left=left+"px";focusOverlay.style.top=top+"px";
+  });
+  const end=e=>{
+    if(!drag||e.pointerId!==drag.id) return;
+    drag=null;target.classList.remove("focus-dragging");
+    try{target.releasePointerCapture(e.pointerId)}catch(_){ }
+  };
+  target.addEventListener("pointerup",end);
+  target.addEventListener("pointercancel",end);
+  window.addEventListener("resize",()=>{
+    if(!focusOverlay.classList.contains("minimized")) return;
+    const r=focusOverlay.getBoundingClientRect();
+    const left=clamp(r.left,8,window.innerWidth-r.width-8);
+    const top=clamp(r.top,8,window.innerHeight-r.height-8);
+    focusOverlay.style.left=left+"px";focusOverlay.style.top=top+"px";
+    requestAnimationFrame(updateTimerLabel);
+  });
+})();
 $all("#focusOverlay [data-focus-bg]").forEach(b=>b.addEventListener("click",()=>{
   const theme=b.dataset.focusBg;
   focusOverlay.dataset.bg=theme;
@@ -2722,13 +3199,13 @@ let lastAlarmStamp = "";
 setInterval(async ()=>{
   const now = new Date();
   const hhmm = String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");
-  const stamp = now.toISOString().slice(0,16);
+  const stamp = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}T${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
   if(stamp===lastAlarmStamp) return;
   const alarms = await idbGetAll("alarms");
   for(const a of alarms){
     if(a.enabled && a.alarm_time===hhmm){
       lastAlarmStamp = stamp;
-      notify("🔔 SHYAMA Alarm", a.label);
+      notify("🔔 Perihelion Alarm", a.label);
 
     }
   }
@@ -2742,7 +3219,7 @@ async function notify(title, body){
     if(navigator.serviceWorker && navigator.serviceWorker.controller){
       navigator.serviceWorker.controller.postMessage({type:"SHOW_NOTIFICATION", title, body});
     } else {
-      new Notification(title, {body, icon:"icons/shyama-logo.png"});
+      new Notification(title, {body, icon:"icons/perihelion-logo.png"});
     }
   } else {
     toast(title+": "+body);
@@ -2768,10 +3245,10 @@ function updateTaskNotificationPermissionUI(){
 async function requestTaskNotificationPermission(){
   if(!(typeof Notification!=="undefined")){setTaskNotifyStatus("This browser does not support notifications.","warn");updateTaskNotificationPermissionUI();return false}
   if(Notification.permission==="granted"){updateTaskNotificationPermissionUI();return true}
-  if(Notification.permission==="denied"){setTaskNotifyStatus("Notifications are blocked. Use your browser's site settings to allow SHYAMA notifications.","warn");updateTaskNotificationPermissionUI();return false}
+  if(Notification.permission==="denied"){setTaskNotifyStatus("Notifications are blocked. Use your browser's site settings to allow Perihelion notifications.","warn");updateTaskNotificationPermissionUI();return false}
   const result=await Notification.requestPermission();
   updateTaskNotificationPermissionUI();
-  if(result!=="granted"){setTaskNotifyStatus("Permission was not granted. You can enable SHYAMA notifications from the browser site settings.","warn");return false}
+  if(result!=="granted"){setTaskNotifyStatus("Permission was not granted. You can enable Perihelion notifications from the browser site settings.","warn");return false}
   return true
 }
 async function saveTaskNotificationSettings(){
@@ -2807,7 +3284,7 @@ async function checkUpcomingTaskNotifications(){
       const key=TASK_NOTIFY_SENT_PREFIX+taskNotifyIdentity(day,i,t);
       if(localStorage.getItem(key)==="1")continue;
       localStorage.setItem(key,"1");
-      await notify("🔔 SHYAMA — Upcoming Task",`${t[2]} starts at ${t[0]} · ${lead} minute${lead===1?"":"s"} from now.`);
+      await notify("🔔 Perihelion — Upcoming Task",`${t[2]} starts at ${t[0]} · ${lead} minute${lead===1?"":"s"} from now.`);
     }
   }
 }
@@ -2818,7 +3295,7 @@ $("#taskNotificationLead")?.addEventListener("change",saveTaskNotificationSettin
 $("#taskNotificationSkipDone")?.addEventListener("change",saveTaskNotificationSettings);
 $("#taskNotificationIncludeAdded")?.addEventListener("change",saveTaskNotificationSettings);
 $("#resetTaskNotificationDayBtn")?.addEventListener("click",resetTodayTaskNotificationMarks);
-$("#testTaskNotificationBtn")?.addEventListener("click",async()=>{if(!await requestTaskNotificationPermission())return;await notify("🔔 SHYAMA — Test Notification","Your task reminders are working. Next reminder timing follows your Settings.");setTaskNotifyStatus("Test notification sent successfully.","ok")});
+$("#testTaskNotificationBtn")?.addEventListener("click",async()=>{if(!await requestTaskNotificationPermission())return;await notify("🔔 Perihelion — Test Notification","Your task reminders are working. Next reminder timing follows your Settings.");setTaskNotifyStatus("Test notification sent successfully.","ok")});
 setInterval(()=>checkUpcomingTaskNotifications().catch(e=>console.warn("task notifications",e)),5000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpcomingTaskNotifications().catch(()=>{})});
 window.addEventListener("focus",()=>checkUpcomingTaskNotifications().catch(()=>{}));
@@ -2866,7 +3343,7 @@ if($("#hideCredentials")){
   applyCredentialVisibility();
 }
 
-// ---------- 12. SHYAMA CLOUD SYNC + LAPTOP SSD MIRROR ----------
+// ---------- 12. Perihelion CLOUD SYNC + LAPTOP SSD MIRROR ----------
 // Local-first: IndexedDB remains the working store. When configured, this section
 // mirrors task history, alarms, task edits and proof media through the user's
 // Supabase project. The laptop companion mirrors the same cloud data to an SSD.
@@ -3010,23 +3487,305 @@ window.addEventListener("online",()=>syncNow());
 document.addEventListener("visibilitychange",()=>{if(!document.hidden) syncNow();});
 setInterval(()=>syncNow(),60000);
 
+
+// ---------- V58 SETTINGS — CHATGPT-LIKE GROUPED PAGE + TRUE FOLDER PAGES ----------
+const SETTINGS_FOLDER_META={
+  sync:{page:"settingsSubpageSync"},
+  notifications:{page:"settingsSubpageNotifications"},
+  backup:{page:"settingsSubpageBackup"},
+  install:{page:"settingsSubpageInstall"},
+  ai:{page:"settingsSubpageAI"}
+};
+const settingsFolders=$all(".settings-subpage");
+const settingsMainScreen=$("#settingsMainScreen");
+function closeAllSettingsFolders(){
+  settingsFolders.forEach(el=>{el.classList.remove("open");el.setAttribute("aria-hidden","true");});
+  settingsMainScreen?.removeAttribute("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function openSettingsFolder(key){
+  const meta=SETTINGS_FOLDER_META[key];
+  if(!meta)return;
+  settingsFolders.forEach(el=>{
+    const open=el.id===meta.page;
+    el.classList.toggle("open",open);
+    el.setAttribute("aria-hidden",open?"false":"true");
+  });
+  settingsMainScreen?.setAttribute("hidden","");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$all("[data-settings-topic]").forEach(b=>b.addEventListener("click",()=>openSettingsFolder(b.dataset.settingsTopic)));
+$all("[data-settings-back]").forEach(b=>b.addEventListener("click",closeAllSettingsFolders));
+
+const PERIHELION_CLOUD_AI="https://tbobifccrwuwlomjxqqa.supabase.co/functions/v1/perihelion-ai";
+function getShyamaAIConfig(){const cloud=PERIHELION_CLOUD_AI;try{const saved=JSON.parse(localStorage.getItem("shyama_ai_config")||"null");if(!saved||typeof saved!=="object")return {backendUrl:cloud,mode:"openrouter"};const mode=saved.mode||"openrouter",u=String(saved.backendUrl||"").trim();
+// Never accept an OpenRouter API key, a bare token, or a stale localhost URL as the backend URL.
+if(mode==="openrouter"){if(!u||/^sk-or[-_]/i.test(u)||!/^(https?:\/\/)/i.test(u)||u.includes("127.0.0.1")||u.includes("localhost")||!u.includes("supabase.co/functions/v1/perihelion-ai")){return {backendUrl:cloud,mode:"openrouter"}}}
+if(mode==="ollama"&&!u)return {backendUrl:cloud,mode:"openrouter"};return {backendUrl:u,mode};}catch(e){return {backendUrl:cloud,mode:"openrouter"}}}
+function saveShyamaAIConfig(cfg){const mode=cfg?.mode||"openrouter";let backendUrl=String(cfg?.backendUrl||"").trim().replace(/\/$/,"");if(mode==="openrouter")backendUrl=PERIHELION_CLOUD_AI;if(/^sk-or[-_]/i.test(backendUrl)||(!/^https?:\/\//i.test(backendUrl)&&mode==="openrouter"))backendUrl=PERIHELION_CLOUD_AI;localStorage.setItem("shyama_ai_config",JSON.stringify({backendUrl,mode}));updateShyamaAIStatus()}
+function shyamaAIBackendUrl(){return getShyamaAIConfig().backendUrl.replace(/\/$/,"")}
+function updateShyamaAIStatus(text){const c=getShyamaAIConfig();const dot=$("#shyamaAIStatusDot"),label=$("#shyamaAIStatusText");if(dot&&label){const configured=!!shyamaAIBackendUrl();dot.className="ai-status-dot "+(text==="Connection error"?"error":(configured?"ok":"warn"));label.textContent=text||(configured?"Cloud backend":"Not configured")}const mode=$("#shyamaAIMode"),url=$("#shyamaAIBackendUrl"),line=$("#shyamaAIModelLine");if(mode)mode.value=c.mode||"openrouter";if(url)url.value=c.mode==="openrouter"?PERIHELION_CLOUD_AI:(c.backendUrl||"");if(line)line.textContent=(c.mode||"openrouter")==="openrouter"?"Supabase Edge Function · OpenRouter · openrouter/free":"Recommended local model: qwen2.5:3b"}
+async function testShyamaAIConnection(){const c=getShyamaAIConfig(),url=shyamaAIBackendUrl(),out=$("#shyamaAIConfigStatus");if(c.mode==="openrouter"&&url!==PERIHELION_CLOUD_AI){saveShyamaAIConfig({backendUrl:PERIHELION_CLOUD_AI,mode:"openrouter"})}if(!url){if(out)out.textContent="Enter the backend URL first.";return false}if(out)out.textContent="Testing Supabase Edge Function…";try{const r=await fetch(url+"/health",{headers:{Accept:"application/json"}}),j=await r.json().catch(()=>({}));if(!r.ok||!j.ok)throw new Error(j.error||`Backend returned ${r.status}`);updateShyamaAIStatus("Connected");if(out)out.textContent=`✓ Connected · ${j.provider||"AI backend"}${j.model?" · "+j.model:""}`;return true}catch(e){updateShyamaAIStatus("Connection error");const msg=String(e?.message||e);if(msg.includes("OPENROUTER_API_KEY"))out.textContent="✕ Supabase is reachable, but OPENROUTER_API_KEY is not configured. Add it under Supabase → Edge Functions → Secrets. Do not paste the key into this app.";else if(msg.includes("404"))out.textContent="✕ 404: the saved backend address was invalid. Perihelion now forces the official Supabase Edge Function URL for OpenRouter mode.";else out.textContent=`✕ ${msg} · Check Supabase deployment/network.`;return false}}
+function shyamaAITopicStore(){try{return JSON.parse(localStorage.getItem("shyama_ai_topics")||"[]")}catch(e){return []}}
+function shyamaAISaveTopics(list){try{localStorage.setItem("shyama_ai_topics",JSON.stringify(list||[]))}catch(e){}}
+function shyamaAINewTopic(){const id="t_"+Date.now()+"_"+Math.random().toString(36).slice(2,7),t={id,title:"New Chat",createdAt:Date.now(),messages:[]};const list=shyamaAITopicStore();list.unshift(t);shyamaAISaveTopics(list);localStorage.setItem("shyama_ai_active_topic",id);return t}
+function shyamaAIActiveTopic(){const list=shyamaAITopicStore();let id=localStorage.getItem("shyama_ai_active_topic"),t=list.find(x=>x.id===id);if(!t)t=list[0]||shyamaAINewTopic();localStorage.setItem("shyama_ai_active_topic",t.id);return t}
+function shyamaAISaveTopic(t){const list=shyamaAITopicStore(),i=list.findIndex(x=>x.id===t.id);if(i>=0)list[i]=t;else list.unshift(t);shyamaAISaveTopics(list)}
+function shyamaAIRenderTopics(filter=""){const box=$("#shyamaAITopicList");if(!box)return;const active=shyamaAIActiveTopic(),q=String(filter||"").trim().toLowerCase(),list=shyamaAITopicStore().filter(t=>!q||(t.title||"New Chat").toLowerCase().includes(q)||(t.messages||[]).some(m=>String(m.content||"").toLowerCase().includes(q)));box.innerHTML="";if(!list.length){const empty=document.createElement("div");empty.style.cssText="padding:16px 10px;color:#657c9c;font-size:10px;line-height:1.5";empty.textContent="No chats found.";box.appendChild(empty);return}list.forEach(t=>{const row=document.createElement("div");row.className="shy-ai-topic v65"+(t.id===active.id?" active":"");const name=document.createElement("button");name.type="button";name.className="shy-ai-topic-name v65";name.textContent=t.title||"New Chat";name.onclick=()=>{stopAISpeech();localStorage.setItem("shyama_ai_active_topic",t.id);shyamaAIRenderCurrentTopic();shyamaAIRenderTopics($("#shyamaAITopicSearch")?.value||"");closeShyamaAITopicDrawer()};const del=document.createElement("button");del.type="button";del.className="shy-ai-topic-del v65";del.title="Delete topic";del.textContent="⋮";del.onclick=e=>{e.stopPropagation();if(!confirm("Delete this topic and its chat history?"))return;stopAISpeech();const remaining=shyamaAITopicStore().filter(x=>x.id!==t.id);shyamaAISaveTopics(remaining);if(localStorage.getItem("shyama_ai_active_topic")===t.id)localStorage.removeItem("shyama_ai_active_topic");if(!remaining.length)shyamaAINewTopic();shyamaAIRenderTopics($("#shyamaAITopicSearch")?.value||"");shyamaAIRenderCurrentTopic()};row.append(name,del);box.appendChild(row)})}
+function escapeAIHtml(text){return String(text??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function renderAIText(text){
+  const raw=String(text??"");
+  const math=[];
+  const stash=(latex,display)=>{const id=`@@PERI_MATH_${math.length}@@`;math.push({id,latex:String(latex).trim(),display});return id;};
+  try{
+    let prepared=raw;
+    /* Normalize the common AI form "[ ... ]" used for display equations into real LaTeX delimiters. */
+    prepared=prepared.replace(/(^|\n)\s*\[\s*\n([\s\S]*?)\n\s*\](?=\s*(?:\n|$))/g,(m,prefix,body)=>{
+      if(/(?:\\[A-Za-z]+|[=<>]|\^|_|\bfrac\b|\bsqrt\b|\bDelta\b|\bnu\b|\bmu\b)/.test(body)) return prefix+`\\[${body.trim()}\\]`;
+      return m;
+    });
+    /* Protect equations from Markdown before escaping/parsing, then restore them afterwards. */
+    prepared=prepared.replace(/\\\[([\s\S]*?)\\\]/g,(m,body)=>stash(body,true));
+    prepared=prepared.replace(/\$\$([\s\S]*?)\$\$/g,(m,body)=>stash(body,true));
+    prepared=prepared.replace(/\\\(([^\n]*?)\\\)/g,(m,body)=>stash(body,false));
+    prepared=prepared.replace(/\$([^$\n]+?)\$/g,(m,body)=>stash(body,false));
+    if(window.marked?.parse){
+      const safe=prepared.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      let html=window.marked.parse(safe,{breaks:true,gfm:true});
+      for(const item of math){
+        const token=item.id.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+        const delim=item.display?`\\[${item.latex}\\]`:`\\(${item.latex}\\)`;
+        html=html.replace(new RegExp(token,'g'),delim);
+      }
+      return html;
+    }
+  }catch(e){console.warn("AI markdown/math render",e)}
+  return escapeAIHtml(raw).replace(/\\n/g,"<br>");
+}
+function typesetAI(el){if(window.MathJax?.typesetPromise){requestAnimationFrame(()=>window.MathJax.typesetPromise([el]).catch(e=>console.warn("MathJax",e)));}}
+function aiSpeakPlain(text){return String(text||"").replace(/```[\s\S]*?```/g," ").replace(/!\[[^\]]*\]\([^)]*\)/g," ").replace(/\[([^\]]+)\]\([^)]*\)/g,"$1").replace(/[#*_`>|]/g," ").replace(/\\\((.*?)\\\)/g,"$1").replace(/\\\[(.*?)\\\]/gs,"$1").replace(/\$\$(.*?)\$\$/gs,"$1").replace(/\$(.*?)\$/g,"$1").replace(/\\[a-zA-Z]+/g," ").replace(/[{}^_]/g," ").replace(/\s+/g," ").trim();}
+function stopAIUtterance(button){
+  try{window.speechSynthesis?.cancel()}catch(e){}
+  if(button){button.classList.remove("speaking");button.textContent="🔊 Speak";}
+}
+let __periSpeech={utterance:null,button:null};
+function resetSpeakButton(button){if(!button)return;button.classList.remove("speaking");button.textContent="🔊 Speak";button.setAttribute("aria-label","Speak answer");}
+let __periVoiceSpeech={active:false,queue:[],index:0};
+function stopPeriVoiceSpeech(){
+  __periVoiceSpeech={active:false,queue:[],index:0};
+  try{window.speechSynthesis?.cancel()}catch(e){}
+}
+function stopAISpeech(){
+  stopPeriVoiceSpeech();
+  try{
+    const synth=window.speechSynthesis;
+    if(synth){synth.cancel();}
+  }catch(e){}
+  if(__periSpeech.button)resetSpeakButton(__periSpeech.button);
+  __periSpeech={utterance:null,button:null};
+}
+function speakAI(text,button){
+  const synth=window.speechSynthesis;
+  if(!synth){toast("Spoken replies are not supported in this browser.");return;}
+  /* One explicit Speak button controls one utterance. A second tap on that same
+     button always cancels the current speech instead of starting it again. */
+  if(__periSpeech.utterance && button===__periSpeech.button){
+    stopAISpeech();
+    return;
+  }
+  /* If another answer is speaking, stop it before starting the newly selected one. */
+  if(__periSpeech.utterance || synth.speaking || synth.pending){
+    stopAISpeech();
+  }
+  const plain=aiSpeakPlain(text);
+  if(!plain)return;
+  const u=new SpeechSynthesisUtterance(plain);
+  u.lang=navigator.language||"en-IN";
+  u.rate=.96;
+  u.pitch=1;
+  __periSpeech={utterance:u,button:button||null};
+  if(button){
+    button.classList.add("speaking");
+    button.textContent="⏹ Stop";
+    button.setAttribute("aria-label","Stop speaking");
+  }
+  const finish=()=>{
+    if(__periSpeech.utterance!==u)return;
+    resetSpeakButton(button);
+    __periSpeech={utterance:null,button:null};
+  };
+  u.onend=finish;
+  u.onerror=finish;
+  synth.speak(u);
+}
+
+function addShyamaAIMsg(who,text,opts={}){
+ const box=$("#shyamaAIMessages");if(!box)return null;
+ const d=document.createElement("div");d.className="shy-ai-msg v65 "+who;
+ if(opts.thinking){d.classList.add("shy-ai-thinking");d.dataset.thinking="1";d.innerHTML='<div class="ai-rich"><span>Thinking</span><span class="thinking-dots"><i></i><i></i><i></i></span></div>';box.appendChild(d);box.scrollTop=box.scrollHeight;return d;}
+ if(who==="bot"){
+   const rich=document.createElement("div");rich.className="ai-rich";rich.innerHTML=renderAIText(text);d.appendChild(rich);
+   const actions=document.createElement("div");actions.className="ai-msg-actions";
+   const make=(label,title,fn)=>{const b=document.createElement("button");b.type="button";b.className="ai-msg-action";b.textContent=label;b.title=title;b.setAttribute("aria-label",title);b.onclick=fn;actions.appendChild(b);return b;};
+   make("⧉ Copy","Copy answer",async()=>{try{await navigator.clipboard.writeText(String(text||""));toast("Answer copied");}catch(e){const ta=document.createElement("textarea");ta.value=String(text||"");document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast("Answer copied");}});
+   make("🔊 Speak","Speak answer",e=>speakAI(text,e.currentTarget));
+   make("↗ Share","Share answer",async()=>{const clean=String(text||"");try{if(navigator.share){await navigator.share({title:"Perihelion AI",text:clean});}else{await navigator.clipboard.writeText(clean);toast("Sharing is not available; answer copied");}}catch(e){if(e?.name!=="AbortError")toast("Unable to share this answer");}});
+   d.appendChild(actions);typesetAI(rich);
+ }else d.textContent=text;
+ box.appendChild(d);box.scrollTop=box.scrollHeight;
+ return d;
+}
+function removeThinking(){document.querySelectorAll('#shyamaAIMessages [data-thinking="1"]').forEach(el=>el.remove());}
+
+function shyamaAIRenderCurrentTopic(){const t=shyamaAIActiveTopic(),title=$("#shyamaAICurrentTopic"),box=$("#shyamaAIMessages");if(title)title.textContent=t.title||"New Chat";if(!box)return;box.innerHTML="";if(!t.messages.length){const w=document.createElement("div");w.className="shy-ai-v65-welcome";w.innerHTML='<img src="icons/perihelion-logo.png" alt="Perihelion"><h2>How can I help you?</h2><p>Ask Perihelion about your routine, chemistry concepts, GATE/CSIR-NET, progress, XP or anything you want to understand.</p>';box.appendChild(w)}else t.messages.forEach(m=>addShyamaAIMsg(m.role==="user"?"user":"bot",m.content))}
+function shyamaAICreateNewChat(){stopAISpeech();shyamaAINewTopic();shyamaAIRenderTopics();shyamaAIRenderCurrentTopic();closeShyamaAITopicDrawer();setTimeout(()=>$("#shyamaAIInput")?.focus(),50)}
+function closeShyamaAITopicDrawer(){$("#shyamaAITopicsPanel")?.classList.remove("open");$("#shyamaAITopicsOverlay")?.classList.remove("open")}
+function openShyamaAI(){const m=$("#shyamaAIModal");if(!m)return;m.classList.add("open");m.setAttribute("aria-hidden","false");updateShyamaAIStatus();try{const raw=JSON.parse(localStorage.getItem("shyama_ai_config")||"null");if(raw?.mode==="openrouter"&&(/^sk-or[-_]/i.test(String(raw.backendUrl||""))||String(raw.backendUrl||"").includes("127.0.0.1")||String(raw.backendUrl||"").includes("localhost")||!String(raw.backendUrl||"").includes("supabase.co/functions/v1/perihelion-ai"))){localStorage.setItem("shyama_ai_config",JSON.stringify({backendUrl:PERIHELION_CLOUD_AI,mode:"openrouter"}));updateShyamaAIStatus();}}catch(e){}const c=getShyamaAIConfig();const pl=$("#shyamaAIProviderLabel");if(pl)pl.textContent=c.mode==="openrouter"?"OPENROUTER / SUPABASE":"LOCAL / OPEN MODEL";shyamaAIRenderTopics();shyamaAIRenderCurrentTopic();setTimeout(()=>$("#shyamaAIInput")?.focus(),80)}
+function closeShyamaAI(){stopAISpeech();const m=$("#shyamaAIModal");if(!m)return;m.classList.remove("open");m.setAttribute("aria-hidden","true");closeShyamaAITopicDrawer()}
+async function getShyamaAIContext(){const day=todayStr(),active=activeRoutine(day),st=await dayStats(day),xp=await totalXP(),streakNow=await streak();return {date:day,time:new Date().toLocaleTimeString(),routine:active.map((r,i)=>({index:i,start:r[0],end:r[1],task:r[2],category:r[3],xp:r[4]})),today:{done:st.done,total:active.length,xp:st.xp},totalXP:xp,streak:streakNow}}
+function getShyamaAIHistory(){return (shyamaAIActiveTopic().messages||[]).slice(-12).map(m=>({role:m.role,content:m.content}))}
+async function shyamaAIRemoteReply(q){const url=shyamaAIBackendUrl();if(!url)throw new Error("AI backend not configured");const context=await getShyamaAIContext(),history=getShyamaAIHistory();const attachments=await prepareAIFilePayload();const r=await fetch(url+"/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:q,history,context,attachments})});const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.error||"AI backend error");return String(data.reply||"")}
+async function shyamaAILocalFallback(q){const t=String(q||"").toLowerCase(),day=todayStr(),active=activeRoutine(day),st=await dayStats(day),xp=await totalXP(),streakNow=await streak();if(t.includes("next")||t.includes("task")){const idx=nowInRoutine(),target=idx!==null?idx:active.findIndex(r=>{const [h,m]=r[0].split(":").map(Number);return h*60+m>new Date().getHours()*60+new Date().getMinutes()});if(target>=0&&active[target])return `Your next routine block is ${active[target][0]}–${active[target][1]}: ${active[target][2]} (${active[target][3]}).`;return "You have no later routine block today."}if(t.includes("progress")||t.includes("complete"))return `Today: ${st.done}/${active.length} active quests complete, with ${st.xp} XP earned.`;if(t.includes("xp"))return `You have ${xp.toLocaleString()} total XP.`;if(t.includes("streak"))return `Your current day streak is ${streakNow} day${streakNow===1?"":"s"}.`;return "AI backend is not connected yet. Connect Perihelion AI in Settings to ask full study and concept questions."}
+async function shyamaAIReply(q){return shyamaAIBackendUrl()?await shyamaAIRemoteReply(q):await shyamaAILocalFallback(q)}
+window.__periAIFiles=[];
+function renderAIFiles(){const tray=$("#shyamaAIAttachmentTray");if(!tray)return;tray.innerHTML="";const files=window.__periAIFiles||[];tray.classList.toggle("show",files.length>0);files.forEach((f,i)=>{const chip=document.createElement("div");chip.className="shy-ai-attachment-chip";chip.innerHTML=`<span>${f.type.startsWith("image/")?"🖼️":"📄"} ${escapeAIHtml(f.name)}</span><button type="button" aria-label="Remove ${escapeAIHtml(f.name)}">×</button>`;chip.querySelector("button").onclick=()=>{files.splice(i,1);renderAIFiles()};tray.appendChild(chip)});}
+async function fileToDataURL(file){return await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result||""));r.onerror=rej;r.readAsDataURL(file)})}
+async function compressImage(file){const url=await fileToDataURL(file);const img=new Image();await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src=url});const max=1600,scale=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=Math.max(1,Math.round(img.width*scale));c.height=Math.max(1,Math.round(img.height*scale));const ctx=c.getContext("2d");ctx.drawImage(img,0,0,c.width,c.height);return c.toDataURL("image/jpeg",.78)}
+async function extractPDFText(file){if(!window.pdfjsLib)throw new Error("PDF reader is still loading. Please try again.");window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";const buf=await file.arrayBuffer();const pdf=await window.pdfjsLib.getDocument({data:buf}).promise;let out="";const pages=Math.min(pdf.numPages,40);for(let n=1;n<=pages;n++){const page=await pdf.getPage(n);const content=await page.getTextContent();out+=`\n\n--- Page ${n} ---\n`+content.items.map(x=>x.str||"").join(" ");if(out.length>45000)break}return out.slice(0,45000)}
+async function prepareAIFilePayload(){const files=window.__periAIFiles||[];const out=[];for(const f of files){if(f.type.startsWith("image/")){out.push({type:"image",name:f.name,data:await compressImage(f)});}else if(f.type==="application/pdf"||/\.pdf$/i.test(f.name)){out.push({type:"pdf",name:f.name,text:await extractPDFText(f)});}}return out;}
+function clearAIFiles(){window.__periAIFiles=[];renderAIFiles();}
+function setupAIAttachments(){const plus=$("#shyamaAIPlus"),menu=$("#shyamaAIAttachMenu"),input=$("#shyamaAIFileInput"),img=$("#shyamaAIAddImage"),pdf=$("#shyamaAIAddPDF");if(!plus||!input)return;plus.addEventListener("click",e=>{e.stopPropagation();menu?.classList.toggle("open")});img?.addEventListener("click",()=>{menu?.classList.remove("open");input.accept="image/*";input.click()});pdf?.addEventListener("click",()=>{menu?.classList.remove("open");input.accept="application/pdf,.pdf";input.click()});input.addEventListener("change",e=>{const chosen=[...(e.target.files||[])];const existing=window.__periAIFiles||[];for(const f of chosen){if(existing.length>=4)break;if(f.type.startsWith("image/")&&f.size>8*1024*1024){toast("Image is too large; choose one under 8 MB");continue}if((f.type==="application/pdf"||/\.pdf$/i.test(f.name))&&f.size>15*1024*1024){toast("PDF is too large; choose one under 15 MB");continue}existing.push(f)}window.__periAIFiles=existing;renderAIFiles();input.value=""});document.addEventListener("click",e=>{if(!e.target.closest(".shy-ai-plus-wrap"))menu?.classList.remove("open")});}
+
+async function sendShyamaAI(){const input=$("#shyamaAIInput"),q=input?.value.trim();if(!q)return;if(window.__periAISending)return;window.__periAISending=true;input.value="";const t=shyamaAIActiveTopic();if(!t.messages.length||t.title==="New Chat"){t.title=q.length>42?q.slice(0,42)+"…":q;shyamaAISaveTopic(t);shyamaAIRenderTopics($("#shyamaAITopicSearch")?.value||"");shyamaAIRenderCurrentTopic()}const attachedSummary=(window.__periAIFiles||[]).map(f=>`[Attached: ${f.name}]`).join(" ");t.messages.push({role:"user",content:q+(attachedSummary?"\n"+attachedSummary:"")});shyamaAISaveTopic(t);addShyamaAIMsg("user",q+(attachedSummary?"\n📎 "+attachedSummary:""));addShyamaAIMsg("bot","",{thinking:true});try{const reply=await shyamaAIReply(q);removeThinking();addShyamaAIMsg("bot",reply);const latest=shyamaAIActiveTopic();latest.messages.push({role:"assistant",content:reply});shyamaAISaveTopic(latest);clearAIFiles();shyamaAIRenderTopics($("#shyamaAITopicSearch")?.value||"")}catch(e){console.error(e);removeThinking();addShyamaAIMsg("bot",`I couldn't complete that request. ${e?.message||"Check Perihelion AI Settings."}`)}finally{window.__periAISending=false}}
+
+
+function openPeriVoiceMode(){const m=$("#periVoiceMode");if(!m)return;stopPeriVoiceSpeech();m.classList.add("open");m.setAttribute("aria-hidden","false");$("#periVoiceAnswer").classList.remove("show");$("#periVoiceAnswer").textContent="";$("#periVoiceStatus").textContent="Listening…";$("#periVoiceSubstatus").textContent="Speak or type your question";$("#periVoicePoor").style.display="none";updatePeriVoiceMute();}
+function closePeriVoiceMode(){const m=$("#periVoiceMode");if(!m)return;stopPeriVoiceSpeech();m.classList.remove("open");m.setAttribute("aria-hidden","true");}
+function isPeriVoiceRepliesOn(){return localStorage.getItem("perihelion_voice_mode_muted")!=="1";}
+function updatePeriVoiceMute(){const on=isPeriVoiceRepliesOn(),b=$("#periVoiceMute");if(b){b.textContent=on?"🔊":"🔇";b.setAttribute("aria-label",on?"Mute voice replies":"Turn on voice replies");b.title=on?"Voice replies on":"Voice replies off";}}
+function speakPeriVoiceText(text){
+  const synth=window.speechSynthesis;if(!synth)return false;
+  const plain=aiSpeakPlain(text);if(!plain)return false;
+  stopPeriVoiceSpeech();
+  const parts=[];let rest=plain;
+  while(rest.length>260){let cut=rest.lastIndexOf(" ",260);if(cut<120)cut=260;parts.push(rest.slice(0,cut).trim());rest=rest.slice(cut).trim();}
+  if(rest)parts.push(rest);
+  __periVoiceSpeech={active:true,queue:parts,index:0};
+  const next=()=>{
+    if(!__periVoiceSpeech.active)return;
+    if(__periVoiceSpeech.index>=__periVoiceSpeech.queue.length){__periVoiceSpeech={active:false,queue:[],index:0};$("#periVoiceStatus").textContent="Perihelion is answering";$("#periVoiceSubstatus").textContent="Tap the microphone to ask another question";return;}
+    const u=new SpeechSynthesisUtterance(__periVoiceSpeech.queue[__periVoiceSpeech.index++]);
+    u.lang=navigator.language||"en-IN";u.rate=.96;u.pitch=1;
+    u.onstart=()=>{$("#periVoiceStatus").textContent="Speaking…";$("#periVoiceSubstatus").textContent="Tap the speaker button to mute";};
+    u.onend=next;
+    u.onerror=e=>{if(__periVoiceSpeech.active){console.warn("Perihelion voice",e?.error||e);__periVoiceSpeech={active:false,queue:[],index:0};$("#periVoiceStatus").textContent="Voice unavailable";$("#periVoiceSubstatus").textContent="You can still read the answer below";}};
+    synth.speak(u);
+  };
+  next();return true;
+}
+async function periVoiceAsk(q){q=String(q||"").trim();if(!q)return;stopAISpeech();$("#periVoiceStatus").textContent="Thinking…";$("#periVoiceSubstatus").textContent="Perihelion AI is working";$("#periVoicePoor").style.display="none";try{const reply=await shyamaAIReply(q);const a=$("#periVoiceAnswer");a.innerHTML=renderAIText(reply);a.classList.add("show");typesetAI(a);if(isPeriVoiceRepliesOn())speakPeriVoiceText(reply);else{$("#periVoiceStatus").textContent="Perihelion is answering";$("#periVoiceSubstatus").textContent="Voice replies are muted";}}catch(e){console.error(e);$("#periVoiceStatus").textContent="Poor connection";$("#periVoiceSubstatus").textContent="Check Settings → Perihelion AI";$("#periVoicePoor").textContent=String(e?.message||"").includes("OPENROUTER_API_KEY")?"Supabase is connected, but the server needs OPENROUTER_API_KEY configured.":"Connection problem — check Perihelion AI settings.";$("#periVoicePoor").style.display="block";}}
+function setupPeriVoiceMode(){
+ const mic=$("#periVoiceMic"),send=$("#periVoiceSend"),input=$("#periVoiceInput"),kb=$("#periVoiceKeyboard"),mute=$("#periVoiceMute"),close=$("#periVoiceClose");
+ send?.addEventListener("click",()=>{const q=input?.value.trim();if(input)input.value="";periVoiceAsk(q)});input?.addEventListener("keydown",e=>{if(e.key==="Enter")send?.click()});kb?.addEventListener("click",()=>input?.focus());close?.addEventListener("click",closePeriVoiceMode);mute?.addEventListener("click",()=>{const on=isPeriVoiceRepliesOn();localStorage.setItem("perihelion_voice_mode_muted",on?"1":"0");updatePeriVoiceMute();if(on)stopPeriVoiceSpeech();});
+ let Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;if(!Recognition){mic.disabled=true;mic.textContent="⌨";return;}const rec=new Recognition();rec.lang=navigator.language||"en-IN";rec.continuous=false;rec.interimResults=true;let finalText="";rec.onstart=()=>{$("#periVoiceStatus").textContent="Listening…";$("#periVoiceSubstatus").textContent="Speak now";mic.classList.add("listening");finalText=""};rec.onresult=e=>{let interim="";for(let i=e.resultIndex;i<e.results.length;i++){const txt=e.results[i][0].transcript;if(e.results[i].isFinal)finalText+=txt;else interim+=txt;}if(input)input.value=(finalText||interim).trim()};rec.onerror=e=>{$("#periVoiceStatus").textContent=e.error==="not-allowed"?"Microphone blocked":"Voice input error"};rec.onend=()=>{mic.classList.remove("listening");if(finalText.trim()){const q=finalText.trim();if(input)input.value="";periVoiceAsk(q)}};mic.addEventListener("click",()=>{try{if(mic.classList.contains("listening"))rec.stop();else rec.start()}catch(e){}});
+}
+
+$("#openShyamaAI")?.addEventListener("click",openShyamaAI);$("#closeShyamaAI")?.addEventListener("click",closeShyamaAI);$("#sendShyamaAI")?.addEventListener("click",sendShyamaAI);$("#shyamaAIInput")?.addEventListener("keydown",e=>{if(e.key==="Enter")sendShyamaAI()});$("#shyamaAIModal")?.addEventListener("click",e=>{if(e.target.id==="shyamaAIModal")closeShyamaAI()});
+$all("[data-ai-prompt]").forEach(b=>b.addEventListener("click",()=>{const input=$("#shyamaAIInput");if(!input)return;input.value=b.dataset.aiPrompt||"";input.focus();input.scrollIntoView({block:"nearest"})}));
+$("#shyamaAINewChat")?.addEventListener("click",shyamaAICreateNewChat);$("#shyamaAITopicToggle")?.addEventListener("click",()=>{$("#shyamaAITopicsPanel")?.classList.toggle("open");$("#shyamaAITopicsOverlay")?.classList.toggle("open")});$("#shyamaAITopicsOverlay")?.addEventListener("click",closeShyamaAITopicDrawer);$("#shyamaAITopicSearch")?.addEventListener("input",e=>shyamaAIRenderTopics(e.target.value));$("#shyamaAIFloatingLauncher")?.addEventListener("click",e=>{if(window.__shyamaDragging)return;openShyamaAI()});
+(function setupShyamaAIFloating(){const b=$("#shyamaAIFloatingLauncher");if(!b)return;let drag=false,moved=false,sx=0,sy=0,sl=0,st=0;const key="shyama_ai_float_pos";try{const p=JSON.parse(localStorage.getItem(key)||"null");if(p&&p.x<innerWidth-40&&p.y<innerHeight-40){b.style.left=Math.max(6,p.x)+"px";b.style.top=Math.max(6,p.y)+"px";b.style.right="auto";b.style.bottom="auto"}}catch(e){}b.addEventListener("pointerdown",e=>{drag=true;moved=false;window.__shyamaDragging=false;sx=e.clientX;sy=e.clientY;const r=b.getBoundingClientRect();sl=r.left;st=r.top;b.setPointerCapture?.(e.pointerId)});b.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>7){moved=true;window.__shyamaDragging=true}if(moved){const x=Math.max(6,Math.min(innerWidth-b.offsetWidth-6,sl+dx)),y=Math.max(6,Math.min(innerHeight-b.offsetHeight-6,st+dy));b.style.left=x+"px";b.style.top=y+"px";b.style.right="auto";b.style.bottom="auto"}});const done=()=>{if(!drag)return;drag=false;if(moved){try{const r=b.getBoundingClientRect();localStorage.setItem(key,JSON.stringify({x:r.left,y:r.top}))}catch(e){}setTimeout(()=>window.__shyamaDragging=false,100)}};b.addEventListener("pointerup",done);b.addEventListener("pointercancel",done)})();
+function setupPerihelionVoice(){
+  /* V79: automatic AI speech is OFF. Speech starts only when the user taps Speak. */
+  if(localStorage.getItem("perihelion_ai_tts_v79_migrated")!=="1"){
+    localStorage.setItem("perihelion_ai_voice_replies","0");
+    localStorage.setItem("perihelion_ai_tts_v79_migrated","1");
+  }
+  const btn=$("#shyamaAIVoiceBtn"),toggle=$("#shyamaAIVoiceToggle"),status=$("#shyamaAIVoiceStatus"),input=$("#shyamaAIInput");
+  if(!btn||btn.dataset.voiceBound==="1") return;
+  btn.dataset.voiceBound="1";
+  const svg=btn.innerHTML;
+  let Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  let rec=null,listening=false,finalText="";
+  const updateVoiceMode=()=>{
+    const on=localStorage.getItem("perihelion_ai_voice_replies")==="1";
+    toggle?.classList.toggle("on",on);
+    /* Keep the waveform SVG intact — do not replace it with text. */
+    toggle?.setAttribute("aria-label","Open Perihelion Voice Mode");
+    toggle?.setAttribute("title",on?"Open Perihelion Voice Mode — voice replies on":"Open Perihelion Voice Mode");
+  };
+  updateVoiceMode();
+  if(toggle){
+    toggle.onclick=(e)=>{e.preventDefault();e.stopPropagation();openPeriVoiceMode();};
+  }
+  if(!Recognition){
+    btn.disabled=false;
+    btn.title="Voice typing is not supported by this browser";
+    btn.setAttribute("aria-label","Voice typing unavailable in this browser");
+    btn.innerHTML=svg;
+    btn.onclick=()=>toast("Voice typing is not supported by this browser. Try Chrome/Edge with microphone permission.");
+    return;
+  }
+  try{rec=new Recognition();}catch(err){
+    btn.onclick=()=>toast("Could not start voice typing in this browser.");
+    return;
+  }
+  rec.lang=navigator.language||"en-IN";
+  rec.continuous=false;
+  rec.interimResults=true;
+  rec.onstart=()=>{
+    listening=true;finalText="";btn.classList.add("listening");btn.setAttribute("aria-label","Stop voice typing");
+    if(status)status.textContent="Listening…";
+  };
+  rec.onresult=e=>{
+    let interim="";
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const txt=e.results[i][0].transcript;
+      if(e.results[i].isFinal) finalText+=txt; else interim+=txt;
+    }
+    if(input) input.value=(finalText||interim).trim();
+  };
+  rec.onerror=e=>{
+    listening=false;btn.classList.remove("listening");btn.setAttribute("aria-label","Voice typing");
+    if(status) status.textContent=e.error==="not-allowed"?"Microphone permission blocked":"Voice input error";
+    setTimeout(()=>{if(status)status.textContent=""},2200);
+  };
+  rec.onend=()=>{
+    listening=false;btn.classList.remove("listening");btn.setAttribute("aria-label","Voice typing");
+    if(status)status.textContent="";
+    /* Voice typing NEVER sends automatically. */
+  };
+  btn.onclick=(e)=>{
+    e.preventDefault();e.stopPropagation();
+    try{
+      if(listening){rec.stop();return;}
+      rec.start();
+    }catch(err){
+      if(status){status.textContent="Tap the microphone again to start";setTimeout(()=>status.textContent="",1800)}
+    }
+  };
+}
+
+setupPeriVoiceMode();
+setupAIAttachments();
+setupPerihelionVoice();
+
 // ---------- 13. DASHBOARD ACTIONS ----------
 $all(".shy-action[data-quick]").forEach(b=>b.addEventListener("click",async()=>{const q=b.dataset.quick;if(q==="upload"){showPage("today");setTimeout(()=>document.querySelector(".proof-btn")?.click(),120)}else if(q==="focus"){showPage("today");document.querySelector("#timerLabel")?.scrollIntoView({behavior:"smooth",block:"center"})}else showPage(q)}));
 
 // ---------- 15. INIT ----------
 (async function init(){
-  try{ await openDB(); }catch(e){ console.error("SHYAMA DB init failed",e); }
+  try{ await openDB(); }catch(e){ console.error("Perihelion DB init failed",e); }
   try{ loadTaskNotificationSettings(); }catch(e){ console.warn("task notification settings",e); }
   try{ await checkUpcomingTaskNotifications(); }catch(e){}
-  try{ await loadSyncConfig(); }catch(e){ console.error("SHYAMA sync config failed",e); }
+  try{ await loadSyncConfig(); }catch(e){ console.error("Perihelion sync config failed",e); }
   try{ updateCurrentDateTime(); }catch(e){}
-  try{ await renderHome(); }catch(e){ console.error("SHYAMA Home render failed",e); }
-  try{ await renderToday(); }catch(e){ console.error("SHYAMA Today render failed",e); }
-  try{ renderRoutine(); }catch(e){ console.error("SHYAMA Routine render failed",e); }
-  try{ await renderStats(); }catch(e){ console.error("SHYAMA Stats render failed",e); }
-  try{ await renderAlarms(); }catch(e){ console.error("SHYAMA Alarms render failed",e); }
+  try{ await renderHome(); }catch(e){ console.error("Perihelion Home render failed",e); }
+  try{ await renderToday(); }catch(e){ console.error("Perihelion Today render failed",e); }
+  try{ renderRoutine(); }catch(e){ console.error("Perihelion Routine render failed",e); }
+  try{ await renderStats(); }catch(e){ console.error("Perihelion Stats render failed",e); }
+  try{ await renderAlarms(); }catch(e){ console.error("Perihelion Alarms render failed",e); }
   try{ startAmbientMotivation(); }catch(e){}
-  if(sbConfig.url && sbConfig.key && sbConfig.code) syncNow().catch(e=>console.warn("SHYAMA sync",e));
+  if(sbConfig.url && sbConfig.key && sbConfig.code) syncNow().catch(e=>console.warn("Perihelion sync",e));
   setInterval(()=>{ renderHome().catch(e=>console.warn("home refresh",e)); renderStats().catch(e=>console.warn("stats refresh",e)); }, 60000);
   setInterval(updateCurrentDateTime, 1000);
   scheduleMidnightRefresh();
@@ -3217,12 +3976,72 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 </script>
 
+<style id="shyama-v58-settings-reference">
+/* V58 — Settings redesigned as a clean, grouped mobile settings page inspired by the supplied reference. */
+#page-settings{background:#000!important;color:#f2f2f2;min-height:calc(100vh - 80px);padding:0!important;margin:0 -2px;}
+#page-settings .settings-settings-screen{padding:18px 14px 110px;max-width:760px;margin:0 auto;}
+#page-settings .settings-page-title{padding:10px 4px 20px;}
+#page-settings .settings-page-title h1{margin:0;font-size:30px;line-height:1.05;letter-spacing:-.7px;color:#fff;font-weight:700;}
+#page-settings .settings-page-title p{margin:6px 0 0;color:#9a9a9a;font-size:12px;line-height:1.4;}
+#page-settings .settings-section-label{display:block;margin:18px 14px 8px;color:#a8a8a8;font-size:13px;font-weight:500;letter-spacing:.2px;text-transform:none;}
+#page-settings .settings-list-group{overflow:hidden;border-radius:22px;background:#3a3a3a;box-shadow:0 1px 0 rgba(255,255,255,.04),0 10px 30px rgba(0,0,0,.22);}
+#page-settings .settings-list-row,
+#page-settings .settings-info-row{width:100%;min-height:70px;padding:12px 18px;display:flex;align-items:center;gap:15px;text-align:left;background:#3a3a3a!important;color:#f2f2f2;border:0;border-bottom:1px solid rgba(0,0,0,.9);border-radius:0;box-shadow:none;transform:none!important;cursor:pointer;}
+#page-settings .settings-list-row:last-child,#page-settings .settings-info-row:last-child{border-bottom:0;}
+#page-settings .settings-list-row:active{background:#454545!important;}
+#page-settings .settings-row-icon{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;font-size:22px;border-radius:10px;background:rgba(255,255,255,.08);}
+#page-settings .settings-row-copy{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px;}
+#page-settings .settings-row-copy b{font-size:16px;line-height:1.15;color:#f3f3f3;font-weight:500;}
+#page-settings .settings-row-copy small{font-size:11px;line-height:1.3;color:#bcbcbc;font-weight:400;}
+#page-settings .settings-row-chevron{font-size:26px;line-height:1;color:#b9b9b9;margin-left:auto;}
+#page-settings .settings-appearance-row .settings-row-chevron{font-size:22px;}
+#page-settings .settings-theme-panel{display:none!important;background:#333!important;border:0;border-radius:0;margin:0;padding:12px 16px;}
+#page-settings .settings-info-row{cursor:default;min-height:64px;}
+#page-settings .settings-info-row .settings-row-icon{font-size:19px;}
+#page-settings .settings-info-row .settings-row-copy small{max-width:600px;}
+#page-settings .settings-subpage{display:none;padding:18px 14px 110px;max-width:760px;margin:0 auto;min-height:calc(100vh - 80px);}
+#page-settings .settings-subpage.open{display:block!important;}
+#page-settings .settings-folder-header{display:flex;align-items:center;gap:12px;padding:4px 0 16px;}
+#page-settings .settings-back-button{width:48px;height:48px;min-width:48px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:#242424!important;color:#fff;font-size:34px;line-height:1;display:grid;place-items:center;padding:0;box-shadow:none;}
+#page-settings .settings-folder-header h1{margin:2px 0 0;font-size:25px;color:#fff;letter-spacing:-.3px;}
+#page-settings .settings-folder-header .settings-section-label{margin:0;color:#8f8f8f;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;}
+#page-settings .settings-folder-description{padding:0 6px 16px;color:#9f9f9f;font-size:12px;line-height:1.55;}
+#page-settings .settings-detail-group{overflow:hidden;border-radius:22px;background:#303030!important;border:0!important;box-shadow:0 10px 30px rgba(0,0,0,.24)!important;padding:0!important;color:#f2f2f2;}
+#page-settings .settings-detail-title{padding:17px 18px;font-size:17px;font-weight:600;border-bottom:1px solid rgba(0,0,0,.9);}
+#page-settings .settings-detail-note{padding:14px 18px;color:#aaa;font-size:12px;line-height:1.55;}
+#page-settings .settings-detail-note a{color:#61b5ff;}
+#page-settings .settings-detail-note code{color:#ddd;}
+#page-settings .settings-field{display:block;padding:13px 18px;border-bottom:1px solid rgba(0,0,0,.85);}
+#page-settings .settings-field>span{display:block;color:#bdbdbd;font-size:11px;margin-bottom:7px;}
+#page-settings .settings-field input,#page-settings .settings-field select{width:100%;box-sizing:border-box;background:#242424!important;color:#fff!important;border:1px solid #505050!important;border-radius:13px;padding:11px 12px;font-size:13px;outline:none;}
+#page-settings .settings-subgroup-title{padding:15px 18px 7px;font-size:13px;font-weight:600;color:#eee;}
+#page-settings .settings-toggle-line{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,.85);font-size:13px;color:#ddd;}
+#page-settings .settings-toggle-line input{accent-color:#20b85a;width:18px;height:18px;}
+#page-settings .settings-action-row{display:flex;gap:9px;flex-wrap:wrap;padding:14px 18px;border-top:1px solid rgba(255,255,255,.04);}
+#page-settings .settings-action-row button{min-height:42px;border-radius:12px;}
+#page-settings .settings-status-line{padding:14px 18px;color:#aaa;font-size:12px;border-top:1px solid rgba(0,0,0,.8);}
+#page-settings .settings-primary-row{min-height:60px;padding:11px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#303030!important;border:0;border-bottom:1px solid rgba(0,0,0,.85);color:#eee;text-align:left;width:100%;}
+#page-settings .settings-primary-row:last-child{border-bottom:0;}
+#page-settings .settings-primary-row>span{font-size:14px;}
+#page-settings .settings-primary-row small{display:block;color:#aaa;font-size:11px;line-height:1.45;margin-top:4px;}
+#page-settings .settings-install-row{justify-content:flex-start;}
+#page-settings .settings-install-row span{display:block;}
+@media(max-width:520px){
+  #page-settings .settings-settings-screen,#page-settings .settings-subpage{padding-left:12px;padding-right:12px;}
+  #page-settings .settings-page-title h1{font-size:29px;}
+  #page-settings .settings-list-group,#page-settings .settings-detail-group{border-radius:20px;}
+  #page-settings .settings-list-row{min-height:68px;padding:11px 15px;gap:13px;}
+  #page-settings .settings-row-icon{width:32px;height:32px;flex-basis:32px;font-size:20px;}
+  #page-settings .settings-row-copy b{font-size:15px;}
+  #page-settings .settings-row-copy small{font-size:10.5px;}
+}
+</style>
 <style id="shyama-v47-dark-clock-region">
 /* V47 — dark-only UI + live timer region */
 body.theme-glass,body.theme-light,body.theme-aurora,body.theme-ocean,body.theme-forest,body.theme-sunset,body.theme-moon{
   background:radial-gradient(circle at 18% 12%,rgba(42,117,255,.14),transparent 30%),radial-gradient(circle at 82% 78%,rgba(170,70,255,.12),transparent 34%),linear-gradient(135deg,#030817,#0a1230 52%,#100b24)!important;color:#eef4ff!important;
 }
-.top-theme-bar,.settings-theme-panel,.theme-choice,.focus-panel-block:has(.focus-bg-options){display:none!important;}
+.top-theme-bar,.theme-choice,.focus-panel-block:has(.focus-bg-options){display:none!important;}
 .focus-bg-options{display:none!important;}
 /* The filled sector grows/shrinks every second with --focus-progress. */
 .focus-clock-wrap::before{
@@ -3249,6 +4068,10 @@ body.theme-glass,body.theme-light,body.theme-aurora,body.theme-ocean,body.theme-
 </script>
 
 
+<style id="perihelion-v78-focus-fixes">
+/* V78: progress light is positioned over the clock; window controls use explicit state transitions. */
+#focusOverlay .focus-progress-light{position:absolute!important;left:50%!important;top:50%!important;pointer-events:none!important;}
+</style>
 <style id="shyama-v48-focus-clock">
 /* V48 — redesigned timer/stopwatch clock */
 #focusOverlay{--focus-progress:0%;--focus-progress-angle:0deg;--focus-ring-a:#ff3dbb;--focus-ring-b:#7b5cff;--focus-ring-c:#20d9ff;}
@@ -3262,7 +4085,9 @@ body.theme-glass,body.theme-light,body.theme-aurora,body.theme-ocean,body.theme-
 #focusOverlay .focus-clock .tick.major{width:3px;height:12px;background:#eaf4ff;box-shadow:0 0 6px rgba(100,185,255,.25);}
 #focusOverlay .focus-clock .minute-label{position:absolute;left:50%;top:50%;width:30px;height:18px;margin:-9px 0 0 -15px;display:flex;align-items:center;justify-content:center;font:700 10px/1 Inter,system-ui,sans-serif;color:rgba(202,220,249,.74);letter-spacing:.1px;text-shadow:0 0 8px rgba(50,160,255,.15);z-index:4;pointer-events:none;}
 #focusOverlay .focus-clock .minute-label.major-minute{font-size:11px;color:#f4f8ff;text-shadow:0 0 9px rgba(32,217,255,.25);}
-#focusOverlay .focus-progress-light{width:15px;height:15px;border-radius:50%;background:#f5fbff;border:2px solid rgba(255,255,255,.65);box-shadow:0 0 9px #fff,0 0 20px #8b72ff,0 0 32px rgba(32,217,255,.55);z-index:8;}
+#focusOverlay .focus-progress-light{position:absolute;left:50%;top:50%;width:15px;height:15px;border-radius:50%;background:#f5fbff;border:2px solid rgba(255,255,255,.65);box-shadow:0 0 9px #fff,0 0 20px #8b72ff,0 0 32px rgba(32,217,255,.55);z-index:8;pointer-events:none;will-change:transform;}
+#focusOverlay.minimized .focus-topbar{cursor:grab;touch-action:none;}
+#focusOverlay.minimized .focus-topbar.focus-dragging{cursor:grabbing;}
 #focusOverlay.stopwatch-mode{--focus-ring-a:#36f1a3;--focus-ring-b:#20d9ff;--focus-ring-c:#7b5cff;}
 #focusOverlay.stopwatch-mode .focus-clock .clock-dot{background:#ecfff8;box-shadow:0 0 12px #36f1a3,0 0 22px rgba(54,241,163,.45);}
 #focusOverlay .focus-clock-number-outside{margin-top:8px;font-size:clamp(42px,5.2vw,74px);font-weight:900;letter-spacing:.04em;line-height:1;text-shadow:0 0 18px rgba(95,180,255,.28);font-variant-numeric:tabular-nums;}
@@ -3286,5 +4111,96 @@ body.theme-glass,body.theme-light,body.theme-aurora,body.theme-ocean,body.theme-
   window.addEventListener('resize',sync,{passive:true});
 })();
 </script>
+<script id="perihelion-opening-script">
+(() => {
+  const splash = document.getElementById('perihelionOpeningSplash');
+  const video = document.getElementById('perihelionOpeningVideo');
+  const skip = document.getElementById('perihelionOpeningSkip');
+  if (!splash) return;
+  let closed = false;
+  const closeSplash = () => {
+    if (closed) return;
+    closed = true;
+    splash.classList.add('is-hidden');
+    setTimeout(() => splash.remove(), 520);
+  };
+  skip?.addEventListener('click', closeSplash);
+  video?.addEventListener('ended', closeSplash);
+  video?.addEventListener('error', () => setTimeout(closeSplash, 900));
+  // Safety fallback if autoplay is blocked or the media cannot start.
+  setTimeout(closeSplash, 10500);
+})();
+</script>
+<script id="perihelion-v78-ai-button-hardening">
+/* V78: final defensive binding for the two AI composer controls. */
+(function(){
+  const boot=()=>{
+    const mic=document.getElementById("shyamaAIVoiceBtn");
+    const agent=document.getElementById("shyamaAIVoiceToggle");
+    if(!mic||!agent)return;
+    if(mic.dataset.voiceBound!=="1" && typeof setupPerihelionVoice==="function") setupPerihelionVoice();
+    agent.onclick=(e)=>{e.preventDefault();e.stopPropagation();if(typeof openPeriVoiceMode==="function")openPeriVoiceMode();};
+  };
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
+})();
+</script>
 </body>
 </html>
+<style id="shyama-v60-settings-theme-match">
+/* V60 — keep the V58 reference layout, restore Perihelion's normal page theme */
+#page-settings{
+  background:transparent!important;
+  color:var(--text)!important;
+  min-height:calc(100vh - 80px);
+}
+#page-settings .settings-settings-screen,
+#page-settings .settings-subpage{
+  background:transparent!important;
+}
+#page-settings .settings-page-title h1,
+#page-settings .settings-folder-header h1{color:var(--text)!important;}
+#page-settings .settings-page-title p,
+#page-settings .settings-section-label,
+#page-settings .settings-folder-header .settings-section-label,
+#page-settings .settings-folder-description{color:var(--muted)!important;}
+#page-settings .settings-list-group,
+#page-settings .settings-detail-group{
+  background:var(--v37-card)!important;
+  border:1px solid var(--v37-line)!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 28px rgba(139,92,246,.035)!important;
+}
+#page-settings .settings-list-row,
+#page-settings .settings-info-row,
+#page-settings .settings-primary-row{
+  background:transparent!important;
+  color:var(--text)!important;
+  border-bottom:1px solid rgba(149,135,255,.16)!important;
+}
+#page-settings .settings-list-row:active{background:rgba(53,231,255,.08)!important;}
+#page-settings .settings-row-icon{background:linear-gradient(135deg,rgba(53,231,255,.10),rgba(139,92,246,.16),rgba(255,79,216,.08));border:1px solid rgba(149,135,255,.16);}
+#page-settings .settings-row-copy b{color:var(--text)!important;}
+#page-settings .settings-row-copy small{color:var(--muted)!important;}
+#page-settings .settings-row-chevron{color:var(--accent)!important;}
+#page-settings .settings-detail-title{color:var(--text)!important;border-bottom-color:rgba(149,135,255,.16)!important;}
+#page-settings .settings-detail-note{color:var(--muted)!important;}
+#page-settings .settings-field{border-bottom-color:rgba(149,135,255,.14)!important;}
+#page-settings .settings-field>span,
+#page-settings .settings-subgroup-title,
+#page-settings .settings-toggle-line{color:var(--muted)!important;}
+#page-settings .settings-field input,
+#page-settings .settings-field select{
+  background:linear-gradient(135deg,rgba(9,20,38,.94),rgba(39,22,58,.88))!important;
+  color:var(--text)!important;
+  border:1px solid var(--v37-line)!important;
+}
+#page-settings .settings-toggle-line{border-bottom-color:rgba(149,135,255,.14)!important;}
+#page-settings .settings-action-row{border-top-color:rgba(149,135,255,.14)!important;}
+#page-settings .settings-status-line{color:var(--muted)!important;border-top-color:rgba(149,135,255,.14)!important;}
+#page-settings .settings-back-button{
+  background:var(--v37-card)!important;
+  color:var(--text)!important;
+  border-color:var(--v37-line)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.07)!important;
+}
+#page-settings .settings-install-row span{color:var(--text)!important;}
+</style>

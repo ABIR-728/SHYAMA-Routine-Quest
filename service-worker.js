@@ -1,4 +1,4 @@
-const CACHE = "shyama-rq-v50-precise-task-notifications";
+const CACHE = 'perihelion-v68-ai-logo';
 const ASSETS = [
   "./",
   "./index.html",
@@ -11,6 +11,8 @@ const ASSETS = [
   "./icons/icon-192.png",
   "./icons/icon-384.png",
   "./icons/icon-512.png",
+  "./icons/perihelion-logo.png",
+  "./assets/branding/perihelion-opening.mp4",
 ];
 
 self.addEventListener("install", (e) => {
@@ -48,11 +50,11 @@ self.addEventListener("fetch", (e) => {
 self.addEventListener("message", (event) => {
   const data = event.data || {};
   if (data.type === "SHOW_NOTIFICATION") {
-    self.registration.showNotification(data.title || "JARVIS", {
+    self.registration.showNotification(data.title || "Perihelion", {
       body: data.body || "",
       icon: "./icons/icon-192.png",
       badge: "./icons/icon-96.png",
-      tag: data.tag || "jarvis-alarm",
+      tag: data.tag || "perihelion-alarm",
       requireInteraction: true,
       vibrate: [200, 100, 200]
     });
