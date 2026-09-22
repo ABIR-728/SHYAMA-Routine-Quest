@@ -102,18 +102,31 @@ nav.tabs button.active{color:var(--accent);}
 .page{display:none;}
 .page.active{display:block;}
 .timer-display{font-size:56px;font-weight:900;text-align:center;letter-spacing:2px;color:var(--accent);font-variant-numeric:tabular-nums;}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
 .calendar .cell{
-  aspect-ratio:1;border-radius:8px;background:#0a1a2c;border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);position:relative;
+  aspect-ratio:1;border-radius:10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;position:relative;cursor:pointer;
+  transition:transform 0.16s ease,box-shadow 0.16s ease,border-color 0.16s ease;
+  user-select:none;
 }
-.calendar .cell.today{box-shadow:0 0 0 2px var(--accent) inset;}
-.calendar .dow{font-size:9px;color:var(--muted);text-align:center;font-weight:900;}
-.heat0{background:#0a1a2c;}
-.heat1{background:#0f3a3a;}
-.heat2{background:#0f5a4a;}
-.heat3{background:#12805a;}
-.heat4{background:#15b06e;color:#04121a;}
+.calendar .cell:hover{transform:scale(1.08);z-index:2;}
+.calendar .cell.selected{box-shadow:0 0 0 2px var(--accent), 0 4px 14px rgba(0,0,0,0.25)!important;transform:scale(1.08);z-index:3;}
+.calendar .cell .cell-day-num{line-height:1;font-feature-settings:"tnum";}
+.calendar .cell .cell-intensity-dot{
+  position:absolute;bottom:3px;width:4px;height:4px;border-radius:50%;
+  background:currentColor;opacity:0.85;pointer-events:none;
+}
+.calendar .cell.today{outline:2px solid var(--accent);outline-offset:1.5px;}
+.calendar .dow{font-size:10px;color:var(--muted);text-align:center;font-weight:800;padding-bottom:2px;}
+.cal-legend-pill{display:inline-block;width:13px;height:13px;border-radius:4px;vertical-align:middle;flex-shrink:0;}
+
+/* Intensity heat scale across default / dark themes */
+.calendar .cell.heat0, .cal-legend-pill.heat0{background:#0b1424!important;border:1px solid rgba(145,160,190,.14)!important;color:rgba(150,165,195,.55)!important;}
+.calendar .cell.heat1, .cal-legend-pill.heat1{background:#0e4640!important;border:1px solid #147265!important;color:#6eedd8!important;font-weight:700!important;}
+.calendar .cell.heat2, .cal-legend-pill.heat2{background:#11684c!important;border:1px solid #19a578!important;color:#a5fce0!important;font-weight:800!important;}
+.calendar .cell.heat3, .cal-legend-pill.heat3{background:#149b65!important;border:1px solid #23d289!important;color:#ffffff!important;font-weight:800!important;box-shadow:0 0 10px rgba(35,210,137,.35)!important;}
+.calendar .cell.heat4, .cal-legend-pill.heat4{background:linear-gradient(135deg,#1ecb8b 0%,#0fa672 100%)!important;border:1.5px solid #48f7b7!important;color:#022013!important;font-weight:900!important;box-shadow:0 0 14px rgba(72,247,183,.45)!important;}
 .year-bars{display:flex;align-items:flex-end;gap:6px;height:140px;}
 .year-bars .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;}
 .year-bars .bar{width:100%;background:var(--accent);border-radius:4px 4px 0 0;min-height:2px;}
@@ -676,7 +689,7 @@ body.theme-glass .page textarea{
   color:var(--text) !important;
   border-color:rgba(255,255,255,.14) !important;
 }
-body.theme-glass .page .calendar .cell,
+body.theme-glass .page .calendar .cell.heat0,
 body.theme-glass .page .heat0{
   background:#0a1118 !important;
   border-color:rgba(255,255,255,.10) !important;
@@ -826,7 +839,7 @@ body.theme-glass input,body.theme-glass select,body.theme-glass textarea{backgro
 .donut-wrap{align-items:center;gap:22px;}
 .donut{box-shadow:0 0 0 7px rgba(255,255,255,.025),0 0 38px rgba(139,92,246,.13);}
 .donut-legend .item{border-bottom:1px solid rgba(145,160,190,.08);padding:6px 0;}
-.calendar .cell{background:rgba(10,15,25,.80)!important;border-color:rgba(145,160,190,.10)!important;}
+.calendar .cell.heat0{background:rgba(10,15,25,.80)!important;border-color:rgba(145,160,190,.10)!important;}
 .year-bars{background:linear-gradient(180deg,rgba(255,255,255,.018),transparent);padding:10px;border-radius:14px;}
 .year-bars .bar{background:linear-gradient(180deg,var(--dash-cyan),var(--dash-purple))!important;box-shadow:0 0 16px rgba(139,92,246,.18);}
 
@@ -1717,7 +1730,7 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
     </div>
     <div class="panel challenge-panel stats-section"><div class="row between"><div><span class="eyebrow">CHALLENGES</span><h3>🔥 Perfect-Day Challenges</h3></div><span class="muted">All active tasks complete</span></div><p class="muted challenge-help">Complete every active task on a day. Earned milestones stay unlocked.</p><div id="challengeListStats"></div></div>
     <div class="stats-history-grid stats-section">
-      <div class="panel"><div class="row between"><div><span class="eyebrow">HISTORY</span><h3 id="calTitle">Monthly Review</h3></div><div class="row" style="gap:6px;"><button id="prevMonth">‹</button><button id="nextMonth">›</button></div></div><div class="calendar" id="calDow"></div><div class="calendar" id="calGrid" style="margin-top:5px;"></div><div class="row" style="gap:14px;margin-top:10px;font-size:11px;color:var(--muted);"><span><span class="pill" style="background:#0a1a2c;">&nbsp;&nbsp;</span> none</span><span><span class="pill" style="background:#0f3a3a;">&nbsp;&nbsp;</span> low</span><span><span class="pill" style="background:#12805a;">&nbsp;&nbsp;</span> mid</span><span><span class="pill" style="background:#15b06e;">&nbsp;&nbsp;</span> full</span></div></div>
+      <div class="panel"><div class="row between"><div><span class="eyebrow">HISTORY</span><h3 id="calTitle">Monthly Review</h3></div><div class="row" style="gap:6px;"><button id="prevMonth">‹</button><button id="nextMonth">›</button></div></div><div class="calendar" id="calDow"></div><div class="calendar" id="calGrid" style="margin-top:6px;"></div><div class="row cal-legend-row" style="gap:10px;margin-top:12px;font-size:11px;color:var(--muted);flex-wrap:wrap;align-items:center;"><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat0"></span> None</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat1"></span> Low (1-32%)</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat2"></span> Mid (33-65%)</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat3"></span> High (66-99%)</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat4"></span> 100% Full</span></div></div>
       <div class="panel"><h3>🥧 Category Split — <span id="monthDonutLabel"></span></h3><div id="monthDonut"></div></div>
       <div class="panel"><div class="row between"><h3 id="yearTitle">Yearly Progress</h3><div class="row" style="gap:6px;"><button id="prevYear">‹</button><button id="nextYear">›</button></div></div><div class="year-bars" id="yearBars"></div></div>
       <div class="panel"><h3>📅 Day Detail</h3><div id="dayDetail" class="muted">Tap a date above to see that day's quests.</div></div>
@@ -2311,7 +2324,7 @@ function openDB(){
         db.createObjectStore("proofs",{keyPath:"id"});
       }
     };
-    req.onsuccess = (e)=>{ idb = e.target.result; resolve(idb); };
+    req.onsuccess = (e)=>{ idb = e.target.result; resolve(idb); setTimeout(syncHistoryLedgerWithIndexedDB, 50); };
     req.onerror = (e)=>reject(e);
   });
 }
@@ -2364,41 +2377,148 @@ function scheduleMidnightRefresh(){
 }
 function taskId(day, idx){ return day+"_"+idx; }
 
-async function isDone(day, idx){
-  const row = await idbGet("task_log", taskId(day,idx));
-  return !!(row && row.done);
+// Dual-layer history ledger in localStorage to guarantee permanent date intensity retention
+function recordTaskHistoryBackup(day, idx, done, xp){
+  try{
+    const raw = localStorage.getItem("perihelion_history_ledger") || "{}";
+    const ledger = JSON.parse(raw);
+    if(!ledger[day]) ledger[day] = {};
+    if(done){
+      ledger[day][idx] = { done: 1, xp: xp || 0, at: Date.now() };
+    } else {
+      delete ledger[day][idx];
+    }
+    localStorage.setItem("perihelion_history_ledger", JSON.stringify(ledger));
+  }catch(e){}
 }
+
+async function syncHistoryLedgerWithIndexedDB(){
+  try{
+    const all = await idbGetAll("task_log");
+    const raw = localStorage.getItem("perihelion_history_ledger") || "{}";
+    const ledger = JSON.parse(raw);
+    let changed = false;
+    for(const r of (all||[])){
+      if((r.done===1 || r.done===true) && r.day && r.task_index !== undefined){
+        if(!ledger[r.day]) ledger[r.day] = {};
+        if(!ledger[r.day][r.task_index]){
+          const routine = effectiveRoutine(r.day);
+          ledger[r.day][r.task_index] = { done: 1, xp: routine[r.task_index]?.[4]||0, at: r.updated_at || Date.now() };
+          changed = true;
+        }
+      }
+    }
+    if(changed){
+      localStorage.setItem("perihelion_history_ledger", JSON.stringify(ledger));
+    }
+  }catch(e){}
+}
+
+async function isDone(day, idx){
+  try{
+    const row = await idbGet("task_log", taskId(day,idx));
+    if(row && (row.done===1 || row.done===true)) return true;
+  }catch(e){}
+  try{
+    const ledger = JSON.parse(localStorage.getItem("perihelion_history_ledger") || "{}");
+    if(ledger[day] && ledger[day][idx]?.done) return true;
+  }catch(e){}
+  return false;
+}
+
 async function toggleTask(day, idx){
   const id = taskId(day,idx);
   const row = await idbGet("task_log", id);
+  const routine = effectiveRoutine(day);
+  const xp = routine[idx]?.[4] || 0;
   let val;
-  if(row && row.done){
+  if(row && (row.done===1 || row.done===true)){
     val = {id, day, task_index:idx, done:0, completed_at:null, updated_at:Date.now()};
+    recordTaskHistoryBackup(day, idx, false, 0);
   } else {
     val = {id, day, task_index:idx, done:1, completed_at:new Date().toISOString(), updated_at:Date.now()};
+    recordTaskHistoryBackup(day, idx, true, xp);
   }
   await idbPut("task_log", val);
   queueSync();
   return val.done === 1;
 }
+
 async function dayStats(day){
-  const all = await idbGetAll("task_log");
+  let rows = [];
+  try{
+    const all = await idbGetAll("task_log");
+    rows = (all||[]).filter(r=>r.day===day && (r.done===1 || r.done===true));
+  }catch(e){
+    console.warn("idb task_log read error", e);
+  }
+
+  // Merge with persistent ledger to guarantee historical color continuity
+  let ledgerDay = null;
+  try{
+    const ledger = JSON.parse(localStorage.getItem("perihelion_history_ledger") || "{}");
+    ledgerDay = ledger[day];
+  }catch(e){}
+
   const routine = effectiveRoutine(day);
-  const rows = all.filter(r=>r.day===day && r.done);
-  const xp = rows.reduce((s,r)=>s + (routine[r.task_index]?.[4]||0), 0);
-  return {done: rows.length, xp};
+  const doneIndices = new Set();
+  rows.forEach(r => {
+    if(r.task_index !== undefined) doneIndices.add(r.task_index);
+  });
+
+  if(ledgerDay){
+    Object.keys(ledgerDay).forEach(idxStr => {
+      const idx = parseInt(idxStr, 10);
+      if(ledgerDay[idxStr]?.done && !doneIndices.has(idx)){
+        doneIndices.add(idx);
+        // Self-heal IndexedDB
+        try{
+          idbPut("task_log", {
+            id: taskId(day, idx),
+            day,
+            task_index: idx,
+            done: 1,
+            completed_at: new Date(ledgerDay[idxStr].at || Date.now()).toISOString(),
+            updated_at: ledgerDay[idxStr].at || Date.now()
+          });
+        }catch(err){}
+      }
+    });
+  }
+
+  // Also ensure ledger has current IndexedDB rows
+  rows.forEach(r => {
+    if(r.task_index !== undefined){
+      recordTaskHistoryBackup(day, r.task_index, true, routine[r.task_index]?.[4] || 0);
+    }
+  });
+
+  let xp = 0;
+  doneIndices.forEach(idx => {
+    xp += (routine[idx]?.[4] || 0);
+  });
+
+  return {done: doneIndices.size, xp, doneIndices: Array.from(doneIndices)};
 }
+
 async function totalXP(){
-  const all = await idbGetAll("task_log");
+  const all = await idbGetAll("task_log").catch(()=>[]);
   return all.filter(r=>r.done).reduce((s,r)=>(s + ((effectiveRoutine(r.day)[r.task_index]?.[4])||0)),0);
 }
+
 async function totalQuests(){
-  const all = await idbGetAll("task_log");
+  const all = await idbGetAll("task_log").catch(()=>[]);
   return all.filter(r=>r.done).length;
 }
+
 async function streak(){
   let s=0; let d=new Date();
-  while(true){
+  const todayDone = (await dayStats(localDateKey(d))).done;
+  if(todayDone === 0){
+    // If today has no completed quests yet, check from yesterday so active streak doesn't prematurely display 0 in the morning
+    d.setDate(d.getDate()-1);
+  }
+  while(s < 365){
     const day = localDateKey(d);
     const {done} = await dayStats(day);
     if(done===0) break;
@@ -2558,6 +2678,9 @@ function showPage(name){
   if(name!=="settings" && typeof closeAllSettingsFolders==="function") closeAllSettingsFolders();
   if(name==="settings" && typeof closeAllSettingsFolders==="function") closeAllSettingsFolders();
   if(name==="media") renderMedia();
+  if(name==="stats") renderStats();
+  if(name==="today") renderToday();
+  if(name==="home") renderHome();
 }
 
 // ---------- 5. HOME + TODAY RENDER ----------
@@ -2792,27 +2915,85 @@ async function renderCalendar(){
   const daysInMonth = new Date(y,m+1,0).getDate();
   const todayIso = todayStr();
 
+  // Load all logs and ledger in memory for instantaneous rendering
+  const allLogs = await idbGetAll("task_log").catch(()=>[]);
+  let ledger = {};
+  try{ ledger = JSON.parse(localStorage.getItem("perihelion_history_ledger") || "{}"); }catch(e){}
+
   let cells = [];
-  for(let i=0;i<startPad;i++) cells.push('<div class="cell" style="opacity:0;"></div>');
+  for(let i=0;i<startPad;i++) cells.push('<div class="cell pad-cell" style="opacity:0;pointer-events:none;"></div>');
+
   for(let d=1; d<=daysInMonth; d++){
-    const iso = localDateKey(new Date(y,m,d));
-    const {done} = await dayStats(iso);
+    const curDate = new Date(y, m, d);
+    const iso = localDateKey(curDate);
     const dayRoutine = activeRoutine(iso);
-    const pct = dayRoutine.length ? done/dayRoutine.length : 0;
+    const total = dayRoutine.length;
+
+    // Gather completed tasks for this specific date
+    const idbDone = allLogs.filter(r => r.day === iso && (r.done === 1 || r.done === true));
+    const doneSet = new Set(idbDone.map(r => r.task_index));
+    if(ledger[iso]){
+      Object.keys(ledger[iso]).forEach(idxStr => {
+        if(ledger[iso][idxStr]?.done) doneSet.add(parseInt(idxStr, 10));
+      });
+    }
+
+    const done = doneSet.size;
+    const pct = total > 0 ? (done / total) : 0;
+
     let heat = "heat0";
-    if(pct>0.75) heat="heat4"; else if(pct>0.4) heat="heat3"; else if(pct>0.1) heat="heat2"; else if(pct>0) heat="heat1";
-    cells.push(`<div class="cell ${heat} ${iso===todayIso?"today":""}" data-date="${iso}">${d}</div>`);
+    let intensityText = "No quests completed";
+    if(done > 0){
+      if(pct >= 1.0){
+        heat = "heat4";
+        intensityText = `100% Full Completion (${done}/${total} quests)`;
+      } else if(pct >= 0.66){
+        heat = "heat3";
+        intensityText = `High Intensity (${done}/${total} quests · ${Math.round(pct*100)}%)`;
+      } else if(pct >= 0.33){
+        heat = "heat2";
+        intensityText = `Mid Intensity (${done}/${total} quests · ${Math.round(pct*100)}%)`;
+      } else {
+        heat = "heat1";
+        intensityText = `Low Intensity (${done}/${total} quests · ${Math.round(pct*100)}%)`;
+      }
+    }
+
+    const isToday = (iso === todayIso);
+    const badge = done > 0 ? `<span class="cell-intensity-dot"></span>` : "";
+    const ariaLabel = `${iso}: ${intensityText}`;
+    cells.push(`<div class="cell ${heat} ${isToday ? "today" : ""}" data-date="${iso}" title="${ariaLabel}" aria-label="${ariaLabel}"><span class="cell-day-num">${d}</span>${badge}</div>`);
   }
   $("#calGrid").innerHTML = cells.join("");
+
   $all("#calGrid .cell[data-date]").forEach(c=>{
-    c.addEventListener("click", ()=>showDayDetail(c.dataset.date));
+    c.addEventListener("click", ()=>{
+      $all("#calGrid .cell").forEach(el=>el.classList.remove("selected"));
+      c.classList.add("selected");
+      showDayDetail(c.dataset.date);
+    });
   });
+
+  // Select today by default if within current view month
+  const todayCell = $(`#calGrid .cell[data-date="${todayIso}"]`);
+  if(todayCell){
+    todayCell.classList.add("selected");
+    await showDayDetail(todayIso);
+  } else {
+    // Select first day of month if today not in this month
+    const firstCell = $(`#calGrid .cell[data-date="${localDateKey(first)}"]`);
+    if(firstCell){
+      firstCell.classList.add("selected");
+      await showDayDetail(localDateKey(first));
+    }
+  }
 
   const monthCounts = await monthCategoryCounts(y, m);
   const monthTotal = Object.values(monthCounts).reduce((a,b)=>a+b,0);
   $("#monthDonutLabel").textContent = viewMonth.toLocaleString(undefined,{month:"long"});
   renderDonut($("#monthDonut"), monthCounts, monthTotal, "quests this month");
 }
+
 async function showDayDetail(iso){
   const dayRoutine = effectiveRoutine(iso);
   const {done, xp} = await dayStats(iso);
@@ -2820,25 +3001,69 @@ async function showDayDetail(iso){
   for(let i=0;i<dayRoutine.length;i++){
     if(dayRoutine[i][5]?.deleted) continue;
     const d = await isDone(iso,i);
-    if(d){ const p=await getProof(iso,i); rows.push(`<div style="font-size:12px;padding:4px 0;border-bottom:1px solid var(--border);">✓ ${dayRoutine[i][2]} <span class="muted">(${dayRoutine[i][3]}, +${dayRoutine[i][4]} XP)</span>${p?` <button class="ghost" onclick="openProof('${iso}',${i})">View proof</button>`:""}</div>`); }
+    if(d){
+      const p = await getProof(iso,i);
+      rows.push(`<div class="day-detail-quest-row" style="font-size:12px;padding:7px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:8px;">
+        <div style="display:flex;align-items:center;gap:6px;min-width:0;">
+          <span style="color:var(--accent);font-weight:800;font-size:13px;">✓</span>
+          <span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${dayRoutine[i][2]}</span>
+          <span class="muted" style="font-size:11px;flex-shrink:0;">(${dayRoutine[i][3]}, +${dayRoutine[i][4]} XP)</span>
+        </div>
+        ${p ? `<button class="ghost" style="padding:2px 7px;font-size:11px;flex-shrink:0;" onclick="openProof('${iso}',${i})">View proof</button>` : ""}
+      </div>`);
+    }
   }
-  $("#dayDetail").innerHTML = `<div style="margin-bottom:8px;font-weight:800;">${iso} — ${done}/${activeRoutine(iso).length} quests, ${xp} XP</div>` +
-    (rows.length? rows.join("") : `<div class="muted">No quests completed this day.</div>`);
+  const total = activeRoutine(iso).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const dateObj = new Date(iso + "T12:00:00");
+  const formattedDate = dateObj.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+
+  $("#dayDetail").innerHTML = `
+    <div style="margin-bottom:10px;padding-bottom:8px;border-bottom:1.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div>
+        <div style="font-size:14px;font-weight:800;color:var(--text);">${formattedDate}</div>
+        <div class="muted" style="font-size:11px;margin-top:2px;">${iso}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="pill ${done>0?'on':'off'}" style="font-size:11px;font-weight:800;">${done}/${total} quests (${pct}%)</span>
+        <span style="font-size:11px;font-weight:700;color:var(--accent);">+${xp} XP</span>
+      </div>
+    </div>` +
+    (rows.length ? rows.join("") : `<div class="muted" style="padding:12px 0;text-align:center;">No completed quests recorded for this day.</div>`);
 }
+
 async function renderYear(){
   $("#yearTitle").textContent = "Yearly Progress — " + viewYear;
   const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const all = await idbGetAll("task_log").catch(()=>[]);
+  let ledger = {};
+  try{ ledger = JSON.parse(localStorage.getItem("perihelion_history_ledger") || "{}"); }catch(e){}
+
   let totals = [];
   let max = 1;
+
   for(let m=0;m<12;m++){
-    const first = new Date(viewYear, m, 1);
-    const days = new Date(viewYear, m+1, 0).getDate();
+    const prefix = `${viewYear}-${String(m+1).padStart(2,"0")}-`;
     let sumXp = 0;
-    for(let d=1; d<=days; d++){
-      const iso = localDateKey(new Date(viewYear,m,d));
-      const {xp} = await dayStats(iso);
-      sumXp += xp;
-    }
+    
+    // Sum from IDB
+    all.filter(r => (r.done===1 || r.done===true) && r.day && r.day.startsWith(prefix)).forEach(r => {
+      const routine = effectiveRoutine(r.day);
+      sumXp += (routine[r.task_index]?.[4] || 0);
+    });
+
+    // Merge ledger
+    Object.keys(ledger).filter(day => day.startsWith(prefix)).forEach(day => {
+      const routine = effectiveRoutine(day);
+      Object.keys(ledger[day]).forEach(idxStr => {
+        const idx = parseInt(idxStr, 10);
+        const alreadyInIdb = all.some(r => r.day === day && r.task_index === idx && (r.done===1 || r.done===true));
+        if(!alreadyInIdb && ledger[day][idxStr]?.done){
+          sumXp += (routine[idx]?.[4] || 0);
+        }
+      });
+    });
+
     totals.push(sumXp);
     if(sumXp>max) max=sumXp;
   }
@@ -4638,16 +4863,56 @@ body.theme-light .shy-ai-card .shy-ai-copy p{color:#6a6256!important;}
 
 /* Classy Calendar Heatmap */
 body.theme-light .calendar .cell{
-  background:#f5efe3!important;
-  border:1px solid #e0d7c7!important;
-  color:#635b4f!important;
+  background:#f5efe3;
+  border:1.5px solid #ded5c5;
+  color:#635b4f;
+  border-radius:10px!important;
 }
-body.theme-light .calendar .dow{color:#7b7264!important;}
-body.theme-light .heat0{background:#f5efe3!important;}
-body.theme-light .heat1{background:#d0ebd9!important;border-color:#b5ddc2!important;color:#165b3c!important;}
-body.theme-light .heat2{background:#9bd7b0!important;border-color:#81c799!important;color:#10482f!important;}
-body.theme-light .heat3{background:#55b77c!important;border-color:#3fa567!important;color:#ffffff!important;}
-body.theme-light .heat4{background:#1a6d4b!important;border-color:#135539!important;color:#ffffff!important;}
+body.theme-light .calendar .dow{color:#7b7264!important;font-weight:800!important;}
+body.theme-light .calendar .cell.heat0,
+body.theme-light .cal-legend-pill.heat0{
+  background:#f5efe3!important;
+  border:1.5px solid #ded5c5!important;
+  color:#787063!important;
+}
+body.theme-light .calendar .cell.heat1,
+body.theme-light .cal-legend-pill.heat1{
+  background:#d5f3e2!important;
+  border:1.5px solid #a2dfbd!important;
+  color:#155d3b!important;
+  font-weight:700!important;
+}
+body.theme-light .calendar .cell.heat2,
+body.theme-light .cal-legend-pill.heat2{
+  background:#86ddb0!important;
+  border:1.5px solid #53c788!important;
+  color:#094024!important;
+  font-weight:800!important;
+}
+body.theme-light .calendar .cell.heat3,
+body.theme-light .cal-legend-pill.heat3{
+  background:#32b771!important;
+  border:1.5px solid #209a5b!important;
+  color:#ffffff!important;
+  font-weight:800!important;
+  text-shadow:0 1px 2px rgba(0,0,0,0.2)!important;
+}
+body.theme-light .calendar .cell.heat4,
+body.theme-light .cal-legend-pill.heat4{
+  background:linear-gradient(135deg, #187748 0%, #105a35 100%)!important;
+  border:1.5px solid #9a6225!important;
+  color:#ffffff!important;
+  font-weight:900!important;
+  box-shadow:0 0 0 1.5px #c89547 inset, 0 3px 8px rgba(24,119,72,0.28)!important;
+  text-shadow:0 1px 2px rgba(0,0,0,0.3)!important;
+}
+body.theme-light .calendar .cell.today{
+  outline:2.5px solid #9a6225!important;
+  outline-offset:1.5px!important;
+}
+body.theme-light .calendar .cell.selected{
+  box-shadow:0 0 0 2.5px #9a6225, 0 4px 14px rgba(35,25,15,0.18)!important;
+}
 
 /* Classy Media & Alarms */
 body.theme-light .alarm-row{background:#ffffff!important;border:1.5px solid #ded4c3!important;}
