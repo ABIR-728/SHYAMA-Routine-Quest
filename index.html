@@ -1664,18 +1664,55 @@ body.theme-light .page button.primary,body.theme-light .primary{background:linea
     <div class="stats-heading"><div><span class="eyebrow">Perihelion ANALYTICS</span><h2>Stats</h2><p class="muted">Daily performance, XP growth, challenges and history in one place.</p></div><div class="stats-live"><span class="live-dot"></span><span>Live progress</span></div></div>
     <div class="grid cards" style="grid-template-columns:repeat(4,1fr);" id="statsCards"></div>
     <div class="stats-graph-grid">
-      <div class="panel graph-panel"><div class="graph-head"><div><h3>📈 Daily Task Completion</h3><span>Completed tasks per day · last 30 days</span></div><b id="completionGraphTotal">0</b></div><div id="dailyCompletionGraph" class="trend-graph"></div></div>
-      <div class="panel graph-panel"><div class="graph-head"><div><h3>⚡ Daily XP Growth</h3><span>XP earned per day · last 30 days</span></div><b id="xpGraphTotal">0 XP</b></div><div id="dailyXPGraph" class="trend-graph"></div></div>
+      <div class="panel graph-panel" id="panelDailyCompletion">
+        <canvas class="stat-particles-canvas" id="canvasCompletionGraph" aria-hidden="true"></canvas>
+        <div class="graph-head"><div><h3>📈 Daily Task Completion</h3><span>Completed tasks per day · last 30 days</span></div><b id="completionGraphTotal">0</b></div>
+        <div id="dailyCompletionGraph" class="trend-graph"></div>
+      </div>
+      <div class="panel graph-panel" id="panelDailyXP">
+        <canvas class="stat-particles-canvas" id="canvasXPGraph" aria-hidden="true"></canvas>
+        <div class="graph-head"><div><h3>⚡ Daily XP Growth</h3><span>XP earned per day · last 30 days</span></div><b id="xpGraphTotal">0 XP</b></div>
+        <div id="dailyXPGraph" class="trend-graph"></div>
+      </div>
     </div>
     <div class="stats-main-grid">
-      <div class="panel"><div class="row between"><h3>📊 Today's Progress</h3><b id="statsTodayPct">0%</b></div><div id="statsProgress"></div></div>
-      <div class="panel"><h3>🥧 Category Breakdown</h3><div id="statsDonut"></div></div>
+      <!-- 1st pie chart: Daily Tasks Pie Chart -->
+      <div class="panel pie-panel daily-task-pie-card" id="panelDailyTaskPie">
+        <canvas class="stat-particles-canvas" id="canvasDailyPie" aria-hidden="true"></canvas>
+        <div class="row between" style="margin-bottom:8px;">
+          <div>
+            <span class="eyebrow">TODAY'S PROGRESS</span>
+            <h3>🥧 Daily Tasks Pie Chart</h3>
+          </div>
+          <b id="statsDailyPiePct" class="accent-val">0%</b>
+        </div>
+        <div id="dailyTaskPieChart" class="daily-donut-wrap"></div>
+        <div id="statsProgress" style="margin-top:12px;"></div>
+      </div>
+      <!-- 2nd pie chart: Category Breakdown (Monthly) -->
+      <div class="panel pie-panel category-pie-card" id="panelCategoryPie">
+        <canvas class="stat-particles-canvas" id="canvasCategoryPie" aria-hidden="true"></canvas>
+        <div class="row between" style="margin-bottom:8px;">
+          <div>
+            <span class="eyebrow">MONTHLY DISTRIBUTION</span>
+            <h3>🥧 Category Breakdown</h3>
+          </div>
+          <span class="muted" id="categoryDonutTotal" style="font-size:11px;"></span>
+        </div>
+        <div id="statsDonut"></div>
+      </div>
       <div class="panel"><h3>🏆 Category XP</h3><div id="statsCategoryXP"></div></div>
       <div class="panel"><div class="row between"><h3>🎁 XP Rewards</h3><span class="muted">Milestones</span></div><div id="xpRewards"></div></div>
     </div>
     <div class="panel challenge-panel stats-section"><div class="row between"><div><span class="eyebrow">CHALLENGES</span><h3>🔥 Perfect-Day Challenges</h3></div><span class="muted">All active tasks complete</span></div><p class="muted challenge-help">Complete every active task on a day. Earned milestones stay unlocked.</p><div id="challengeListStats"></div></div>
     <div class="stats-history-grid stats-section">
-      <div class="panel"><div class="row between"><div><span class="eyebrow">HISTORY</span><h3 id="calTitle">Monthly Review</h3></div><div class="row" style="gap:6px;"><button id="prevMonth">‹</button><button id="nextMonth">›</button></div></div><div class="calendar" id="calDow"></div><div class="calendar" id="calGrid" style="margin-top:6px;"></div><div class="row cal-legend-row" style="gap:10px;margin-top:12px;font-size:11px;color:var(--muted);flex-wrap:wrap;align-items:center;"><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat0"></span> None</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat1"></span> Low (1-32%)</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat2"></span> Mid (33-65%)</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat3"></span> High (66-99%)</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat4"></span> 100% Full</span></div></div>
+      <div class="panel cal-panel" id="panelCalendar">
+        <canvas class="stat-particles-canvas" id="canvasCalendar" aria-hidden="true"></canvas>
+        <div class="row between"><div><span class="eyebrow">HISTORY</span><h3 id="calTitle">Monthly Review</h3></div><div class="row" style="gap:6px;"><button id="prevMonth">‹</button><button id="nextMonth">›</button></div></div>
+        <div class="calendar" id="calDow"></div>
+        <div class="calendar" id="calGrid" style="margin-top:6px;"></div>
+        <div class="row cal-legend-row" style="gap:10px;margin-top:12px;font-size:11px;color:var(--muted);flex-wrap:wrap;align-items:center;"><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat0"></span> None</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat1"></span> Low (1-32%)</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat2"></span> Mid (33-65%)</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat3"></span> High (66-99%)</span><span style="display:inline-flex;align-items:center;gap:4px;"><span class="pill cal-legend-pill heat4"></span> 100% Full</span></div>
+      </div>
       <div class="panel"><h3>🥧 Category Split — <span id="monthDonutLabel"></span></h3><div id="monthDonut"></div></div>
       <div class="panel"><div class="row between"><h3 id="yearTitle">Yearly Progress</h3><div class="row" style="gap:6px;"><button id="prevYear">‹</button><button id="nextYear">›</button></div></div><div class="year-bars" id="yearBars"></div></div>
       <div class="panel"><h3>📅 Day Detail</h3><div id="dayDetail" class="muted">Tap a date above to see that day's quests.</div></div>
@@ -1916,6 +1953,7 @@ body.theme-light .page button.primary,body.theme-light .primary{background:linea
 
 <!-- V70 Perihelion Voice Mode -->
 <div id="periVoiceMode" aria-hidden="true">
+  <canvas id="periVoiceParticleCanvas" class="peri-voice-particle-canvas" aria-hidden="true"></canvas>
   <div class="peri-voice-bg"></div>
   <div class="peri-voice-top"><div class="peri-voice-brand"><img src="icons/perihelion-logo.png" alt="Perihelion"><div><b>Perihelion AI</b><small id="periVoiceProvider">Open Model</small></div></div><button class="peri-voice-close" id="periVoiceClose" type="button" aria-label="Close voice mode">×</button></div>
   <div class="peri-voice-center">
@@ -2616,6 +2654,72 @@ function renderDonut(container, counts, centerMain, centerSub){
     <div class="donut-legend">${legend}</div>
   </div>`;
 }
+
+function renderDailyTaskDonut(container, todayDone, activeToday, todayCatCounts = {}){
+  if(!container) return;
+  const isLight = document.body.classList.contains("theme-light");
+  const pending = Math.max(0, activeToday - todayDone);
+  const pct = activeToday ? Math.min(100, Math.round(todayDone / activeToday * 100)) : 0;
+
+  if (activeToday === 0) {
+    container.innerHTML = `
+      <div class="daily-donut-wrap">
+        <div class="daily-pie-donut" style="background:${isLight ? '#f0e6d9' : '#1c1c22'};">
+          <div class="center-label">
+            <span class="big" style="font-size:16px;">0/0</span>
+            <span class="sub" style="font-size:8px;">No Quests</span>
+          </div>
+        </div>
+        <div class="daily-donut-legend">
+          <div class="muted" style="font-size:11px;">No active quests scheduled for today. Add quests in the Routine tab.</div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const doneDeg = (todayDone / activeToday) * 360;
+  const pendingColor = isLight ? "#ded4c3" : "#23232a";
+  const doneColor = "#ff6b00";
+
+  let bg = "";
+  if (todayDone === 0) {
+    bg = pendingColor;
+  } else if (todayDone >= activeToday) {
+    bg = `linear-gradient(135deg, #ff6b00, #ff8c00)`;
+  } else {
+    bg = `conic-gradient(${doneColor} 0deg ${doneDeg}deg, ${pendingColor} ${doneDeg}deg 360deg)`;
+  }
+
+  const catEntries = Object.entries(todayCatCounts).filter(([, st]) => st && st.total > 0);
+  const chipsHtml = catEntries.length ? `
+    <div class="today-cat-chips">
+      ${catEntries.map(([cat, st]) => {
+        const cColor = CATEGORY_COLORS[cat] || "#ff6b00";
+        return `<span class="today-cat-chip" title="${cat}: ${st.done} completed of ${st.total}"><span class="chip-dot" style="background:${cColor};"></span>${cat} <b>${st.done}/${st.total}</b></span>`;
+      }).join("")}
+    </div>` : "";
+
+  container.innerHTML = `
+    <div class="daily-donut-wrap">
+      <div class="daily-pie-donut" style="background:${bg};" title="Daily Tasks: ${todayDone}/${activeToday} (${pct}% complete)">
+        <div class="center-label">
+          <span class="big">${todayDone}/${activeToday}</span>
+          <span class="sub">${pct}% DONE</span>
+        </div>
+      </div>
+      <div class="daily-donut-legend">
+        <div class="item">
+          <div class="item-left"><span class="dot done"></span><b>Completed Quests</b></div>
+          <span class="accent-val" style="font-weight:800;">${todayDone} (${pct}%)</span>
+        </div>
+        <div class="item">
+          <div class="item-left"><span class="dot pending"></span><span>Remaining Quests</span></div>
+          <span class="muted">${pending} (${100 - pct}%)</span>
+        </div>
+        ${chipsHtml}
+      </div>
+    </div>`;
+}
 function nowInRoutine(){
   const now = new Date();
   const todayRoutine = routineForDate(now);
@@ -2641,7 +2745,12 @@ function showPage(name){
   if(name!=="settings" && typeof closeAllSettingsFolders==="function") closeAllSettingsFolders();
   if(name==="settings" && typeof closeAllSettingsFolders==="function") closeAllSettingsFolders();
   if(name==="media") renderMedia();
-  if(name==="stats") renderStats();
+  if(name==="stats") {
+    renderStats();
+    if(typeof window.__startStatsParticles === "function") window.__startStatsParticles();
+  } else {
+    if(typeof window.__stopStatsParticles === "function") window.__stopStatsParticles();
+  }
   if(name==="today") renderToday();
   if(name==="home") renderHome();
 }
@@ -3032,7 +3141,7 @@ async function renderYear(){
   }
   $("#yearBars").innerHTML = totals.map((v,i)=>{
     const h = Math.max(2, Math.round(v/max*120));
-    return `<div class="bar-wrap"><div class="bar" style="height:${h}px;" title="${v} XP"></div><div class="m">${monthNames[i]}</div></div>`;
+    return `<div class="bar-wrap"><div class="bar" style="height:${h}px;animation-delay:${(i*0.05).toFixed(2)}s;" title="${v} XP"></div><div class="m">${monthNames[i]}</div></div>`;
   }).join("");
 }
 $("#prevMonth").onclick = ()=>{ viewMonth.setMonth(viewMonth.getMonth()-1); renderCalendar(); };
@@ -3086,8 +3195,20 @@ function trendSvg(rows, lineClass, areaClass, valueLabel, suffix=""){
   const area=`${pts[0].x},${H-pad.b} ${line} ${pts[pts.length-1].x},${H-pad.b}`;
   const grid=[0,.25,.5,.75,1].map(t=>{const y=pad.t+innerH*t;return `<line class="trend-grid" x1="${pad.l}" x2="${W-pad.r}" y1="${y}" y2="${y}"/>`;}).join("");
   const labels=rows.map((r,i)=>i%5===0||i===rows.length-1?`<text class="trend-axis" x="${pts[i].x}" y="${H-8}" text-anchor="middle">${r.label}</text>`:"").join("");
-  const points=pts.filter((p,i)=>i===pts.length-1 || i%5===0).map(p=>`<circle class="trend-point" cx="${p.x}" cy="${p.y}" r="3.2" stroke="${lineClass.includes('purple')?'#a78bfa':'#35e7ff'}"><title>${p.label}: ${p.v}${suffix}</title></circle>`).join("");
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${valueLabel}"><defs><linearGradient id="trendPurpleFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#a78bfa" stop-opacity=".32"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></linearGradient><linearGradient id="trendCyanFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#35e7ff" stop-opacity=".28"/><stop offset="1" stop-color="#35e7ff" stop-opacity="0"/></linearGradient><filter id="glowPurple"><feGaussianBlur stdDeviation="2.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="glowCyan"><feGaussianBlur stdDeviation="2.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>${grid}<polygon class="${areaClass}" points="${area}"/><polyline class="${lineClass}" points="${line}"/>${points}${labels}</svg>`;
+  const isPurple = lineClass.includes('purple');
+  const points=pts.map((p,i)=>{
+    const isMajor = i===pts.length-1 || i%5===0;
+    const r = isMajor ? "3.8" : "2.4";
+    const delay = (0.2 + (i / Math.max(1, rows.length - 1)) * 1.1).toFixed(2);
+    const strokeColor = isPurple ? '#ff6b00' : '#ffa500';
+    return `<circle class="trend-point" cx="${p.x}" cy="${p.y}" r="${r}" stroke="${strokeColor}" style="animation-delay:${delay}s;"><title>${p.label}: ${p.v}${suffix}</title></circle>`;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${valueLabel}"><defs>
+    <linearGradient id="trendPurpleFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ff6b00" stop-opacity=".36"/><stop offset="1" stop-color="#ff6b00" stop-opacity="0"/></linearGradient>
+    <linearGradient id="trendCyanFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ffa500" stop-opacity=".32"/><stop offset="1" stop-color="#ffa500" stop-opacity="0"/></linearGradient>
+    <filter id="glowPurple"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowCyan"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>${grid}<polygon class="${areaClass}" points="${area}"/><polyline class="${lineClass} animated-trend-line" pathLength="1000" points="${line}"/>${points}${labels}</svg>`;
 }
 async function getLast30Trend(){
   const out=[]; const now=new Date(); now.setHours(0,0,0,0);
@@ -3111,26 +3232,49 @@ async function renderStats(){
     const done=all.filter(r=>r.done);
     const xp=done.reduce((sum,r)=>sum+(effectiveRoutine(r.day)[r.task_index]?.[4]||0),0);
     const st=await streak();
-    const todayDone=done.filter(r=>r.day===todayStr()).length;
-    const activeToday=activeRoutine(todayStr()).length;
+    const todayIso=todayStr();
+    const todayDone=done.filter(r=>r.day===todayIso).length;
+    const todayRoutine=activeRoutine(todayIso);
+    const activeToday=todayRoutine.length;
     const pct=activeToday?Math.min(100,Math.round(todayDone/activeToday*100)):0;
     const cards=$("#statsCards");
     if(cards) cards.innerHTML=[["⭐",xp,"Total XP"],["🔥",st,"Day Streak"],["✅",todayDone,`Today (${pct}%)`],["🎯",done.length,"Quests Done"]].map(x=>`<div class="card"><div class="val">${x[0]} ${Number(x[1]).toLocaleString()}</div><div class="lbl">${x[2]}</div></div>`).join("");
     if($("#statsProgress")) $("#statsProgress").innerHTML=`<div class="row between" style="font-size:11px;"><span>Today's completion</span><b>${pct}%</b></div><div class="stat-bar" style="margin-top:7px;"><div class="stat-fill" style="width:${pct}%"></div></div>`;
+    
+    // 1st pie chart: Daily Tasks Pie Chart
+    const todayDoneSet = new Set(done.filter(r => r.day === todayIso).map(r => r.task_index));
+    const todayCatCounts = {};
+    CATEGORIES.forEach(c => todayCatCounts[c] = { done: 0, total: 0 });
+    todayRoutine.forEach((t, idx) => {
+      const cat = t[3] || "Personal";
+      if (!todayCatCounts[cat]) todayCatCounts[cat] = { done: 0, total: 0 };
+      todayCatCounts[cat].total++;
+      if (todayDoneSet.has(idx)) todayCatCounts[cat].done++;
+    });
+    renderDailyTaskDonut($("#dailyTaskPieChart"), todayDone, activeToday, todayCatCounts);
+    if($("#statsDailyPiePct")) $("#statsDailyPiePct").textContent=pct+"%";
+    if($("#statsTodayPct")) $("#statsTodayPct").textContent=pct+"%";
+    if($("#homeFocusPct")) $("#homeFocusPct").textContent=pct+"%";
+
+    // 2nd pie chart: Monthly Category Breakdown
     const counts=await monthCategoryCounts(new Date().getFullYear(),new Date().getMonth());
-    const total=Object.values(counts).reduce((a,b)=>a+b,0); renderDonut($("#statsDonut"),counts,total,"quests this month");
+    const total=Object.values(counts).reduce((a,b)=>a+b,0);
+    if($("#categoryDonutTotal")) $("#categoryDonutTotal").textContent=`${total} quests`;
+    renderDonut($("#statsDonut"),counts,total,"monthly quests");
+
     const catXP={}; CATEGORIES.forEach(c=>catXP[c]=0);
     for(const r of done){const task=effectiveRoutine(r.day)[r.task_index];const cat=task?.[3];if(cat)catXP[cat]=(catXP[cat]||0)+(task?.[4]||0);}
     if($("#statsCategoryXP")) $("#statsCategoryXP").innerHTML=CATEGORIES.map(c=>`<div style="margin:8px 0"><div class="row between" style="font-size:11px"><span>${c}</span><b>${catXP[c]||0} XP</b></div><div class="stat-bar"><div class="stat-fill" style="width:${xp?Math.min(100,Math.round((catXP[c]||0)/xp*100)):0}%"></div></div></div>`).join("");
-    renderXPRewards(xp); if($("#statsTodayPct")) $("#statsTodayPct").textContent=pct+"%"; if($("#homeFocusPct")) $("#homeFocusPct").textContent=pct+"%";
+    renderXPRewards(xp);
     try{await renderChallenges();}catch(e){console.warn("stats challenges",e)}
     try{await renderHistory();}catch(e){console.warn("stats history",e)}
     try{await renderTrendGraphs();}catch(e){console.warn("stats graphs",e);$("#dailyCompletionGraph")&&( $("#dailyCompletionGraph").innerHTML='<div class="stats-empty">Statistics graph is temporarily unavailable.</div>');$("#dailyXPGraph")&&( $("#dailyXPGraph").innerHTML='<div class="stats-empty">Statistics graph is temporarily unavailable.</div>');}
+    if(window.__refreshStatsParticles) window.__refreshStatsParticles();
   }catch(e){
     console.error("Perihelion Stats render failed",e);
     const cards=$("#statsCards");
     if(cards) cards.innerHTML=`<div class="stats-empty" style="grid-column:1/-1">Stats is recovering… <button type="button" class="primary" style="margin-top:10px" onclick="renderStats()">↻ Reload Stats</button></div>`;
-    ["#dailyCompletionGraph","#dailyXPGraph","#statsProgress","#statsDonut","#statsCategoryXP","#xpRewards"].forEach(sel=>{
+    ["#dailyCompletionGraph","#dailyXPGraph","#statsProgress","#statsDonut","#statsCategoryXP","#xpRewards","#dailyTaskPieChart"].forEach(sel=>{
       const el=$(sel); if(el && !el.innerHTML.trim()) el.innerHTML='<div class="stats-empty">No statistics available yet.</div>';
     });
   }
@@ -3854,8 +3998,29 @@ function setupAIAttachments(){const plus=$("#shyamaAIPlus"),menu=$("#shyamaAIAtt
 async function sendShyamaAI(){const input=$("#shyamaAIInput"),q=input?.value.trim();if(!q)return;if(window.__periAISending)return;window.__periAISending=true;input.value="";const t=shyamaAIActiveTopic();if(!t.messages.length||t.title==="New Chat"){t.title=q.length>42?q.slice(0,42)+"…":q;shyamaAISaveTopic(t);shyamaAIRenderTopics($("#shyamaAITopicSearch")?.value||"");shyamaAIRenderCurrentTopic()}const attachedSummary=(window.__periAIFiles||[]).map(f=>`[Attached: ${f.name}]`).join(" ");t.messages.push({role:"user",content:q+(attachedSummary?"\n"+attachedSummary:"")});shyamaAISaveTopic(t);addShyamaAIMsg("user",q+(attachedSummary?"\n📎 "+attachedSummary:""));addShyamaAIMsg("bot","",{thinking:true});try{const reply=await shyamaAIReply(q);removeThinking();addShyamaAIMsg("bot",reply);const latest=shyamaAIActiveTopic();latest.messages.push({role:"assistant",content:reply});shyamaAISaveTopic(latest);clearAIFiles();shyamaAIRenderTopics($("#shyamaAITopicSearch")?.value||"")}catch(e){console.error(e);removeThinking();addShyamaAIMsg("bot",`I couldn't complete that request. ${e?.message||"Check Perihelion AI Settings."}`)}finally{window.__periAISending=false}}
 
 
-function openPeriVoiceMode(){const m=$("#periVoiceMode");if(!m)return;stopPeriVoiceSpeech();m.classList.add("open");m.setAttribute("aria-hidden","false");$("#periVoiceAnswer").classList.remove("show");$("#periVoiceAnswer").textContent="";$("#periVoiceStatus").textContent="Listening…";$("#periVoiceSubstatus").textContent="Speak or type your question";$("#periVoicePoor").style.display="none";updatePeriVoiceMute();}
-function closePeriVoiceMode(){const m=$("#periVoiceMode");if(!m)return;stopPeriVoiceSpeech();m.classList.remove("open");m.setAttribute("aria-hidden","true");}
+function openPeriVoiceMode(){
+  const m=$("#periVoiceMode");
+  if(!m)return;
+  stopPeriVoiceSpeech();
+  m.classList.add("open");
+  m.setAttribute("aria-hidden","false");
+  $("#periVoiceAnswer").classList.remove("show");
+  $("#periVoiceAnswer").textContent="";
+  $("#periVoiceStatus").textContent="Listening…";
+  $("#periVoiceSubstatus").textContent="Speak or type your question";
+  $("#periVoicePoor").style.display="none";
+  updatePeriVoiceMute();
+  if (typeof window.__startAIVoiceParticles === "function") window.__startAIVoiceParticles();
+  if (typeof window.burstAIParticles === "function") window.burstAIParticles(28);
+}
+function closePeriVoiceMode(){
+  const m=$("#periVoiceMode");
+  if(!m)return;
+  stopPeriVoiceSpeech();
+  m.classList.remove("open");
+  m.setAttribute("aria-hidden","true");
+  if (typeof window.__stopAIVoiceParticles === "function") window.__stopAIVoiceParticles();
+}
 function isPeriVoiceRepliesOn(){return localStorage.getItem("perihelion_voice_mode_muted")!=="1";}
 function updatePeriVoiceMute(){const on=isPeriVoiceRepliesOn(),b=$("#periVoiceMute");if(b){b.textContent=on?"🔊":"🔇";b.setAttribute("aria-label",on?"Mute voice replies":"Turn on voice replies");b.title=on?"Voice replies on":"Voice replies off";}}
 function speakPeriVoiceText(text){
@@ -3871,14 +4036,42 @@ function speakPeriVoiceText(text){
     if(__periVoiceSpeech.index>=__periVoiceSpeech.queue.length){__periVoiceSpeech={active:false,queue:[],index:0};$("#periVoiceStatus").textContent="Perihelion is answering";$("#periVoiceSubstatus").textContent="Tap the microphone to ask another question";return;}
     const u=new SpeechSynthesisUtterance(__periVoiceSpeech.queue[__periVoiceSpeech.index++]);
     u.lang=navigator.language||"en-IN";u.rate=.96;u.pitch=1;
-    u.onstart=()=>{$("#periVoiceStatus").textContent="Speaking…";$("#periVoiceSubstatus").textContent="Tap the speaker button to mute";};
+    u.onstart=()=>{
+      $("#periVoiceStatus").textContent="Speaking…";
+      $("#periVoiceSubstatus").textContent="Tap the speaker button to mute";
+      if(typeof window.burstAIParticles==="function") window.burstAIParticles(30);
+    };
     u.onend=next;
     u.onerror=e=>{if(__periVoiceSpeech.active){console.warn("Perihelion voice",e?.error||e);__periVoiceSpeech={active:false,queue:[],index:0};$("#periVoiceStatus").textContent="Voice unavailable";$("#periVoiceSubstatus").textContent="You can still read the answer below";}};
     synth.speak(u);
   };
   next();return true;
 }
-async function periVoiceAsk(q){q=String(q||"").trim();if(!q)return;stopAISpeech();$("#periVoiceStatus").textContent="Thinking…";$("#periVoiceSubstatus").textContent="Perihelion AI is working";$("#periVoicePoor").style.display="none";try{const reply=await shyamaAIReply(q);const a=$("#periVoiceAnswer");a.innerHTML=renderAIText(reply);a.classList.add("show");typesetAI(a);if(isPeriVoiceRepliesOn())speakPeriVoiceText(reply);else{$("#periVoiceStatus").textContent="Perihelion is answering";$("#periVoiceSubstatus").textContent="Voice replies are muted";}}catch(e){console.error(e);$("#periVoiceStatus").textContent="Poor connection";$("#periVoiceSubstatus").textContent="Check Settings → Perihelion AI";$("#periVoicePoor").textContent=String(e?.message||"").includes("OPENROUTER_API_KEY")?"Supabase is connected, but the server needs OPENROUTER_API_KEY configured.":"Connection problem — check Perihelion AI settings.";$("#periVoicePoor").style.display="block";}}
+async function periVoiceAsk(q){
+  q=String(q||"").trim();
+  if(!q)return;
+  stopAISpeech();
+  if(typeof window.burstAIParticles==="function") window.burstAIParticles(30);
+  $("#periVoiceStatus").textContent="Thinking…";
+  $("#periVoiceSubstatus").textContent="Perihelion AI is working";
+  $("#periVoicePoor").style.display="none";
+  try{
+    const reply=await shyamaAIReply(q);
+    const a=$("#periVoiceAnswer");
+    a.innerHTML=renderAIText(reply);
+    a.classList.add("show");
+    typesetAI(a);
+    if(typeof window.burstAIParticles==="function") window.burstAIParticles(45);
+    if(isPeriVoiceRepliesOn())speakPeriVoiceText(reply);
+    else{$("#periVoiceStatus").textContent="Perihelion is answering";$("#periVoiceSubstatus").textContent="Voice replies are muted";}
+  }catch(e){
+    console.error(e);
+    $("#periVoiceStatus").textContent="Poor connection";
+    $("#periVoiceSubstatus").textContent="Check Settings → Perihelion AI";
+    $("#periVoicePoor").textContent=String(e?.message||"").includes("OPENROUTER_API_KEY")?"Supabase is connected, but the server needs OPENROUTER_API_KEY configured.":"Connection problem — check Perihelion AI settings.";
+    $("#periVoicePoor").style.display="block";
+  }
+}
 function setupPeriVoiceMode(){
  const mic=$("#periVoiceMic"),send=$("#periVoiceSend"),input=$("#periVoiceInput"),kb=$("#periVoiceKeyboard"),mute=$("#periVoiceMute"),close=$("#periVoiceClose");
  send?.addEventListener("click",()=>{const q=input?.value.trim();if(input)input.value="";periVoiceAsk(q)});input?.addEventListener("keydown",e=>{if(e.key==="Enter")send?.click()});kb?.addEventListener("click",()=>input?.focus());close?.addEventListener("click",closePeriVoiceMode);mute?.addEventListener("click",()=>{const on=isPeriVoiceRepliesOn();localStorage.setItem("perihelion_voice_mode_muted",on?"1":"0");updatePeriVoiceMute();if(on)stopPeriVoiceSpeech();});
@@ -4132,6 +4325,484 @@ function applyTheme(theme) {
   });
 
   animId = requestAnimationFrame(render);
+})();
+
+// ---------- STATS PAGE LOCAL PARTICLE ENGINES (GRAPHS, PIE CHARTS, CALENDAR) ----------
+(function initStatsParticleEngines() {
+  const canvasIds = [
+    "canvasCompletionGraph",
+    "canvasXPGraph",
+    "canvasDailyPie",
+    "canvasCategoryPie",
+    "canvasCalendar"
+  ];
+
+  let isRunning = false;
+  let animId = null;
+
+  // Configuration for each type of stats particle canvas
+  const canvasConfigs = {
+    canvasCompletionGraph: { type: "graph", count: 20 },
+    canvasXPGraph: { type: "graph", count: 20 },
+    canvasDailyPie: { type: "donut", count: 22 },
+    canvasCategoryPie: { type: "donut", count: 22 },
+    canvasCalendar: { type: "calendar", count: 24 }
+  };
+
+  const particleStores = {};
+
+  function createParticle(type, w, h, center) {
+    const isLight = document.body.classList.contains("theme-light");
+    if (type === "graph") {
+      return {
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: 1.2 + Math.random() * 2.2,
+        speedY: 0.35 + Math.random() * 0.85,
+        drift: (Math.random() - 0.5) * 0.4,
+        alpha: 0.2 + Math.random() * 0.6,
+        phase: Math.random() * Math.PI * 2,
+        color: isLight
+          ? (Math.random() > 0.4 ? "rgba(255, 107, 0, " : "rgba(224, 76, 0, ")
+          : (Math.random() > 0.4 ? "rgba(255, 120, 20, " : "rgba(255, 175, 40, ")
+      };
+    } else if (type === "donut") {
+      const cx = center ? center.x : w / 2;
+      const cy = center ? center.y : h / 2;
+      const baseR = center ? center.r : Math.min(w, h) * 0.32;
+      const angle = Math.random() * Math.PI * 2;
+      return {
+        angle,
+        speed: (0.012 + Math.random() * 0.022) * (Math.random() > 0.5 ? 1 : -1),
+        dist: baseR + (Math.random() - 0.5) * 24,
+        baseDist: baseR + (Math.random() - 0.5) * 24,
+        wobble: Math.random() * Math.PI * 2,
+        r: 1.2 + Math.random() * 2.4,
+        alpha: 0.25 + Math.random() * 0.65,
+        color: isLight ? "rgba(255, 107, 0, " : "rgba(255, 140, 25, "
+      };
+    } else {
+      // Calendar
+      return {
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: 1.1 + Math.random() * 2.0,
+        speedY: 0.2 + Math.random() * 0.5,
+        drift: (Math.random() - 0.5) * 0.3,
+        pulse: Math.random() * Math.PI * 2,
+        alpha: 0.15 + Math.random() * 0.55,
+        color: isLight ? "rgba(255, 107, 0, " : "rgba(255, 150, 30, "
+      };
+    }
+  }
+
+  function syncCanvasSize(canvas) {
+    if (!canvas) return null;
+    const parent = canvas.parentElement;
+    if (!parent) return null;
+    const rect = parent.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return null;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const needWidth = Math.floor(rect.width * dpr);
+    const needHeight = Math.floor(rect.height * dpr);
+
+    if (canvas.width !== needWidth || canvas.height !== needHeight) {
+      canvas.width = needWidth;
+      canvas.height = needHeight;
+    }
+    return { w: rect.width, h: rect.height, dpr };
+  }
+
+  function getDonutCenter(canvas) {
+    if (!canvas) return null;
+    const parent = canvas.parentElement;
+    if (!parent) return null;
+    const donut = parent.querySelector(".daily-pie-donut, .donut");
+    if (!donut) return null;
+    const dRect = donut.getBoundingClientRect();
+    const pRect = parent.getBoundingClientRect();
+    return {
+      x: dRect.left - pRect.left + dRect.width / 2,
+      y: dRect.top - pRect.top + dRect.height / 2,
+      r: dRect.width / 2 + 6
+    };
+  }
+
+  function renderStatsFrame() {
+    const statsPage = document.getElementById("page-stats");
+    if (!statsPage || !statsPage.classList.contains("active") || document.hidden) {
+      isRunning = false;
+      return;
+    }
+
+    const isLight = document.body.classList.contains("theme-light");
+
+    canvasIds.forEach(id => {
+      const canvas = document.getElementById(id);
+      if (!canvas) return;
+      const size = syncCanvasSize(canvas);
+      if (!size) return;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      ctx.save();
+      ctx.scale(size.dpr, size.dpr);
+      ctx.clearRect(0, 0, size.w, size.h);
+
+      const cfg = canvasConfigs[id] || { type: "graph", count: 18 };
+      let center = null;
+      if (cfg.type === "donut") {
+        center = getDonutCenter(canvas);
+      }
+
+      // Initialize or resize particle pool
+      if (!particleStores[id] || particleStores[id].length !== cfg.count) {
+        particleStores[id] = [];
+        for (let i = 0; i < cfg.count; i++) {
+          particleStores[id].push(createParticle(cfg.type, size.w, size.h, center));
+        }
+      }
+
+      const pool = particleStores[id];
+
+      if (cfg.type === "graph") {
+        for (let i = 0; i < pool.length; i++) {
+          const p = pool[i];
+          p.y -= p.speedY;
+          p.x += Math.sin(p.phase) * 0.45;
+          p.phase += 0.04;
+
+          if (p.y < -10) {
+            p.y = size.h + 8;
+            p.x = Math.random() * size.w;
+          }
+          if (p.x < -10) p.x = size.w + 5;
+          if (p.x > size.w + 10) p.x = -5;
+
+          const currentAlpha = Math.max(0.1, p.alpha * (0.5 + 0.5 * Math.sin(p.phase)));
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          if (!isLight) {
+            ctx.shadowBlur = p.r * 3;
+            ctx.shadowColor = "#ff6b00";
+            ctx.fillStyle = p.color + currentAlpha + ")";
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          } else {
+            ctx.fillStyle = p.color + (currentAlpha * 0.45) + ")";
+            ctx.fill();
+          }
+        }
+      } else if (cfg.type === "donut") {
+        const cx = center ? center.x : size.w / 2;
+        const cy = center ? center.y : size.h / 2;
+        const baseR = center ? center.r : 72;
+
+        for (let i = 0; i < pool.length; i++) {
+          const p = pool[i];
+          p.angle += p.speed;
+          p.wobble += 0.035;
+          const currentDist = baseR + Math.sin(p.wobble) * 10;
+          const x = cx + Math.cos(p.angle) * currentDist;
+          const y = cy + Math.sin(p.angle) * currentDist;
+
+          const currentAlpha = Math.max(0.15, p.alpha * (0.6 + 0.4 * Math.sin(p.wobble)));
+          ctx.beginPath();
+          ctx.arc(x, y, p.r, 0, Math.PI * 2);
+          if (!isLight) {
+            ctx.shadowBlur = p.r * 3.5;
+            ctx.shadowColor = "#ff6b00";
+            ctx.fillStyle = p.color + currentAlpha + ")";
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          } else {
+            ctx.fillStyle = p.color + (currentAlpha * 0.48) + ")";
+            ctx.fill();
+          }
+        }
+      } else {
+        // Calendar
+        for (let i = 0; i < pool.length; i++) {
+          const p = pool[i];
+          p.y -= p.speedY;
+          p.x += Math.sin(p.pulse) * 0.4;
+          p.pulse += 0.03;
+
+          if (p.y < -10) {
+            p.y = size.h + 8;
+            p.x = Math.random() * size.w;
+          }
+          if (p.x < -10) p.x = size.w + 5;
+          if (p.x > size.w + 10) p.x = -5;
+
+          const currentAlpha = Math.max(0.1, p.alpha * (0.5 + 0.5 * Math.sin(p.pulse)));
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          if (!isLight) {
+            ctx.shadowBlur = p.r * 2.8;
+            ctx.shadowColor = "#ff6b00";
+            ctx.fillStyle = p.color + currentAlpha + ")";
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          } else {
+            ctx.fillStyle = p.color + (currentAlpha * 0.38) + ")";
+            ctx.fill();
+          }
+        }
+      }
+
+      ctx.restore();
+    });
+
+    animId = requestAnimationFrame(renderStatsFrame);
+  }
+
+  window.__startStatsParticles = function() {
+    if (isRunning) return;
+    isRunning = true;
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(renderStatsFrame);
+  };
+
+  window.__stopStatsParticles = function() {
+    isRunning = false;
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  };
+
+  window.__refreshStatsParticles = function() {
+    // Reset pool centers if elements relocated
+    Object.keys(particleStores).forEach(id => {
+      delete particleStores[id];
+    });
+    if (!isRunning) {
+      window.__startStatsParticles();
+    }
+  };
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      window.__stopStatsParticles();
+    } else {
+      const statsPage = document.getElementById("page-stats");
+      if (statsPage && statsPage.classList.contains("active")) {
+        window.__startStatsParticles();
+      }
+    }
+  });
+
+  // Check if stats page is already active on load
+  setTimeout(() => {
+    const statsPage = document.getElementById("page-stats");
+    if (statsPage && statsPage.classList.contains("active")) {
+      window.__startStatsParticles();
+    }
+  }, 400);
+})();
+
+// ---------- VOICE CHAT AI PARTICLE ENGINE (PARTICLES COMING OUT FROM THE AI) ----------
+(function initAIVoiceParticleEngine() {
+  const canvas = document.getElementById("periVoiceParticleCanvas");
+  const modal = document.getElementById("periVoiceMode");
+  if (!canvas || !modal) return;
+
+  const ctx = canvas.getContext("2d");
+  let isRunning = false;
+  let animId = null;
+
+  const particles = [];
+  const shockwaves = [];
+  let frameCounter = 0;
+
+  const sparkColors = [
+    "#ff6b00", // radiant flame orange
+    "#ff8800", // warm amber
+    "#ffa500", // golden orange
+    "#ffc247", // starlight gold
+    "#ffffff", // plasma spark core
+    "#ff4500"  // deep orange
+  ];
+
+  function resizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    if (canvas.width !== Math.floor(w * dpr) || canvas.height !== Math.floor(h * dpr)) {
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+    }
+    return { w, h, dpr };
+  }
+
+  function getOrbMetrics() {
+    const orb = modal.querySelector(".peri-voice-orb");
+    if (!orb) {
+      return { cx: window.innerWidth / 2, cy: window.innerHeight / 2 - 40, r: 85 };
+    }
+    const r = orb.getBoundingClientRect();
+    return {
+      cx: r.left + r.width / 2,
+      cy: r.top + r.height / 2,
+      r: r.width / 2
+    };
+  }
+
+  function emitParticlesFromAI(count = 3, highVelocity = false) {
+    const { cx, cy, r } = getOrbMetrics();
+
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      // Start right at the AI orb circumference
+      const startR = r * (0.86 + Math.random() * 0.22);
+      const px = cx + Math.cos(angle) * startR;
+      const py = cy + Math.sin(angle) * startR;
+
+      const baseSpeed = highVelocity ? (3.5 + Math.random() * 5.5) : (1.6 + Math.random() * 3.2);
+      const swirl = (Math.random() - 0.5) * 0.45;
+      const vx = Math.cos(angle) * baseSpeed - Math.sin(angle) * swirl;
+      const vy = Math.sin(angle) * baseSpeed + Math.cos(angle) * swirl;
+
+      const isWhiteSpark = Math.random() > 0.82;
+      const color = isWhiteSpark ? "#ffffff" : sparkColors[Math.floor(Math.random() * sparkColors.length)];
+
+      particles.push({
+        x: px,
+        y: py,
+        vx,
+        vy,
+        r: isWhiteSpark ? (1.0 + Math.random() * 1.8) : (1.5 + Math.random() * 2.8),
+        color,
+        life: 0,
+        maxLife: highVelocity ? (40 + Math.random() * 50) : (65 + Math.random() * 75),
+        isSpark: isWhiteSpark
+      });
+    }
+  }
+
+  function emitShockwave() {
+    const { cx, cy, r } = getOrbMetrics();
+    shockwaves.push({
+      cx,
+      cy,
+      r,
+      maxR: r + 130 + Math.random() * 40,
+      speed: 2.2 + Math.random() * 1.2,
+      alpha: 0.55
+    });
+  }
+
+  function renderVoiceParticles() {
+    if (!modal.classList.contains("open") || document.hidden) {
+      isRunning = false;
+      return;
+    }
+
+    const size = resizeCanvas();
+    ctx.save();
+    ctx.scale(size.dpr, size.dpr);
+    ctx.clearRect(0, 0, size.w, size.h);
+
+    frameCounter++;
+
+    // Continuous steady particle stream emanating from AI orb
+    emitParticlesFromAI(3);
+
+    // Periodic energy shockwaves radiating outward
+    if (frameCounter % 50 === 0) {
+      emitShockwave();
+    }
+
+    // Render & Update Expanding Shockwaves
+    for (let i = shockwaves.length - 1; i >= 0; i--) {
+      const sw = shockwaves[i];
+      sw.r += sw.speed;
+      const progress = (sw.r - getOrbMetrics().r) / Math.max(1, sw.maxR - getOrbMetrics().r);
+      if (progress >= 1) {
+        shockwaves.splice(i, 1);
+        continue;
+      }
+      const alpha = (1 - progress) * sw.alpha;
+      ctx.beginPath();
+      ctx.arc(sw.cx, sw.cy, sw.r, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(255, 107, 0, " + alpha + ")";
+      ctx.lineWidth = Math.max(1, 2.5 * (1 - progress));
+      ctx.shadowBlur = 12 * (1 - progress);
+      ctx.shadowColor = "#ff6b00";
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    }
+
+    // Render & Update Particles emanating from the AI
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Soft air friction so particles slow down gracefully as they disperse
+      p.vx *= 0.985;
+      p.vy *= 0.985;
+
+      p.life++;
+      if (p.life >= p.maxLife) {
+        particles.splice(i, 1);
+        continue;
+      }
+
+      const progress = p.life / p.maxLife;
+      const alpha = Math.sin(progress * Math.PI) * (p.isSpark ? 1.0 : 0.85);
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * (1 + progress * 0.3), 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+      ctx.shadowBlur = p.r * 4;
+      ctx.shadowColor = p.color;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    ctx.globalAlpha = 1;
+    ctx.restore();
+
+    animId = requestAnimationFrame(renderVoiceParticles);
+  }
+
+  window.burstAIParticles = function(count = 35) {
+    if (!modal.classList.contains("open")) return;
+    emitParticlesFromAI(count, true);
+    emitShockwave();
+    if (!isRunning) {
+      window.__startAIVoiceParticles();
+    }
+  };
+
+  window.__startAIVoiceParticles = function() {
+    if (isRunning) return;
+    isRunning = true;
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(renderVoiceParticles);
+  };
+
+  window.__stopAIVoiceParticles = function() {
+    isRunning = false;
+    particles.length = 0;
+    shockwaves.length = 0;
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+    if (ctx) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  };
+
+  window.addEventListener("resize", () => {
+    if (isRunning) resizeCanvas();
+  });
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -5205,6 +5876,264 @@ body.theme-light .pill.off{color:#a83844!important;border-color:#f1c3c7!importan
 body.theme-light .spotify-link{color:#ff6b00!important;}
 body.theme-light .focus-open-btn{background:linear-gradient(135deg,#ff6b00 0%,#d44700 100%)!important;color:#fff!important;border-color:#ff6b00!important;}
 body.theme-light .shy-date-pill .time{color:#ff6b00!important;font-weight:900!important;}
+
+/* ==============================================================
+   ANIMATED STAT GRAPHS, PIE CHARTS, CALENDAR & AI PARTICLES
+   ============================================================== */
+
+/* 1. Animated Graph Curves, Area Fills & Data Points */
+@keyframes drawTrendPath {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes fadeTrendArea {
+  0% { opacity: 0; transform: scaleY(0.15); transform-origin: bottom; }
+  100% { opacity: 1; transform: scaleY(1); transform-origin: bottom; }
+}
+@keyframes popTrendPoint {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.45); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes growYearBar {
+  0% { transform: scaleY(0); opacity: 0; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+@keyframes donutPulseGlow {
+  0%, 100% { filter: drop-shadow(0 0 12px rgba(255, 107, 0, 0.22)); }
+  50% { filter: drop-shadow(0 0 24px rgba(255, 107, 0, 0.45)); }
+}
+
+.animated-trend-line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawTrendPath 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.trend-area-purple, .trend-area-cyan, .trend-area-orange, .trend-area-gold {
+  animation: fadeTrendArea 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.trend-point {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: popTrendPoint 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  transition: r 0.22s ease, stroke-width 0.22s ease, filter 0.22s ease;
+  cursor: pointer;
+}
+.trend-point:hover {
+  r: 5.5!important;
+  stroke-width: 3!important;
+  filter: drop-shadow(0 0 8px #ff6b00)!important;
+}
+
+.year-bars .bar {
+  transform-origin: bottom;
+  animation: growYearBar 0.85s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  transition: height 0.6s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+.year-bars .bar:hover {
+  filter: brightness(1.3) drop-shadow(0 0 10px #ff6b00);
+}
+
+.stat-fill {
+  transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 2. Daily Tasks Pie Chart & Donut Layout */
+.daily-donut-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+.daily-pie-donut {
+  width: 146px;
+  height: 146px;
+  border-radius: 50%;
+  position: relative;
+  flex: none;
+  animation: donutIn 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  box-shadow: 0 0 0 6px rgba(255, 107, 0, 0.06), 0 0 28px rgba(255, 107, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.daily-pie-donut:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 0 8px rgba(255, 107, 0, 0.12), 0 0 34px rgba(255, 107, 0, 0.32);
+}
+.daily-pie-donut::after {
+  content: "";
+  position: absolute;
+  inset: 22%;
+  background: var(--panel, #121216);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+body.theme-light .daily-pie-donut::after {
+  background: #ffffff!important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.08)!important;
+}
+.daily-pie-donut .center-label {
+  position: absolute;
+  inset: 22%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.15;
+  pointer-events: none;
+}
+.daily-pie-donut .center-label .big {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--text, #ffffff);
+  letter-spacing: -0.5px;
+}
+.daily-pie-donut .center-label .sub {
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--accent, #ff6b00);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-top: 2px;
+}
+.daily-donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 140px;
+}
+.daily-donut-legend .item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.06));
+  padding-bottom: 5px;
+}
+.daily-donut-legend .item-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.daily-donut-legend .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+.daily-donut-legend .dot.done {
+  background: #ff6b00;
+  box-shadow: 0 0 8px rgba(255, 107, 0, 0.8);
+}
+.daily-donut-legend .dot.pending {
+  background: rgba(140, 140, 160, 0.35);
+  box-shadow: none;
+}
+body.theme-light .daily-donut-legend .dot.pending {
+  background: #ded5c5;
+}
+.today-cat-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+.today-cat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 107, 0, 0.06);
+  border: 1px solid rgba(255, 107, 0, 0.2);
+  color: var(--text);
+  font-weight: 600;
+}
+body.theme-light .today-cat-chip {
+  background: #fff8f0;
+  border: 1px solid #ffd8b3;
+}
+.today-cat-chip .chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff6b00;
+}
+
+/* 3. Stat Page Local Particle Canvases (Graphs, Pie Charts, Calendar) */
+.graph-panel, .pie-panel, .cal-panel {
+  position: relative!important;
+  overflow: hidden!important;
+}
+.stat-particles-canvas {
+  position: absolute!important;
+  top: 0!important;
+  left: 0!important;
+  width: 100%!important;
+  height: 100%!important;
+  pointer-events: none!important;
+  z-index: 0!important;
+  border-radius: inherit;
+}
+.graph-panel > *:not(.stat-particles-canvas),
+.pie-panel > *:not(.stat-particles-canvas),
+.cal-panel > *:not(.stat-particles-canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+/* 4. Voice Chat AI Particle Canvas & Emanation Styles */
+.peri-voice-particle-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+#periVoiceMode .peri-voice-bg {
+  z-index: 0;
+}
+#periVoiceMode .peri-voice-center {
+  position: relative;
+  z-index: 2;
+}
+#periVoiceMode .peri-voice-top,
+#periVoiceMode .peri-voice-bottom {
+  z-index: 3;
+}
+.peri-voice-orb-wrap {
+  position: relative;
+}
+.peri-voice-orb-wrap::before {
+  animation: orbPulseRing 3.2s ease-in-out infinite;
+}
+.peri-voice-orb-wrap::after {
+  animation: orbPulseRing 4.5s ease-in-out infinite 0.7s;
+}
+@keyframes orbPulseRing {
+  0%, 100% {
+    transform: scale(0.98);
+    opacity: 0.35;
+    box-shadow: 0 0 30px rgba(255, 107, 0, 0.15);
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.75;
+    box-shadow: 0 0 65px rgba(255, 107, 0, 0.42);
+  }
+}
+.peri-voice-orb {
+  box-shadow: 0 0 45px rgba(255, 107, 0, 0.28), 0 0 95px rgba(255, 140, 0, 0.18)!important;
+}
 </style>
 
 
