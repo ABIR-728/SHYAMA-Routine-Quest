@@ -121,12 +121,12 @@ nav.tabs button.active{color:var(--accent);}
 .calendar .dow{font-size:10px;color:var(--muted);text-align:center;font-weight:800;padding-bottom:2px;}
 .cal-legend-pill{display:inline-block;width:13px;height:13px;border-radius:4px;vertical-align:middle;flex-shrink:0;}
 
-/* Intensity heat scale across default / dark themes */
-.calendar .cell.heat0, .cal-legend-pill.heat0{background:#0b1424!important;border:1px solid rgba(145,160,190,.14)!important;color:rgba(150,165,195,.55)!important;}
-.calendar .cell.heat1, .cal-legend-pill.heat1{background:#0e4640!important;border:1px solid #147265!important;color:#6eedd8!important;font-weight:700!important;}
-.calendar .cell.heat2, .cal-legend-pill.heat2{background:#11684c!important;border:1px solid #19a578!important;color:#a5fce0!important;font-weight:800!important;}
-.calendar .cell.heat3, .cal-legend-pill.heat3{background:#149b65!important;border:1px solid #23d289!important;color:#ffffff!important;font-weight:800!important;box-shadow:0 0 10px rgba(35,210,137,.35)!important;}
-.calendar .cell.heat4, .cal-legend-pill.heat4{background:linear-gradient(135deg,#1ecb8b 0%,#0fa672 100%)!important;border:1.5px solid #48f7b7!important;color:#022013!important;font-weight:900!important;box-shadow:0 0 14px rgba(72,247,183,.45)!important;}
+/* Intensity heat scale across default / dark themes (Black & Orange) */
+.calendar .cell.heat0, .cal-legend-pill.heat0{background:#0a0a0d!important;border:1px solid rgba(255,255,255,.08)!important;color:rgba(180,180,195,.5)!important;}
+.calendar .cell.heat1, .cal-legend-pill.heat1{background:#2a1202!important;border:1px solid #5a2603!important;color:#ffaa66!important;font-weight:700!important;}
+.calendar .cell.heat2, .cal-legend-pill.heat2{background:#542002!important;border:1px solid #943904!important;color:#ffc28f!important;font-weight:800!important;}
+.calendar .cell.heat3, .cal-legend-pill.heat3{background:#8a3400!important;border:1px solid #d45300!important;color:#ffffff!important;font-weight:800!important;box-shadow:0 0 10px rgba(255,107,0,.35)!important;}
+.calendar .cell.heat4, .cal-legend-pill.heat4{background:linear-gradient(135deg,#ff6b00 0%,#d94e00 100%)!important;border:1.5px solid #ff9140!important;color:#ffffff!important;font-weight:900!important;box-shadow:0 0 14px rgba(255,107,0,.55)!important;}
 .year-bars{display:flex;align-items:flex-end;gap:6px;height:140px;}
 .year-bars .bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;}
 .year-bars .bar{width:100%;background:var(--accent);border-radius:4px 4px 0 0;min-height:2px;}
@@ -1247,59 +1247,6 @@ body.theme-light .page button.primary,body.theme-light .primary{background:linea
 .focus-center>.focus-mode-switch{display:none!important;}
 /* Compact theme controls so the extra global themes remain usable on laptop and phone. */
 .top-theme-scroll{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;max-width:min(72vw,820px);}
-.top-theme-scroll::-webkit-scrollbar{display:none;}
-.top-theme-scroll .theme-choice{white-space:nowrap;font-size:9px!important;padding:6px 9px!important;border-radius:999px!important;}
-.settings-theme-switch{display:flex;gap:6px;flex-wrap:wrap;}
-.settings-theme-switch .theme-choice{font-size:10px!important;padding:7px 10px!important;border-radius:999px!important;}
-/* Global Aurora */
-body.theme-aurora{--v41-a:#23ddff;--v41-b:#9d4cff;--v41-c:#ff4eb8;background:radial-gradient(circle at 8% 10%,rgba(35,221,255,.20),transparent 27%),radial-gradient(circle at 92% 75%,rgba(255,78,184,.18),transparent 30%),linear-gradient(135deg,#04132f,#0b1742 48%,#1b0b35)!important;color:#edf6ff!important;}
-/* Global Ocean */
-body.theme-ocean{--v41-a:#39d9ff;--v41-b:#2478ff;--v41-c:#16d8b2;background:radial-gradient(circle at 12% 12%,rgba(57,217,255,.22),transparent 28%),radial-gradient(circle at 85% 72%,rgba(22,216,178,.16),transparent 30%),linear-gradient(135deg,#02182c,#063b5a 50%,#071f3e)!important;color:#ecfbff!important;}
-/* Global Forest */
-body.theme-forest{--v41-a:#62efbd;--v41-b:#3aa66d;--v41-c:#9de34b;background:radial-gradient(circle at 15% 15%,rgba(98,239,189,.17),transparent 27%),radial-gradient(circle at 88% 70%,rgba(157,227,75,.12),transparent 30%),linear-gradient(135deg,#061b18,#0b3029 50%,#102319)!important;color:#effff5!important;}
-/* Global Sunset */
-body.theme-sunset{--v41-a:#ffb45e;--v41-b:#ff4f8d;--v41-c:#a54dff;background:radial-gradient(circle at 78% 16%,rgba(255,180,94,.24),transparent 28%),radial-gradient(circle at 18% 74%,rgba(255,79,141,.18),transparent 30%),linear-gradient(135deg,#241021,#48203b 50%,#1c1739)!important;color:#fff4f2!important;}
-/* Global Night */
-body.theme-moon{--v41-a:#b9d0ff;--v41-b:#6d8fff;--v41-c:#b58cff;background:radial-gradient(circle at 50% 8%,rgba(185,208,255,.16),transparent 28%),radial-gradient(circle at 85% 75%,rgba(181,140,255,.13),transparent 30%),linear-gradient(135deg,#060b1b,#101a38 52%,#100e2a)!important;color:#edf2ff!important;}
-/* Apply the selected palette to the whole application, not only Focus Mode. */
-body.theme-aurora .top,body.theme-ocean .top,body.theme-forest .top,body.theme-sunset .top,body.theme-moon .top,
-body.theme-aurora .top-theme-bar,body.theme-ocean .top-theme-bar,body.theme-forest .top-theme-bar,body.theme-sunset .top-theme-bar,body.theme-moon .top-theme-bar,
-body.theme-aurora .page .panel,body.theme-ocean .page .panel,body.theme-forest .page .panel,body.theme-sunset .page .panel,body.theme-moon .page .panel,
-body.theme-aurora .page .card,body.theme-ocean .page .card,body.theme-forest .page .card,body.theme-sunset .page .card,body.theme-moon .page .card,
-body.theme-aurora .page .task,body.theme-ocean .page .task,body.theme-forest .page .task,body.theme-sunset .page .task,body.theme-moon .page .task,
-body.theme-aurora .page .routine-day,body.theme-ocean .page .routine-day,body.theme-forest .page .routine-day,body.theme-sunset .page .routine-day,body.theme-moon .page .routine-day,
-body.theme-aurora .page .routine-row,body.theme-ocean .page .routine-row,body.theme-forest .page .routine-row,body.theme-sunset .page .routine-row,body.theme-moon .page .routine-row,
-body.theme-aurora .page .history-row,body.theme-ocean .page .history-row,body.theme-forest .page .history-row,body.theme-sunset .page .history-row,body.theme-moon .page .history-row,
-body.theme-aurora .page .media-item,body.theme-ocean .page .media-item,body.theme-forest .page .media-item,body.theme-sunset .page .media-item,body.theme-moon .page .media-item,
-body.theme-aurora .page .challenge-card,body.theme-ocean .page .challenge-card,body.theme-forest .page .challenge-card,body.theme-sunset .page .challenge-card,body.theme-moon .page .challenge-card,
-body.theme-aurora .page .stat-card,body.theme-ocean .page .stat-card,body.theme-forest .page .stat-card,body.theme-sunset .page .stat-card,body.theme-moon .page .stat-card,
-body.theme-aurora .page .reward-card,body.theme-ocean .page .reward-card,body.theme-forest .page .reward-card,body.theme-sunset .page .reward-card,body.theme-moon .page .reward-card,
-body.theme-aurora .page .settings-theme-panel,body.theme-ocean .page .settings-theme-panel,body.theme-forest .page .settings-theme-panel,body.theme-sunset .page .settings-theme-panel,body.theme-moon .page .settings-theme-panel{
-  background:linear-gradient(135deg,rgba(8,27,63,.90),rgba(31,25,73,.84) 52%,rgba(8,42,51,.82))!important;
-  border-color:color-mix(in srgb,var(--v41-a) 30%,transparent)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 16px 45px rgba(0,0,0,.28),0 0 26px color-mix(in srgb,var(--v41-b) 9%,transparent)!important;
-  backdrop-filter:blur(14px);
-}
-body.theme-ocean .page .panel,body.theme-ocean .page .card,body.theme-ocean .page .task,body.theme-ocean .page .routine-day{background:linear-gradient(135deg,rgba(4,43,70,.90),rgba(8,56,78,.84),rgba(6,35,66,.84))!important;}
-body.theme-forest .page .panel,body.theme-forest .page .card,body.theme-forest .page .task,body.theme-forest .page .routine-day{background:linear-gradient(135deg,rgba(7,48,39,.90),rgba(17,61,48,.84),rgba(11,40,36,.84))!important;}
-body.theme-sunset .page .panel,body.theme-sunset .page .card,body.theme-sunset .page .task,body.theme-sunset .page .routine-day{background:linear-gradient(135deg,rgba(61,25,39,.90),rgba(70,31,58,.84),rgba(35,25,61,.84))!important;}
-body.theme-moon .page .panel,body.theme-moon .page .card,body.theme-moon .page .task,body.theme-moon .page .routine-day{background:linear-gradient(135deg,rgba(14,24,52,.92),rgba(25,28,67,.84),rgba(16,18,48,.86))!important;}
-body.theme-aurora .page h1,body.theme-aurora .page h2,body.theme-aurora .page h3,body.theme-aurora .page h4,
-body.theme-ocean .page h1,body.theme-ocean .page h2,body.theme-ocean .page h3,body.theme-ocean .page h4,
-body.theme-forest .page h1,body.theme-forest .page h2,body.theme-forest .page h3,body.theme-forest .page h4,
-body.theme-sunset .page h1,body.theme-sunset .page h2,body.theme-sunset .page h3,body.theme-sunset .page h4,
-body.theme-moon .page h1,body.theme-moon .page h2,body.theme-moon .page h3,body.theme-moon .page h4{
-  background:linear-gradient(90deg,var(--v41-a),var(--v41-b) 52%,var(--v41-c));-webkit-background-clip:text;background-clip:text;color:transparent!important;
-}
-body.theme-aurora nav.tabs,body.theme-ocean nav.tabs,body.theme-forest nav.tabs,body.theme-sunset nav.tabs,body.theme-moon nav.tabs{background:linear-gradient(90deg,rgba(5,17,45,.97),rgba(30,18,76,.97),rgba(7,30,52,.97))!important;border-color:color-mix(in srgb,var(--v41-a) 28%,transparent)!important;}
-body.theme-aurora nav.tabs button.active,body.theme-ocean nav.tabs button.active,body.theme-forest nav.tabs button.active,body.theme-sunset nav.tabs button.active,body.theme-moon nav.tabs button.active{background:linear-gradient(135deg,color-mix(in srgb,var(--v41-c) 35%,transparent),color-mix(in srgb,var(--v41-b) 32%,transparent),color-mix(in srgb,var(--v41-a) 18%,transparent))!important;color:#fff!important;}
-body.theme-aurora .page button.primary,body.theme-ocean .page button.primary,body.theme-forest .page button.primary,body.theme-sunset .page button.primary,body.theme-moon .page button.primary{background:linear-gradient(90deg,var(--v41-c),var(--v41-b),var(--v41-a))!important;color:#fff!important;border:0!important;box-shadow:0 8px 25px color-mix(in srgb,var(--v41-b) 30%,transparent)!important;}
-body.theme-aurora .focus-overlay{background:radial-gradient(circle at 10% 15%,rgba(35,221,255,.30),transparent 28%),radial-gradient(circle at 90% 70%,rgba(255,78,184,.28),transparent 30%),linear-gradient(135deg,#03112f,#0b1740 48%,#1b0b35)!important;}
-body.theme-ocean .focus-overlay{background:radial-gradient(circle at 15% 15%,rgba(57,217,255,.28),transparent 30%),radial-gradient(circle at 80% 75%,rgba(22,216,178,.22),transparent 32%),linear-gradient(135deg,#02182c,#063b5a 50%,#071f3e)!important;}
-body.theme-forest .focus-overlay{background:radial-gradient(circle at 15% 15%,rgba(98,239,189,.25),transparent 30%),radial-gradient(circle at 85% 70%,rgba(157,227,75,.18),transparent 32%),linear-gradient(135deg,#061b18,#0b3029 50%,#102319)!important;}
-body.theme-sunset .focus-overlay{background:radial-gradient(circle at 78% 16%,rgba(255,180,94,.32),transparent 30%),radial-gradient(circle at 18% 74%,rgba(255,79,141,.24),transparent 32%),linear-gradient(135deg,#241021,#48203b 50%,#1c1739)!important;}
-body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(185,208,255,.22),transparent 30%),radial-gradient(circle at 85% 75%,rgba(181,140,255,.18),transparent 32%),linear-gradient(135deg,#060b1b,#101a38 52%,#100e2a)!important;}
-@media(max-width:650px){.top-theme-scroll{max-width:64vw}.top-theme-scroll .theme-choice{font-size:8px!important;padding:5px 7px!important;}.focus-clock .tick{transform-origin:50% calc((min(340px,76vw,48vh) - 30px)/2)!important;}}
 </style>
 
 
@@ -1623,19 +1570,17 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
   </div>
 
 
+  <!-- Ambient Particle Canvas for Black & Orange / White & Orange themes -->
+  <canvas id="themeParticleCanvas" class="theme-particle-canvas" aria-hidden="true"></canvas>
+
 <div class="app">
   <div class="top">
     <div class="brand brand-vibe"><span class="brand-logo-frame"><img class="brand-logo" src="icons/perihelion-logo.png" alt="Perihelion logo"></span><div class="brand-copy"><span class="name">Perihelion</span><span class="sub">DISCIPLINE · PROGRESS · A BETTER YOU</span></div></div>
     <div class="shy-header-tools">
-      <button class="theme-quick-toggle" id="themeQuickToggle" type="button" aria-label="Toggle Light / Dark theme" title="Switch between Classy Light and Dark theme">
-        <span class="theme-quick-icon">☀️</span>
-        <span class="theme-quick-text">Classy Light</span>
-      </button>
       <div class="shy-date-pill" id="topDateTime"><div class="date">Loading date…</div><div class="time">--:--:--</div></div>
       <div class="shy-profile" aria-label="Profile">●</div>
     </div>
   </div>
-  <div class="top-theme-bar"><span class="top-theme-label">THEME</span><div class="top-theme-scroll" id="topThemeBar"><button class="theme-choice" data-theme="light">☀️ Classy Light</button><button class="theme-choice" data-theme="glass">🌙 Dark</button><button class="theme-choice" data-theme="aurora">🌌 Aurora</button><button class="theme-choice" data-theme="ocean">🌊 Ocean</button><button class="theme-choice" data-theme="forest">🌲 Forest</button><button class="theme-choice" data-theme="sunset">🌅 Sunset</button><button class="theme-choice" data-theme="moon">🌙 Night</button></div></div>
 
   <!-- HOME -->
   <div class="page active" id="page-home">
@@ -1782,21 +1727,39 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
         </button>
       </div>
 
-      <div class="settings-section-label">Appearance</div>
-      <div class="settings-list-group">
-        <button class="settings-list-row settings-appearance-row" id="settingsAppearanceToggle" type="button" aria-expanded="false">
-          <span class="settings-row-icon">☀️</span><span class="settings-row-copy"><b>Appearance</b><small id="settingsThemeStatus">Dark mode</small></span><span class="settings-row-chevron">⌄</span>
-        </button>
-        <div class="settings-theme-panel" id="settingsThemePanel">
-          <div class="settings-theme-switch" aria-label="Choose appearance">
-            <button type="button" class="theme-choice" data-theme="glass">🌙 Dark</button>
-            <button type="button" class="theme-choice" data-theme="light">☀️ Light</button>
-            <button type="button" class="theme-choice" data-theme="aurora">🌌 Aurora</button>
-            <button type="button" class="theme-choice" data-theme="ocean">🌊 Ocean</button>
-            <button type="button" class="theme-choice" data-theme="forest">🌲 Forest</button>
-            <button type="button" class="theme-choice" data-theme="sunset">🌅 Sunset</button>
-            <button type="button" class="theme-choice" data-theme="moon">🌙 Night</button>
+      <div class="settings-section-label">Appearance & Theme</div>
+      <div class="settings-theme-card">
+        <div class="settings-theme-header">
+          <div class="settings-theme-title">
+            <span class="settings-row-icon" id="settingsThemeIcon">🔥</span>
+            <div>
+              <b>App Theme</b>
+              <small id="settingsThemeStatus">Dark — Black & Orange Particle</small>
+            </div>
           </div>
+          <div class="settings-theme-badge" id="settingsThemeBadge">Active: Dark</div>
+        </div>
+        <div class="settings-theme-grid" aria-label="Choose appearance theme">
+          <button type="button" class="theme-choice-btn active" data-theme="dark" id="themeBtnDark" aria-pressed="true">
+            <div class="theme-choice-preview dark-preview">
+              <span style="font-size:16px;">🔥</span>
+            </div>
+            <div class="theme-choice-details">
+              <span class="theme-choice-name">Black & Orange</span>
+              <span class="theme-choice-desc">Deep pitch black · Glowing orange particles</span>
+            </div>
+            <span class="theme-choice-radio"></span>
+          </button>
+          <button type="button" class="theme-choice-btn" data-theme="light" id="themeBtnLight" aria-pressed="false">
+            <div class="theme-choice-preview light-preview">
+              <span style="font-size:16px;">☀️</span>
+            </div>
+            <div class="theme-choice-details">
+              <span class="theme-choice-name">White & Orange</span>
+              <span class="theme-choice-desc">Crisp white · Drifting amber particles</span>
+            </div>
+            <span class="theme-choice-radio"></span>
+          </button>
         </div>
       </div>
 
@@ -4024,87 +3987,165 @@ $all(".shy-action[data-quick]").forEach(b=>b.addEventListener("click",async()=>{
   if("serviceWorker" in navigator) navigator.serviceWorker.register("service-worker.js").catch(()=>{});
 })();
 
-// ---------- THEME ----------
-const ALL_THEMES=["light","glass","aurora","ocean","forest","sunset","moon"];
-function applyTheme(theme){
-  if(!ALL_THEMES.includes(theme)) theme="light";
-  document.body.classList.remove("theme-glass","theme-light","theme-historical","theme-jungle","theme-ocean","theme-sunset","theme-cyber","theme-forest","theme-royal","theme-mono");
-  document.body.classList.add("theme-"+theme);
-  try{ localStorage.setItem("jarvis_theme",theme); }catch(e){}
-  
-  const themeNames = {
-    light: "Classy Light",
-    glass: "Dark mode",
-    aurora: "Aurora theme",
-    ocean: "Ocean theme",
-    forest: "Forest theme",
-    sunset: "Sunset theme",
-    moon: "Night theme"
-  };
-  
-  const themeStatus=document.getElementById("settingsThemeStatus");
-  if(themeStatus) themeStatus.textContent = themeNames[theme] || "Theme";
-  
-  // Update theme choices active indicator
-  document.querySelectorAll(".theme-choice").forEach(b=>{
-    b.classList.toggle("primary", b.dataset.theme===theme);
-  });
-  
-  // Update header quick toggle
-  const quickToggle = document.getElementById("themeQuickToggle");
-  if(quickToggle){
-    const iconSpan = quickToggle.querySelector(".theme-quick-icon");
-    const textSpan = quickToggle.querySelector(".theme-quick-text");
-    if(theme === "light"){
-      if(iconSpan) iconSpan.textContent = "🌙";
-      if(textSpan) textSpan.textContent = "To Dark";
-      quickToggle.title = "Switch to Dark mode";
-    } else {
-      if(iconSpan) iconSpan.textContent = "☀️";
-      if(textSpan) textSpan.textContent = "To Light";
-      quickToggle.title = "Switch to Classy Light mode";
-    }
+// ---------- THEME (BLACK & ORANGE PARTICLE DARK vs WHITE & ORANGE PARTICLE LIGHT) ----------
+const ALL_THEMES = ["dark", "light"];
+
+function applyTheme(theme) {
+  if (theme === "glass") theme = "dark";
+  if (!ALL_THEMES.includes(theme)) theme = "dark";
+
+  document.body.classList.remove(
+    "theme-dark", "theme-light", "theme-glass", "theme-jungle",
+    "theme-historical", "theme-ocean", "theme-sunset", "theme-cyber",
+    "theme-forest", "theme-royal", "theme-mono", "theme-aurora", "theme-moon"
+  );
+  document.body.classList.add("theme-" + theme);
+  if (theme === "dark") {
+    document.body.classList.add("theme-glass"); // Compatibility alias
   }
-  
-  const meta=document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.content=theme === "light" ? "#f8f5ee" : (getComputedStyle(document.body).getPropertyValue("--bg").trim() || "#040a14");
+
+  try { localStorage.setItem("jarvis_theme", theme); } catch(e) {}
+
+  const themeStatus = document.getElementById("settingsThemeStatus");
+  const themeBadge = document.getElementById("settingsThemeBadge");
+  const themeIcon = document.getElementById("settingsThemeIcon");
+
+  if (theme === "dark") {
+    if (themeStatus) themeStatus.textContent = "Dark — Black & Orange Particle";
+    if (themeBadge) themeBadge.textContent = "Active: Dark";
+    if (themeIcon) themeIcon.textContent = "🔥";
+  } else {
+    if (themeStatus) themeStatus.textContent = "Light — White & Orange Particle";
+    if (themeBadge) themeBadge.textContent = "Active: Light";
+    if (themeIcon) themeIcon.textContent = "☀️";
+  }
+
+  // Update choice buttons in settings
+  document.querySelectorAll(".theme-choice-btn").forEach(b => {
+    const isSelected = b.dataset.theme === theme;
+    b.classList.toggle("active", isSelected);
+    b.setAttribute("aria-pressed", isSelected ? "true" : "false");
+  });
+
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = theme === "light" ? "#ffffff" : "#000000";
 }
 
-document.addEventListener("DOMContentLoaded",()=>{
-  const savedTheme = localStorage.getItem("jarvis_theme") || "light";
-  applyTheme(savedTheme);
-  
-  // Header Quick Toggle
-  const quickToggle = document.getElementById("themeQuickToggle");
-  if(quickToggle){
-    quickToggle.addEventListener("click",()=>{
-      const current = document.body.classList.contains("theme-light") ? "light" : "glass";
-      const next = current === "light" ? "glass" : "light";
-      applyTheme(next);
+// Ambient Orange Particle Engine
+(function initParticleEngine() {
+  const canvas = document.getElementById("themeParticleCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  let width = (canvas.width = window.innerWidth);
+  let height = (canvas.height = window.innerHeight);
+
+  window.addEventListener("resize", () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }, { passive: true });
+
+  const PARTICLE_COUNT = 45;
+  const particles = [];
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 2.2 + 1.0,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: -(Math.random() * 0.5 + 0.25),
+      alpha: Math.random() * 0.5 + 0.25,
+      pulse: Math.random() * Math.PI,
+      pulseSpeed: Math.random() * 0.02 + 0.015,
+      colorShift: (Math.random() - 0.5) * 20
     });
   }
-  
-  // Theme choice buttons in header & settings
-  document.querySelectorAll(".theme-choice").forEach(b=>{
-    b.addEventListener("click",()=>applyTheme(b.dataset.theme));
+
+  let animId = null;
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+    const isLight = document.body.classList.contains("theme-light");
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.pulse += p.pulseSpeed;
+
+      if (p.y < -15) {
+        p.y = height + 10;
+        p.x = Math.random() * width;
+      }
+      if (p.x < -15) p.x = width + 10;
+      if (p.x > width + 15) p.x = -10;
+
+      const currentAlpha = Math.max(0.12, Math.min(0.85, p.alpha + Math.sin(p.pulse) * 0.2));
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+
+      if (!isLight) {
+        // Dark Mode: glowing luminous orange embers on black
+        ctx.shadowBlur = p.r * 3.5;
+        ctx.shadowColor = "rgba(255, 107, 0, " + (currentAlpha * 0.75) + ")";
+        ctx.fillStyle = "rgba(255, " + Math.floor(115 + p.colorShift) + ", 0, " + currentAlpha + ")";
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      } else {
+        // Light Mode: soft amber-orange floating particles on white
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = "rgba(255, 107, 0, " + (currentAlpha * 0.28) + ")";
+        ctx.fill();
+      }
+    }
+
+    // Connect close particles with delicate filaments in dark mode
+    if (!isLight) {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 70) {
+            ctx.beginPath();
+            ctx.strokeStyle = "rgba(255, 107, 0, " + ((1 - dist / 70) * 0.12) + ")";
+            ctx.lineWidth = 0.8;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    animId = requestAnimationFrame(render);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      if (animId) cancelAnimationFrame(animId);
+    } else {
+      animId = requestAnimationFrame(render);
+    }
   });
-  
-  // Settings Appearance accordion toggle
-  const appToggle = document.getElementById("settingsAppearanceToggle");
-  const appPanel = document.getElementById("settingsThemePanel");
-  if(appToggle && appPanel){
-    appToggle.addEventListener("click",()=>{
-      const isOpen = appPanel.classList.toggle("open");
-      appToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      const chev = appToggle.querySelector(".settings-row-chevron");
-      if(chev) chev.textContent = isOpen ? "⌃" : "⌄";
+
+  animId = requestAnimationFrame(render);
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  let savedTheme = localStorage.getItem("jarvis_theme") || "dark";
+  if (savedTheme === "glass") savedTheme = "dark";
+  if (!ALL_THEMES.includes(savedTheme)) savedTheme = "dark";
+  applyTheme(savedTheme);
+
+  // Settings Theme Toggle buttons
+  document.querySelectorAll(".theme-choice-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      applyTheme(b.dataset.theme);
     });
-    // Ensure open by default in settings
-    appPanel.classList.add("open");
-    appToggle.setAttribute("aria-expanded", "true");
-    const chev = appToggle.querySelector(".settings-row-chevron");
-    if(chev) chev.textContent = "⌃";
-  }
+  });
 });
 
 
@@ -4349,73 +4390,316 @@ document.addEventListener("DOMContentLoaded",()=>{
    and physical card elevation.
    ============================================================== */
 
-/* --- Quick Toggle & Top Theme Bar Controls --- */
-.theme-quick-toggle{
-  display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.18);border-radius:999px;padding:6px 12px;
-  font-size:11px;font-weight:700;color:inherit;cursor:pointer;transition:all .2s ease;
-  backdrop-filter:blur(10px);
+/* Ambient Particle Canvas for Black & Orange / White & Orange themes */
+.theme-particle-canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  pointer-events:none;
+  z-index:0;
+  display:block;
 }
-.theme-quick-toggle:hover{transform:translateY(-1px);border-color:var(--accent);}
-.theme-quick-toggle:active{transform:scale(0.97);}
-
-.top-theme-bar{
-  display:flex!important;align-items:center;gap:10px;margin:4px 0 12px;padding:6px 12px;
-  border-radius:16px;background:rgba(10,24,42,0.55);border:1px solid rgba(255,255,255,0.12);
-  backdrop-filter:blur(14px);overflow-x:auto;scrollbar-width:none;
-}
-.top-theme-bar::-webkit-scrollbar{display:none;}
-.top-theme-scroll{display:flex;gap:6px;align-items:center;}
-.top-theme-label{font-size:9.5px;font-weight:900;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;white-space:nowrap;}
-.theme-choice{
-  display:inline-flex!important;align-items:center;gap:4px;padding:6px 12px!important;
-  border-radius:999px!important;font-size:11px!important;font-weight:700!important;
-  border:1px solid rgba(255,255,255,0.12)!important;background:rgba(255,255,255,0.06)!important;
-  color:var(--text)!important;cursor:pointer;white-space:nowrap;transition:all .18s ease;box-shadow:none!important;
-}
-.theme-choice:hover{border-color:var(--accent)!important;transform:translateY(-1px);}
-.theme-choice.primary{
-  background:var(--accent)!important;color:#fff!important;border-color:var(--accent)!important;
-  box-shadow:0 2px 10px rgba(0,0,0,0.22)!important;
+.app{
+  position:relative;
+  z-index:1;
 }
 
-/* Settings appearance panel accordion */
-#page-settings .settings-theme-panel{
-  display:none;padding:14px 18px!important;background:#2d2d2d;border-top:1px solid rgba(255,255,255,0.08);
+/* Header layout: ensure app name and tools never overlap on mobile phones */
+.top{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  flex-wrap:nowrap!important;
 }
-#page-settings .settings-theme-panel.open{display:block!important;}
-#page-settings .settings-theme-switch{display:flex;flex-wrap:wrap;gap:8px;padding:0;background:transparent;border:none;}
+.brand{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+.brand .brand-copy{
+  min-width:0!important;
+}
+.shy-header-tools{
+  flex-shrink:0!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+@media(max-width:520px){
+  .top{
+    padding:6px 8px 10px!important;
+    gap:6px!important;
+  }
+  .brand .name{
+    font-size:20px!important;
+    letter-spacing:1.5px!important;
+    white-space:nowrap!important;
+  }
+  .brand .sub{
+    display:none!important;
+  }
+  .shy-date-pill{
+    padding:4px 8px!important;
+    font-size:10px!important;
+  }
+  .shy-profile{
+    width:32px!important;
+    height:32px!important;
+    min-width:32px!important;
+  }
+}
+
+/* Settings Dedicated Theme Card */
+.settings-theme-card{
+  background:var(--panel, #121216);
+  border:1px solid var(--border, rgba(255,107,0,0.22));
+  border-radius:20px;
+  padding:16px 18px;
+  margin:0 14px 18px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.18);
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+body.theme-light .settings-theme-card{
+  background:#ffffff!important;
+  border:1.5px solid #ded4c3!important;
+  box-shadow:0 6px 20px rgba(35,25,15,0.06)!important;
+}
+.settings-theme-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.settings-theme-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.settings-theme-title b{
+  display:block;
+  font-size:15px;
+  color:var(--text);
+  font-weight:700;
+}
+.settings-theme-title small{
+  display:block;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.settings-theme-badge{
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.8px;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(255,107,0,0.15);
+  color:#ff6b00;
+  border:1px solid rgba(255,107,0,0.35);
+  white-space:nowrap;
+}
+body.theme-light .settings-theme-badge{
+  background:#fff3e6;
+  color:#d45500;
+  border:1px solid #ffcca3;
+}
+.settings-theme-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+@media(max-width:540px){
+  .settings-theme-grid{
+    grid-template-columns:1fr;
+  }
+}
+.theme-choice-btn{
+  display:flex!important;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px!important;
+  border-radius:16px!important;
+  border:1.5px solid var(--border, rgba(255,107,0,0.2))!important;
+  background:rgba(255,255,255,0.03)!important;
+  color:var(--text)!important;
+  cursor:pointer;
+  text-align:left;
+  transition:all .2s ease;
+  position:relative;
+}
+body.theme-light .theme-choice-btn{
+  background:#faf7f0!important;
+  border:1.5px solid #ded5c5!important;
+}
+.theme-choice-btn:hover{
+  border-color:#ff6b00!important;
+  transform:translateY(-1px);
+}
+.theme-choice-btn.active{
+  border-color:#ff6b00!important;
+  background:rgba(255,107,0,0.12)!important;
+  box-shadow:0 0 16px rgba(255,107,0,0.22)!important;
+}
+body.theme-light .theme-choice-btn.active{
+  background:#fff3e6!important;
+  border-color:#ff6b00!important;
+  box-shadow:0 2px 10px rgba(255,107,0,0.18)!important;
+}
+.theme-choice-preview{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  border:1px solid rgba(255,107,0,0.3);
+}
+.theme-choice-preview.dark-preview{
+  background:#050507;
+  box-shadow:inset 0 0 8px rgba(255,107,0,0.25);
+}
+.theme-choice-preview.light-preview{
+  background:#ffffff;
+  border-color:#ffd4b3;
+  box-shadow:inset 0 0 6px rgba(255,107,0,0.15);
+}
+.theme-choice-details{
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.theme-choice-name{
+  font-size:13px;
+  font-weight:800;
+  color:var(--text);
+}
+.theme-choice-desc{
+  font-size:10px;
+  color:var(--muted);
+  line-height:1.3;
+}
+.theme-choice-radio{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  border:2px solid var(--muted);
+  flex-shrink:0;
+  position:relative;
+}
+.theme-choice-btn.active .theme-choice-radio{
+  border-color:#ff6b00;
+}
+.theme-choice-btn.active .theme-choice-radio::after{
+  content:'';
+  position:absolute;
+  top:2px;
+  left:2px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#ff6b00;
+  box-shadow:0 0 6px #ff6b00;
+}
 
 /* ==============================================================
-   CLASSY LIGHT THEME DEFINITIONS
+   BLACK AND ORANGE PARTICLE THEME (DARK)
+   ============================================================== */
+body.theme-dark,
+body.theme-glass,
+:root{
+  --bg:#000000;
+  --bg-deep:#000000;
+  --panel:#0d0d10;
+  --border:rgba(255,107,0,0.22);
+  --border-subtle:rgba(255,255,255,0.08);
+  --accent:#ff6b00;
+  --accent-rgb:255,107,0;
+  --accent-glow:rgba(255,107,0,0.45);
+  --accent-subtle:rgba(255,107,0,0.14);
+  --text:#f5f5f7;
+  --muted:#8e8e93;
+  --danger:#ff453a;
+  --good:#ff6b00;
+  --warn:#ffa500;
+  --shy-gold:#ff6b00;
+  --shy-bg:#000000;
+  --shy-line:rgba(255,107,0,0.20);
+}
+
+body.theme-dark,
+body.theme-glass{
+  background-color:#000000!important;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgba(255,107,0,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse at 80% 85%, rgba(255,85,0,0.06) 0%, transparent 50%),
+    #000000!important;
+  background-attachment:fixed!important;
+  color:#f5f5f7!important;
+}
+
+body.theme-dark .brand .name,
+body.theme-glass .brand .name{
+  color:#ff6b00!important;
+  text-shadow:0 0 16px rgba(255,107,0,0.4)!important;
+}
+
+body.theme-dark button.primary,
+body.theme-glass button.primary,
+body.theme-dark .focus-open-btn,
+body.theme-glass .focus-open-btn{
+  background:linear-gradient(135deg, #ff6b00 0%, #db4800 100%)!important;
+  color:#000000!important;
+  font-weight:800!important;
+  border:1px solid #ff851b!important;
+  box-shadow:0 4px 18px rgba(255,107,0,0.38)!important;
+}
+
+body.theme-dark nav.tabs button.active,
+body.theme-glass nav.tabs button.active{
+  color:#ff6b00!important;
+}
+body.theme-dark nav.tabs button.active .ic,
+body.theme-glass nav.tabs button.active .ic{
+  filter:drop-shadow(0 0 8px rgba(255,107,0,0.75))!important;
+}
+
+/* ==============================================================
+   WHITE AND ORANGE PARTICLE THEME (LIGHT)
    ============================================================== */
 body.theme-light{
-  --bg:#f8f5ee;
-  --bg-subtle:#f2ece0;
+  --bg:#ffffff;
+  --bg-subtle:#fcfbfa;
   --panel:#ffffff;
-  --panel-tint:#fdfbf7;
-  --panel-sand:#f5efe3;
+  --panel-tint:#fefdfb;
+  --panel-sand:#f8f5f0;
   --border:#ded4c3;
   --border-strong:#c9bfae;
-  --border-subtle:#ebe3d5;
+  --border-subtle:rgba(255,107,0,0.14);
   --text:#1d1a16;
   --text-secondary:#494237;
   --muted:#736b5f;
-  --accent:#9a6225; /* Classy warm bronze/cognac */
-  --accent-rgb:154,98,37;
-  --accent-deep:#7c4b18;
-  --accent-soft:#fbf5ea;
-  --accent-border:#ebdcc4;
+  --accent:#ff6b00; /* Vibrant Orange */
+  --accent-rgb:255,107,0;
+  --accent-deep:#cc5500;
+  --accent-soft:#fff4eb;
+  --accent-border:#ffd5b3;
   --sapphire:#1c4b73;
-  --good:#1a6d4b; /* British racing green / antique emerald */
-  --good-bg:#edf8f2;
-  --good-border:#b8e2cc;
-  --warn:#ad6d14; /* Warm topaz */
-  --warn-bg:#fdf5e9;
-  --warn-border:#f0d5af;
-  --danger:#b23b47; /* Deep crimson / wine */
-  --danger-bg:#fdf0f1;
-  --danger-border:#f1c1c6;
+  --good:#ff6b00;
+  --good-bg:#fff5ed;
+  --good-border:#ffd4b8;
+  --warn:#f59e0b;
+  --warn-bg:#fffbeb;
+  --warn-border:#fde68a;
+  --danger:#dc2626;
+  --danger-bg:#fef2f2;
+  --danger-border:#fecaca;
   --v37-card:#ffffff;
   --v37-card-soft:#faf6ee;
   --v37-line:#ded4c3;
@@ -4426,14 +4710,14 @@ body.theme-light{
   --patch-radius:18px;
 }
 
-/* Warm Parchment Luxury Canvas */
+/* White & Orange Canvas */
 body.theme-light{
-  background-color:#f8f5ee!important;
+  background-color:#ffffff!important;
   background-image:
-    radial-gradient(circle at 10% 5%,rgba(154,98,37,0.06),transparent 28%),
-    radial-gradient(circle at 92% 12%,rgba(28,75,115,0.05),transparent 32%),
-    radial-gradient(circle at 80% 90%,rgba(26,109,75,0.04),transparent 30%),
-    linear-gradient(135deg,#fcfaf5 0%,#f5f0e6 48%,#eee7d9 100%)!important;
+    radial-gradient(circle at 10% 5%,rgba(255,107,0,0.05),transparent 28%),
+    radial-gradient(circle at 92% 12%,rgba(255,140,0,0.04),transparent 32%),
+    radial-gradient(circle at 80% 90%,rgba(255,107,0,0.03),transparent 30%),
+    linear-gradient(135deg,#ffffff 0%,#fbf9f5 48%,#f5efe6 100%)!important;
   background-attachment:fixed!important;
   color:#1d1a16!important;
 }
@@ -4871,55 +5155,56 @@ body.theme-light .calendar .cell{
 body.theme-light .calendar .dow{color:#7b7264!important;font-weight:800!important;}
 body.theme-light .calendar .cell.heat0,
 body.theme-light .cal-legend-pill.heat0{
-  background:#f5efe3!important;
-  border:1.5px solid #ded5c5!important;
+  background:#fbf9f5!important;
+  border:1.5px solid #eae4d8!important;
   color:#787063!important;
 }
 body.theme-light .calendar .cell.heat1,
 body.theme-light .cal-legend-pill.heat1{
-  background:#d5f3e2!important;
-  border:1.5px solid #a2dfbd!important;
-  color:#155d3b!important;
+  background:#fff2e3!important;
+  border:1.5px solid #ffd0a1!important;
+  color:#b34700!important;
   font-weight:700!important;
 }
 body.theme-light .calendar .cell.heat2,
 body.theme-light .cal-legend-pill.heat2{
-  background:#86ddb0!important;
-  border:1.5px solid #53c788!important;
-  color:#094024!important;
+  background:#ffd3a6!important;
+  border:1.5px solid #ffa659!important;
+  color:#803300!important;
   font-weight:800!important;
 }
 body.theme-light .calendar .cell.heat3,
 body.theme-light .cal-legend-pill.heat3{
-  background:#32b771!important;
-  border:1.5px solid #209a5b!important;
+  background:#ff9030!important;
+  border:1.5px solid #e66300!important;
   color:#ffffff!important;
   font-weight:800!important;
   text-shadow:0 1px 2px rgba(0,0,0,0.2)!important;
 }
 body.theme-light .calendar .cell.heat4,
 body.theme-light .cal-legend-pill.heat4{
-  background:linear-gradient(135deg, #187748 0%, #105a35 100%)!important;
-  border:1.5px solid #9a6225!important;
+  background:linear-gradient(135deg, #ff6b00 0%, #d44700 100%)!important;
+  border:1.5px solid #ff851b!important;
   color:#ffffff!important;
   font-weight:900!important;
-  box-shadow:0 0 0 1.5px #c89547 inset, 0 3px 8px rgba(24,119,72,0.28)!important;
+  box-shadow:0 0 0 1.5px #ffd0a1 inset, 0 3px 8px rgba(255,107,0,0.32)!important;
   text-shadow:0 1px 2px rgba(0,0,0,0.3)!important;
 }
 body.theme-light .calendar .cell.today{
-  outline:2.5px solid #9a6225!important;
+  outline:2.5px solid #ff6b00!important;
   outline-offset:1.5px!important;
 }
 body.theme-light .calendar .cell.selected{
-  box-shadow:0 0 0 2.5px #9a6225, 0 4px 14px rgba(35,25,15,0.18)!important;
+  box-shadow:0 0 0 2.5px #ff6b00, 0 4px 14px rgba(255,107,0,0.22)!important;
 }
 
-/* Classy Media & Alarms */
+/* Classy Media & Alarms in White & Orange */
 body.theme-light .alarm-row{background:#ffffff!important;border:1.5px solid #ded4c3!important;}
-body.theme-light .pill.on{color:#1a6d4b!important;border-color:#b7e0cb!important;background:#edf8f2!important;}
+body.theme-light .pill.on{color:#ff6b00!important;border-color:#ffcca3!important;background:#fff3e6!important;}
 body.theme-light .pill.off{color:#a83844!important;border-color:#f1c3c7!important;background:#fdf1f2!important;}
-body.theme-light .spotify-link{color:#1a6d4b!important;}
-body.theme-light .focus-open-btn{background:linear-gradient(135deg,#9a6225 0%,#734515 100%)!important;color:#fff!important;border-color:#9a6225!important;}
+body.theme-light .spotify-link{color:#ff6b00!important;}
+body.theme-light .focus-open-btn{background:linear-gradient(135deg,#ff6b00 0%,#d44700 100%)!important;color:#fff!important;border-color:#ff6b00!important;}
+body.theme-light .shy-date-pill .time{color:#ff6b00!important;font-weight:900!important;}
 </style>
 
 
