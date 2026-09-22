@@ -1908,6 +1908,10 @@ body.theme-light .page button.primary,body.theme-light .primary{background:linea
         </div>
         <div class="focus-clock-wrap" id="focusClockWrap">
           <div class="focus-clock" id="focusClock">
+            <div class="clock-face-glow" aria-hidden="true"></div>
+            <!-- Precision Clock Hands -->
+            <div class="clock-hand minute-hand" id="focusMinuteHand" aria-hidden="true"></div>
+            <div class="clock-hand second-hand" id="focusSecondHand" aria-hidden="true"></div>
             <div class="clock-dot" aria-hidden="true"></div>
           </div>
           <div class="focus-progress-light" id="focusProgressLight" aria-hidden="true"></div>
@@ -3308,15 +3312,46 @@ function formatClock(s){
   return h>0 ? `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}` : `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
 }
 function updateTimerLabel(){
-  const label=focusMode==="stopwatch" ? formatClock(stopwatchSeconds) : formatClock(timerSeconds);
+  const isStopwatch = focusMode==="stopwatch";
+  const label=isStopwatch ? formatClock(stopwatchSeconds) : formatClock(timerSeconds);
   $("#timerLabel").textContent=label;
   $("#focusClockLabel").textContent=label;
-  const pct=focusMode==="timer" && timerInitialSeconds>0
-    ? Math.max(0,Math.min(100,(1-timerSeconds/timerInitialSeconds)*100))
-    : ((stopwatchSeconds%3600)/3600*100);
-  focusOverlay.style.setProperty("--focus-progress",pct+"%");
-  focusOverlay.style.setProperty("--focus-progress-angle",(pct*3.6)+"deg");
+
+  // Percentage for orbital progress ring (0% to 100%)
+  const pct=isStopwatch
+    ? ((stopwatchSeconds%3600)/3600*100)
+    : (timerInitialSeconds>0 ? Math.max(0,Math.min(100,(1-timerSeconds/timerInitialSeconds)*100)) : 0);
+
+  focusOverlay.style.setProperty("--focus-progress",pct.toFixed(2)+"%");
+  focusOverlay.style.setProperty("--focus-progress-angle",(pct*3.6).toFixed(2)+"deg");
   updateFocusProgressLight(pct);
+  updateClockHands();
+}
+
+/* Precision Time Hands Animation:
+   - Second Hand: Rotates full 360deg with each 60 seconds (1s = 6deg) for crystal-clear seconds tracking.
+   - Minute Hand: Rotates smoothly indicating current focus elapsed duration / position on the dial. */
+function updateClockHands(){
+  const minHand = $("#focusMinuteHand");
+  const secHand = $("#focusSecondHand");
+  if(!minHand && !secHand) return;
+
+  const isStopwatch = focusMode === "stopwatch";
+  const totalSec = isStopwatch ? stopwatchSeconds : timerSeconds;
+  const elapsedSec = isStopwatch ? stopwatchSeconds : (timerInitialSeconds - timerSeconds);
+
+  // Second hand angle (0 to 360 deg) based on seconds within the current minute
+  const currentSec = isStopwatch ? (stopwatchSeconds % 60) : (timerSeconds % 60);
+  const secAngle = currentSec * 6; // 6 deg per second
+
+  // Minute hand angle indicates elapsed position on standard clock face (6 deg per minute)
+  // For timer countdown, shows the remaining minutes on the 60-min dial (totalSec / 60 * 6)
+  const minAngle = isStopwatch
+    ? ((stopwatchSeconds / 60) * 6) % 360
+    : ((timerSeconds / 60) * 6) % 360;
+
+  if(secHand) secHand.style.transform = `rotate(${secAngle.toFixed(1)}deg)`;
+  if(minHand) minHand.style.transform = `rotate(${minAngle.toFixed(1)}deg)`;
 }
 
 /* V77: keep the moving time light locked to the actual ring size, including
@@ -3325,7 +3360,7 @@ function updateFocusProgressLight(pct){
   const light=$("#focusProgressLight"),wrap=$("#focusClockWrap");
   if(!light||!wrap) return;
   const size=Math.min(wrap.clientWidth||360,wrap.clientHeight||360);
-  const radius=Math.max(30,size/2-10);
+  const radius=Math.max(30,size/2-8);
   const angle=(pct/100)*Math.PI*2-Math.PI/2;
   const x=Math.cos(angle)*radius;
   const y=Math.sin(angle)*radius;
@@ -3490,22 +3525,25 @@ $("#focusMaxBtn").addEventListener("click",e=>{
   const render=()=>{
     clock.querySelectorAll(".tick,.minute-label").forEach(x=>x.remove());
     const size=Math.min(clock.clientWidth||360,clock.clientHeight||360);
-    const radius=Math.max(72,Math.min(190,size/2-28));
-    const labelRadius=Math.max(58,radius-30);
+    const radius=Math.max(68,Math.min(185,size/2-24));
+    const labelRadius=Math.max(50,radius-26);
     for(let i=0;i<60;i++){
       const t=document.createElement("span");
-      t.className="tick"+(i%5===0?" major":"");
+      const isCardinal = (i%15===0);
+      const isMajor = (i%5===0);
+      t.className="tick" + (isCardinal ? " cardinal" : (isMajor ? " major" : ""));
       t.style.setProperty("--tick-radius",radius+"px");
       t.style.transform=`translate(-50%,-50%) rotate(${i*6}deg) translateY(-${radius}px)`;
       clock.appendChild(t);
-      if(i%5===0){
+      if(isMajor){
         const n=document.createElement("span");
-        n.className="minute-label"+(i%15===0?" major-minute":"");
-        n.textContent=String(i);
+        n.className="minute-label" + (isCardinal ? " major-minute" : "");
+        n.textContent=String(i===0 ? "60" : i);
         n.style.transform=`translate(-50%,-50%) rotate(${i*6}deg) translateY(-${labelRadius}px) rotate(${-i*6}deg)`;
         clock.appendChild(n);
       }
     }
+    updateClockHands();
   };
   render();
   window.addEventListener("resize",render,{passive:true});
@@ -6361,28 +6399,395 @@ body.theme-light .today-cat-chip {
 #focusOverlay .focus-progress-light{position:absolute!important;left:50%!important;top:50%!important;pointer-events:none!important;}
 </style>
 <style id="shyama-v48-focus-clock">
-/* V48 — redesigned timer/stopwatch clock */
-#focusOverlay{--focus-progress:0%;--focus-progress-angle:0deg;--focus-ring-a:#ff3dbb;--focus-ring-b:#7b5cff;--focus-ring-c:#20d9ff;}
-#focusOverlay .focus-clock-wrap{position:relative;width:min(430px,42vw);aspect-ratio:1/1;display:grid;place-items:center;filter:drop-shadow(0 18px 35px rgba(0,0,0,.32));}
-#focusOverlay .focus-clock-wrap::before{content:"";position:absolute;inset:0;border-radius:50%;padding:9px;background:conic-gradient(from -90deg,var(--focus-ring-a) 0deg,var(--focus-ring-b) 125deg,var(--focus-ring-c) var(--focus-progress-angle),rgba(95,115,160,.22) var(--focus-progress-angle) 360deg)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;transition:background .18s linear;}
-#focusOverlay .focus-clock-wrap::after{content:"";position:absolute;inset:13px;border-radius:50%;border:1px solid rgba(126,169,255,.20);box-shadow:inset 0 0 45px rgba(0,0,0,.45),0 0 28px rgba(45,120,255,.08);pointer-events:none;}
-#focusOverlay .focus-clock{position:absolute;inset:24px;border-radius:50%;overflow:visible;background:radial-gradient(circle at 50% 42%,rgba(42,72,130,.22),rgba(5,13,32,.92) 63%,rgba(2,7,20,.98) 100%)!important;border:1px solid rgba(137,169,230,.20);box-shadow:inset 0 0 30px rgba(0,0,0,.55);}
-#focusOverlay .focus-clock::before{content:"";position:absolute;inset:18px;border-radius:50%;border:1px solid rgba(122,161,220,.14);box-shadow:inset 0 0 22px rgba(28,95,180,.08);}
-#focusOverlay .focus-clock .clock-dot{position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px;border-radius:50%;background:#dff8ff;box-shadow:0 0 12px #20d9ff,0 0 22px rgba(32,217,255,.45);z-index:5;}
-#focusOverlay .focus-clock .tick{position:absolute;left:50%;top:50%;width:2px;height:7px;border-radius:2px;background:rgba(205,224,255,.52);z-index:2;transform-origin:50% 50%;}
-#focusOverlay .focus-clock .tick.major{width:3px;height:12px;background:#eaf4ff;box-shadow:0 0 6px rgba(100,185,255,.25);}
-#focusOverlay .focus-clock .minute-label{position:absolute;left:50%;top:50%;width:30px;height:18px;margin:-9px 0 0 -15px;display:flex;align-items:center;justify-content:center;font:700 10px/1 Inter,system-ui,sans-serif;color:rgba(202,220,249,.74);letter-spacing:.1px;text-shadow:0 0 8px rgba(50,160,255,.15);z-index:4;pointer-events:none;}
-#focusOverlay .focus-clock .minute-label.major-minute{font-size:11px;color:#f4f8ff;text-shadow:0 0 9px rgba(32,217,255,.25);}
-#focusOverlay .focus-progress-light{position:absolute;left:50%;top:50%;width:15px;height:15px;border-radius:50%;background:#f5fbff;border:2px solid rgba(255,255,255,.65);box-shadow:0 0 9px #fff,0 0 20px #8b72ff,0 0 32px rgba(32,217,255,.55);z-index:8;pointer-events:none;will-change:transform;}
+/* Focus Clock Dials & Hands - Compatible with Dark Orange & White Orange themes */
+#focusOverlay{
+  --focus-progress:0%;
+  --focus-progress-angle:0deg;
+  --focus-ring-a:#ff9433;
+  --focus-ring-b:#ff6b00;
+  --focus-ring-c:#d44700;
+}
+#focusOverlay .focus-clock-wrap{
+  position:relative;
+  width:min(420px,42vw);
+  aspect-ratio:1/1;
+  display:grid;
+  place-items:center;
+  filter:drop-shadow(0 18px 36px rgba(0,0,0,.45));
+}
+#focusOverlay .focus-clock-wrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  padding:8px;
+  background:conic-gradient(from -90deg, var(--focus-ring-a) 0deg, var(--focus-ring-b) 140deg, var(--focus-ring-c) var(--focus-progress-angle), rgba(255,107,0,0.12) var(--focus-progress-angle) 360deg)!important;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  transition:background .15s linear;
+}
+#focusOverlay .focus-clock-wrap::after{
+  content:"";
+  position:absolute;
+  inset:12px;
+  border-radius:50%;
+  border:1px solid rgba(255,107,0,0.28);
+  box-shadow:inset 0 0 35px rgba(0,0,0,0.65), 0 0 20px rgba(255,107,0,0.15);
+  pointer-events:none;
+}
+#focusOverlay .focus-clock{
+  position:absolute;
+  inset:22px;
+  border-radius:50%;
+  overflow:visible;
+  background:radial-gradient(circle at center, #141419 0%, #08080c 70%, #000000 100%)!important;
+  border:1.5px solid rgba(255,107,0,0.35);
+  box-shadow:inset 0 0 45px rgba(0,0,0,0.85), 0 0 30px rgba(255,107,0,0.12);
+}
+#focusOverlay .focus-clock .clock-face-glow{
+  position:absolute;
+  inset:28px;
+  border-radius:50%;
+  background:radial-gradient(circle at center, rgba(255,107,0,0.10) 0%, transparent 68%);
+  pointer-events:none;
+}
+#focusOverlay .focus-clock::before{
+  content:"";
+  position:absolute;
+  inset:16px;
+  border-radius:50%;
+  border:1px dashed rgba(255,107,0,0.18);
+  pointer-events:none;
+}
+
+/* Center Pivot */
+#focusOverlay .focus-clock .clock-dot{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:14px;
+  height:14px;
+  margin:-7px;
+  border-radius:50%;
+  background:#ffffff;
+  border:2.5px solid #ff6b00;
+  box-shadow:0 0 10px rgba(255,107,0,0.7), 0 0 20px rgba(255,107,0,0.4);
+  z-index:10;
+}
+#focusOverlay .focus-clock .clock-dot::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-radius:50%;
+  background:#ff6b00;
+}
+
+/* Clock Hands */
+#focusOverlay .focus-clock .clock-hand{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform-origin:50% 100%;
+  border-radius:999px;
+  pointer-events:none;
+  will-change:transform;
+}
+
+/* Minute / Elapsed Progress Hand */
+#focusOverlay .focus-clock .clock-hand.minute-hand{
+  width:4px;
+  height:35%;
+  margin-left:-2px;
+  margin-top:-35%;
+  background:linear-gradient(to top, #ff851b, #ffa04d);
+  box-shadow:0 0 10px rgba(255,107,0,0.65), 0 0 2px rgba(0,0,0,0.8);
+  z-index:7;
+  transition:transform 0.25s cubic-bezier(0.4, 2.08, 0.55, 1);
+}
+#focusOverlay .focus-clock .clock-hand.minute-hand::before{
+  content:"";
+  position:absolute;
+  top:-7px;
+  left:50%;
+  transform:translateX(-50%);
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#ffffff;
+  border:2px solid #ff6b00;
+  box-shadow:0 0 8px rgba(255,107,0,0.8);
+}
+
+/* Second / Continuous Sweeping Hand */
+#focusOverlay .focus-clock .clock-hand.second-hand{
+  width:2px;
+  height:44%;
+  margin-left:-1px;
+  margin-top:-44%;
+  background:#ffffff;
+  box-shadow:0 0 8px rgba(255,255,255,0.85);
+  z-index:8;
+  transition:transform 0.15s ease-out;
+}
+#focusOverlay .focus-clock .clock-hand.second-hand::before{
+  content:"";
+  position:absolute;
+  top:-5px;
+  left:50%;
+  transform:translateX(-50%);
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#ff6b00;
+  box-shadow:0 0 6px #ff6b00;
+}
+#focusOverlay .focus-clock .clock-hand.second-hand::after{
+  content:"";
+  position:absolute;
+  bottom:-14px;
+  left:50%;
+  transform:translateX(-50%);
+  width:3px;
+  height:14px;
+  border-radius:999px;
+  background:#ff851b;
+  opacity:0.85;
+}
+
+/* Dials & Number Labels */
+#focusOverlay .focus-clock .tick{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:1.5px;
+  height:7px;
+  border-radius:2px;
+  background:rgba(255,255,255,0.22);
+  z-index:2;
+  transform-origin:50% 50%;
+}
+#focusOverlay .focus-clock .tick.major{
+  width:2.5px;
+  height:12px;
+  background:#ff851b;
+  box-shadow:0 0 5px rgba(255,107,0,0.4);
+}
+#focusOverlay .focus-clock .tick.cardinal{
+  width:3.5px;
+  height:16px;
+  background:#ff6b00;
+  box-shadow:0 0 8px rgba(255,107,0,0.8);
+}
+
+#focusOverlay .focus-clock .minute-label{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:30px;
+  height:18px;
+  margin:-9px 0 0 -15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font:700 11px/1 Inter,system-ui,sans-serif;
+  color:rgba(255,255,255,0.55);
+  letter-spacing:.2px;
+  z-index:4;
+  pointer-events:none;
+}
+#focusOverlay .focus-clock .minute-label.major-minute{
+  font-size:12px;
+  font-weight:900;
+  color:#ff9d47;
+  text-shadow:0 0 8px rgba(255,107,0,0.4);
+}
+
+/* Orbital Progress Light Ring Dot */
+#focusOverlay .focus-progress-light{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background:#ffffff;
+  border:2.5px solid #ff6b00;
+  box-shadow:0 0 10px #ff6b00, 0 0 20px rgba(255,107,0,0.7);
+  z-index:9;
+  pointer-events:none;
+  will-change:transform;
+}
+
 #focusOverlay.minimized .focus-topbar{cursor:grab;touch-action:none;}
 #focusOverlay.minimized .focus-topbar.focus-dragging{cursor:grabbing;}
-#focusOverlay.stopwatch-mode{--focus-ring-a:#36f1a3;--focus-ring-b:#20d9ff;--focus-ring-c:#7b5cff;}
-#focusOverlay.stopwatch-mode .focus-clock .clock-dot{background:#ecfff8;box-shadow:0 0 12px #36f1a3,0 0 22px rgba(54,241,163,.45);}
-#focusOverlay .focus-clock-number-outside{margin-top:8px;font-size:clamp(42px,5.2vw,74px);font-weight:900;letter-spacing:.04em;line-height:1;text-shadow:0 0 18px rgba(95,180,255,.28);font-variant-numeric:tabular-nums;}
+
+/* Stopwatch Mode Styling */
+#focusOverlay.stopwatch-mode{
+  --focus-ring-a:#ffaa59;
+  --focus-ring-b:#ff7a1a;
+  --focus-ring-c:#d94f00;
+}
+#focusOverlay.stopwatch-mode .focus-clock .clock-dot{
+  border-color:#ff7a1a;
+  box-shadow:0 0 12px rgba(255,122,26,0.8);
+}
+
+/* High-Contrast Large Time Readout */
+#focusOverlay .focus-clock-number-outside{
+  margin-top:8px;
+  font-size:clamp(44px,5.4vw,76px);
+  font-weight:900;
+  letter-spacing:.04em;
+  line-height:1;
+  color:#ff6b00;
+  text-shadow:0 0 24px rgba(255,107,0,0.45);
+  font-variant-numeric:tabular-nums;
+}
 #focusOverlay .focus-subtitle{margin-top:8px;}
+
+/* -------------------------------------------------------------
+   WHITE ORANGE THEME OVERRIDES FOR TIMER & STOPWATCH
+   ------------------------------------------------------------- */
+body.theme-light #focusOverlay{
+  background:radial-gradient(circle at center, rgba(255,107,0,0.08) 0%, transparent 70%), #f8f4ec!important;
+  color:#1d1a16!important;
+}
+body.theme-light #focusOverlay .focus-stage{
+  background:#ffffff!important;
+  border:1.5px solid #ded4c3!important;
+  box-shadow:0 20px 60px rgba(35,25,15,0.18)!important;
+}
+body.theme-light #focusOverlay .focus-topbar{
+  background:rgba(255,255,255,0.95)!important;
+  border-bottom:1px solid #ede4d4!important;
+  color:#1d1a16!important;
+}
+body.theme-light #focusOverlay .focus-brand-name{
+  color:#ff6b00!important;
+}
+body.theme-light #focusOverlay .focus-brand-sub{
+  color:#8a7f70!important;
+}
+body.theme-light #focusOverlay .focus-title{
+  color:#1d1a16!important;
+}
+body.theme-light #focusOverlay .focus-window-actions button{
+  background:#f5efe3!important;
+  border:1px solid #ded4c3!important;
+  color:#1d1a16!important;
+}
+body.theme-light #focusOverlay .focus-clock-wrap{
+  filter:drop-shadow(0 14px 28px rgba(180,100,20,0.15));
+}
+body.theme-light #focusOverlay .focus-clock-wrap::after{
+  border-color:rgba(255,107,0,0.35);
+  box-shadow:inset 0 0 25px rgba(240,230,215,0.7), 0 0 16px rgba(255,107,0,0.1);
+}
+body.theme-light #focusOverlay .focus-clock{
+  background:radial-gradient(circle at center, #ffffff 0%, #faf6ef 68%, #ede5d5 100%)!important;
+  border:2px solid #ffaa59!important;
+  box-shadow:inset 0 0 25px rgba(0,0,0,0.06), 0 4px 20px rgba(255,107,0,0.14)!important;
+}
+body.theme-light #focusOverlay .focus-clock .clock-face-glow{
+  background:radial-gradient(circle at center, rgba(255,107,0,0.12) 0%, transparent 68%);
+}
+body.theme-light #focusOverlay .focus-clock::before{
+  border-color:rgba(255,107,0,0.22);
+}
+body.theme-light #focusOverlay .focus-clock .clock-dot{
+  background:#ffffff;
+  border:2.5px solid #ff6b00;
+  box-shadow:0 0 8px rgba(255,107,0,0.45);
+}
+body.theme-light #focusOverlay .focus-clock .clock-hand.second-hand{
+  background:#1d1a16;
+  box-shadow:0 0 4px rgba(0,0,0,0.3);
+}
+body.theme-light #focusOverlay .focus-clock .tick{
+  background:rgba(120,100,80,0.35);
+}
+body.theme-light #focusOverlay .focus-clock .tick.major{
+  background:#ff6b00;
+}
+body.theme-light #focusOverlay .focus-clock .minute-label{
+  color:#635b4f;
+  font-weight:700;
+}
+body.theme-light #focusOverlay .focus-clock .minute-label.major-minute{
+  color:#b34700;
+  font-weight:900;
+  text-shadow:none;
+}
+body.theme-light #focusOverlay .focus-clock-number-outside{
+  color:#ff6b00!important;
+  text-shadow:none!important;
+}
+body.theme-light #focusOverlay .focus-subtitle{
+  color:#736b5f!important;
+}
+body.theme-light #focusOverlay .focus-caption{
+  color:#8a7f70!important;
+}
+body.theme-light #focusOverlay .focus-nav-card{
+  background:#faf7f1!important;
+  border:1.5px solid #ded4c3!important;
+  color:#1d1a16!important;
+}
+body.theme-light #focusOverlay .focus-nav-card.active{
+  background:#fff3e6!important;
+  border-color:#ff6b00!important;
+  box-shadow:0 3px 12px rgba(255,107,0,0.15)!important;
+}
+body.theme-light #focusOverlay .focus-nav-card.active b{
+  color:#ff6b00!important;
+}
+body.theme-light #focusOverlay .focus-panel-block,
+body.theme-light #focusOverlay .focus-spotify{
+  background:#faf7f1!important;
+  border:1.5px solid #ded4c3!important;
+}
+body.theme-light #focusOverlay .focus-block-head h3{
+  color:#1d1a16!important;
+}
+body.theme-light #focusOverlay .focus-duration-grid button{
+  background:#ffffff!important;
+  border:1.5px solid #ded4c3!important;
+  color:#1d1a16!important;
+}
+body.theme-light #focusOverlay .focus-duration-grid button.active{
+  background:#ff6b00!important;
+  border-color:#ff6b00!important;
+  color:#ffffff!important;
+}
+body.theme-light #focusOverlay .focus-custom-time input{
+  background:#ffffff!important;
+  border:1.5px solid #ded4c3!important;
+  color:#1d1a16!important;
+}
+body.theme-light #focusOverlay .focus-custom-time button{
+  background:#ff6b00!important;
+  color:#ffffff!important;
+}
+body.theme-light #focusOverlay .focus-mobile-mode-switch{
+  background:#eee6d6!important;
+}
+body.theme-light #focusOverlay .focus-mobile-mode-switch button{
+  color:#736b5f!important;
+}
+body.theme-light #focusOverlay .focus-mobile-mode-switch button.active{
+  background:#ffffff!important;
+  color:#ff6b00!important;
+}
+body.theme-light #focusOverlay #focusResetBtn{
+  background:#ffffff!important;
+  border:1.5px solid #ded4c3!important;
+  color:#1d1a16!important;
+}
+
 @media(max-width:1050px){#focusOverlay .focus-clock-wrap{width:min(380px,39vw);}}
-@media(max-width:800px){#focusOverlay .focus-clock-wrap{width:min(340px,68vw);}#focusOverlay .focus-clock{inset:20px;}#focusOverlay .focus-clock .minute-label{font-size:9px;}#focusOverlay .focus-clock .minute-label.major-minute{font-size:10px;}}
-@media(max-width:520px){#focusOverlay .focus-clock-wrap{width:min(310px,82vw);}#focusOverlay .focus-clock-number-outside{font-size:42px;}}
+@media(max-width:800px){#focusOverlay .focus-clock-wrap{width:min(340px,68vw);}#focusOverlay .focus-clock{inset:20px;}#focusOverlay .focus-clock .minute-label{font-size:10px;}#focusOverlay .focus-clock .minute-label.major-minute{font-size:11px;}}
+@media(max-width:520px){#focusOverlay .focus-clock-wrap{width:min(300px,82vw);}#focusOverlay .focus-clock-number-outside{font-size:42px;}}
 @media(prefers-reduced-motion:reduce){#focusOverlay .focus-clock-wrap::before{transition:none!important;}}
 </style>
 <script>
