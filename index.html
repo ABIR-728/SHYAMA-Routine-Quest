@@ -2530,12 +2530,17 @@ async function streak(){
   return s;
 }
 async function isPerfectDay(day){
-  const routine=activeRoutine(day);
-  if(!routine.length) return false;
-  const all=await idbGetAll("task_log");
-  const done=new Set(all.filter(r=>r.day===day && r.done).map(r=>r.task_index));
-  // Every active scheduled task must be complete. Deleted tasks do not count.
-  return routine.every(t=>done.has(effectiveRoutine(day).indexOf(t)));
+  try{
+    const routine=activeRoutine(day);
+    if(!routine.length) return false;
+    const stats=await dayStats(day);
+    // Every active scheduled task must be complete. Deleted tasks do not count.
+    const doneSet=new Set(stats?.doneIndices || []);
+    return routine.every(t=>doneSet.has(effectiveRoutine(day).indexOf(t)));
+  }catch(e){
+    console.warn("isPerfectDay check error for day",day,e);
+    return false;
+  }
 }
 async function perfectDayStreak(){
   let s=0;
@@ -2544,25 +2549,42 @@ async function perfectDayStreak(){
   // Before today's routine is fully complete, keep yesterday's run visible.
   // A missed day therefore resets the run from the following calendar day.
   if(!today) d.setDate(d.getDate()-1);
-  while(true){
+  let checkedDays = 0;
+  while(checkedDays < 365){
     const day=localDateKey(d);
-    if(!(await isPerfectDay(day))) break;
-    s++; d.setDate(d.getDate()-1);
+    const perfect = await isPerfectDay(day);
+    if(!perfect) break;
+    s++;
+    d.setDate(d.getDate()-1);
+    checkedDays++;
   }
   return s;
 }
 const PERFECT_MILESTONES=[3,7,13,21,30,45,66];
 async function loadChallengeState(){
-  const row=await idbGet("settings","perfect_challenges");
-  return row?.value || {earned:[]};
+  try{
+    const row=await idbGet("settings","perfect_challenges");
+    if(row?.value) return row.value;
+  }catch(e){}
+  try{
+    const fallback=localStorage.getItem("perihelion_perfect_challenges");
+    if(fallback) return JSON.parse(fallback);
+  }catch(e){}
+  return {earned:[]};
 }
 async function saveChallengeState(state){
   state=Object.assign({},state,{updated_at:Date.now()});
-  await idbPut("settings",{key:"perfect_challenges",value:state});
+  try{
+    await idbPut("settings",{key:"perfect_challenges",value:state});
+  }catch(e){}
+  try{
+    localStorage.setItem("perihelion_perfect_challenges",JSON.stringify(state));
+  }catch(e){}
   queueSync();
 }
 async function updateChallengeState(){
   const state=await loadChallengeState();
+  if(!Array.isArray(state.earned)) state.earned = [];
   const run=await perfectDayStreak();
   const newly=PERFECT_MILESTONES.filter(n=>run>=n && !state.earned.includes(n));
   if(newly.length){
@@ -4830,24 +4852,31 @@ document.addEventListener("DOMContentLoaded", () => {
 async function renderChallenges(){
   const boxes=[$("#challengeList"),$("#challengeListStats"),$("#challengeListPage")].filter(Boolean);
   if(!boxes.length) return;
-  const {state,run}=await updateChallengeState();
-  const next=PERFECT_MILESTONES.find(n=>!state.earned.includes(n));
-  const html=PERFECT_MILESTONES.map((n,i)=>{
-    const earned=state.earned.includes(n);
-    const pct=earned?100:Math.min(100,Math.round(run/n*100));
-    const icons=["🥉","🥈","🥇","💠","👑","💎","🌟"];
-    return `<div class="challenge-card ${earned?"earned":""}">
-      <div class="challenge-badge">${earned?"✓":icons[i]}</div>
-      <div class="challenge-main">
-        <div class="row between"><b>${n}-Day Perfect Run</b><span class="challenge-state">${earned?"ACHIEVED":run?`${Math.min(run,n)}/${n}`:"START"}</span></div>
-        <div class="reward-bar"><div class="reward-fill" style="width:${pct}%"></div></div>
-        <div class="muted challenge-status">${earned?"🏆 Milestone permanently unlocked.":run===0?"Complete every active task today to begin.":`Current run: ${run} perfect day${run===1?"":"s"}. One incomplete task resets this run.`}</div>
-      </div>
-    </div>`;
-  }).join("");
-  boxes.forEach(box=>{
-    box.innerHTML=html + (next?`<div class="muted challenge-next">Next milestone: <b>${next} perfect days</b>.</div>`:`<div class="challenge-complete">🌟 All perfect-day milestones unlocked.</div>`);
-  });
+  try{
+    const {state,run}=await updateChallengeState();
+    const next=PERFECT_MILESTONES.find(n=>!state.earned.includes(n));
+    const html=PERFECT_MILESTONES.map((n,i)=>{
+      const earned=state.earned.includes(n);
+      const pct=earned?100:Math.min(100,Math.round(run/n*100));
+      const icons=["🥉","🥈","🥇","💠","👑","💎","🌟"];
+      return `<div class="challenge-card ${earned?"earned":""}">
+        <div class="challenge-badge">${earned?"✓":icons[i]}</div>
+        <div class="challenge-main">
+          <div class="row between"><b>${n}-Day Perfect Run</b><span class="challenge-state">${earned?"ACHIEVED":run?`${Math.min(run,n)}/${n}`:"START"}</span></div>
+          <div class="reward-bar"><div class="reward-fill" style="width:${pct}%"></div></div>
+          <div class="muted challenge-status">${earned?"🏆 Milestone permanently unlocked.":run===0?"Complete every active task today to begin.":`Current run: ${run} perfect day${run===1?"":"s"}. One incomplete task resets this run.`}</div>
+        </div>
+      </div>`;
+    }).join("");
+    boxes.forEach(box=>{
+      box.innerHTML=html + (next?`<div class="muted challenge-next">Next milestone: <b>${next} perfect days</b>.</div>`:`<div class="challenge-complete">🌟 All perfect-day milestones unlocked.</div>`);
+    });
+  }catch(err){
+    console.error("Failed to render challenges:", err);
+    boxes.forEach(box=>{
+      box.innerHTML=`<div class="muted" style="padding:10px 0;font-size:12px;">Challenges temporarily unavailable. Complete today's tasks to track your perfect streak.</div>`;
+    });
+  }
 }
 
 
@@ -6908,6 +6937,127 @@ body.theme-light #focusOverlay #focusResetBtn{
   color:#ff6b00!important;
 }
 #page-settings .settings-install-row span{color:#f5f5f7!important;}
+
+/* Dark Orange / White Orange Theme Enhancements for Challenges */
+#challengeListStats, #challengeList, #challengeListPage{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+.challenge-card{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  padding:14px 16px;
+  border-radius:16px;
+  background:linear-gradient(145deg, #111116 0%, #0a0a0f 100%)!important;
+  border:1px solid rgba(255,107,0,0.22)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)!important;
+  transition:border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  margin:0!important;
+}
+.challenge-card:hover{
+  border-color:rgba(255,107,0,0.45)!important;
+  box-shadow:0 10px 28px rgba(0,0,0,0.5), 0 0 16px rgba(255,107,0,0.15)!important;
+}
+.challenge-card.earned{
+  border-color:rgba(255,133,27,0.55)!important;
+  background:linear-gradient(145deg, #16120e 0%, #0d0a08 100%)!important;
+  box-shadow:0 8px 26px rgba(0,0,0,0.5), 0 0 20px rgba(255,107,0,0.22), inset 0 1px 0 rgba(255,200,150,0.12)!important;
+}
+.challenge-badge{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg, rgba(255,107,0,0.18), rgba(255,140,0,0.08));
+  border:1px solid rgba(255,107,0,0.3);
+  font-size:18px;
+  flex:none;
+  color:#ff9e42;
+}
+.challenge-card.earned .challenge-badge{
+  background:linear-gradient(135deg, rgba(255,107,0,0.35), rgba(255,140,0,0.20));
+  border-color:rgba(255,140,0,0.7);
+  color:#fff;
+  text-shadow:0 0 8px rgba(255,140,0,0.8);
+}
+.challenge-main{
+  min-width:0;
+  flex:1;
+}
+.challenge-main b{
+  font-size:14px;
+  font-weight:700;
+  color:#f5f5f7;
+  letter-spacing:0.2px;
+}
+.challenge-state{
+  font-size:11px;
+  font-weight:800;
+  color:#ff851b;
+  letter-spacing:0.8px;
+  padding:2px 8px;
+  border-radius:6px;
+  background:rgba(255,107,0,0.12);
+  border:1px solid rgba(255,107,0,0.25);
+}
+.challenge-card.earned .challenge-state{
+  color:#ffb366;
+  background:rgba(255,133,27,0.20);
+  border-color:rgba(255,133,27,0.45);
+}
+.challenge-card .reward-bar{
+  height:7px;
+  background:rgba(255,255,255,0.08);
+  border-radius:99px;
+  overflow:hidden;
+  margin-top:8px;
+  border:1px solid rgba(255,255,255,0.04);
+}
+.challenge-card .reward-fill{
+  height:100%;
+  background:linear-gradient(90deg, #ff6b00, #ff851b 50%, #ffa534);
+  border-radius:99px;
+  box-shadow:0 0 10px rgba(255,107,0,0.5);
+  transition:width 0.4s ease;
+}
+.challenge-card.earned .reward-fill{
+  background:linear-gradient(90deg, #ff851b, #ffa534 60%, #ffd080);
+  box-shadow:0 0 12px rgba(255,140,0,0.7);
+}
+.challenge-status{
+  font-size:11px;
+  color:#9e9ea6;
+  margin-top:6px;
+  line-height:1.4;
+}
+.challenge-next{
+  font-size:12px;
+  color:#a1a1aa;
+  padding:12px 14px;
+  border-radius:10px;
+  background:rgba(255,107,0,0.06);
+  border:1px dashed rgba(255,107,0,0.25);
+  text-align:center;
+  margin-top:4px;
+}
+.challenge-next b{
+  color:#ff9e42;
+}
+.challenge-complete{
+  font-size:12px;
+  font-weight:700;
+  color:#ffa534;
+  text-align:center;
+  padding:12px;
+  border-radius:10px;
+  background:rgba(255,133,27,0.12);
+  border:1px solid rgba(255,133,27,0.3);
+  margin-top:4px;
+}
 </style>
 </body>
 </html>
