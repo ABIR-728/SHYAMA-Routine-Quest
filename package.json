@@ -1,0 +1,15 @@
+{
+  "name": "shyama-routine-quest",
+  "version": "1.0.0",
+  "description": "SHYAMA Routine Quest - Perihelion",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo 'No build step needed'"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

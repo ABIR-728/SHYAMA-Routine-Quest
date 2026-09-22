@@ -1613,9 +1613,16 @@ body.theme-moon .focus-overlay{background:radial-gradient(circle at 50% 8%,rgba(
 <div class="app">
   <div class="top">
     <div class="brand brand-vibe"><span class="brand-logo-frame"><img class="brand-logo" src="icons/perihelion-logo.png" alt="Perihelion logo"></span><div class="brand-copy"><span class="name">Perihelion</span><span class="sub">DISCIPLINE · PROGRESS · A BETTER YOU</span></div></div>
-    <div class="shy-header-tools"><div class="shy-date-pill" id="topDateTime"><div class="date">Loading date…</div><div class="time">--:--:--</div></div><div class="shy-profile" aria-label="Profile">●</div></div>
+    <div class="shy-header-tools">
+      <button class="theme-quick-toggle" id="themeQuickToggle" type="button" aria-label="Toggle Light / Dark theme" title="Switch between Classy Light and Dark theme">
+        <span class="theme-quick-icon">☀️</span>
+        <span class="theme-quick-text">Classy Light</span>
+      </button>
+      <div class="shy-date-pill" id="topDateTime"><div class="date">Loading date…</div><div class="time">--:--:--</div></div>
+      <div class="shy-profile" aria-label="Profile">●</div>
+    </div>
   </div>
-  <div class="top-theme-bar"><span class="top-theme-label">THEME</span><div class="top-theme-scroll" id="topThemeBar"><button class="theme-choice" data-theme="glass">🌙 Dark</button><button class="theme-choice" data-theme="light">☀️ Light</button><button class="theme-choice" data-theme="aurora">🌌 Aurora</button><button class="theme-choice" data-theme="ocean">🌊 Ocean</button><button class="theme-choice" data-theme="forest">🌲 Forest</button><button class="theme-choice" data-theme="sunset">🌅 Sunset</button><button class="theme-choice" data-theme="moon">🌙 Night</button></div></div>
+  <div class="top-theme-bar"><span class="top-theme-label">THEME</span><div class="top-theme-scroll" id="topThemeBar"><button class="theme-choice" data-theme="light">☀️ Classy Light</button><button class="theme-choice" data-theme="glass">🌙 Dark</button><button class="theme-choice" data-theme="aurora">🌌 Aurora</button><button class="theme-choice" data-theme="ocean">🌊 Ocean</button><button class="theme-choice" data-theme="forest">🌲 Forest</button><button class="theme-choice" data-theme="sunset">🌅 Sunset</button><button class="theme-choice" data-theme="moon">🌙 Night</button></div></div>
 
   <!-- HOME -->
   <div class="page active" id="page-home">
@@ -3793,25 +3800,86 @@ $all(".shy-action[data-quick]").forEach(b=>b.addEventListener("click",async()=>{
 })();
 
 // ---------- THEME ----------
-const ALL_THEMES=["glass","light","aurora","ocean","forest","sunset","moon"];
+const ALL_THEMES=["light","glass","aurora","ocean","forest","sunset","moon"];
 function applyTheme(theme){
-  if(!ALL_THEMES.includes(theme)) theme="glass";
+  if(!ALL_THEMES.includes(theme)) theme="light";
   document.body.classList.remove("theme-glass","theme-light","theme-historical","theme-jungle","theme-ocean","theme-sunset","theme-cyber","theme-forest","theme-royal","theme-mono");
   document.body.classList.add("theme-"+theme);
-  localStorage.setItem("jarvis_theme",theme);
+  try{ localStorage.setItem("jarvis_theme",theme); }catch(e){}
+  
+  const themeNames = {
+    light: "Classy Light",
+    glass: "Dark mode",
+    aurora: "Aurora theme",
+    ocean: "Ocean theme",
+    forest: "Forest theme",
+    sunset: "Sunset theme",
+    moon: "Night theme"
+  };
+  
   const themeStatus=document.getElementById("settingsThemeStatus");
-  if(themeStatus) themeStatus.textContent=({glass:"Dark mode",light:"Light mode",aurora:"Aurora theme",ocean:"Ocean theme",forest:"Forest theme",sunset:"Sunset theme",moon:"Night theme"}[theme]||"Theme");
+  if(themeStatus) themeStatus.textContent = themeNames[theme] || "Theme";
+  
+  // Update theme choices active indicator
   document.querySelectorAll(".theme-choice").forEach(b=>{
-    b.classList.toggle("primary",b.dataset.theme===theme);
+    b.classList.toggle("primary", b.dataset.theme===theme);
   });
+  
+  // Update header quick toggle
+  const quickToggle = document.getElementById("themeQuickToggle");
+  if(quickToggle){
+    const iconSpan = quickToggle.querySelector(".theme-quick-icon");
+    const textSpan = quickToggle.querySelector(".theme-quick-text");
+    if(theme === "light"){
+      if(iconSpan) iconSpan.textContent = "🌙";
+      if(textSpan) textSpan.textContent = "To Dark";
+      quickToggle.title = "Switch to Dark mode";
+    } else {
+      if(iconSpan) iconSpan.textContent = "☀️";
+      if(textSpan) textSpan.textContent = "To Light";
+      quickToggle.title = "Switch to Classy Light mode";
+    }
+  }
+  
   const meta=document.querySelector('meta[name="theme-color"]');
-  if(meta) meta.content=getComputedStyle(document.body).getPropertyValue("--bg").trim() || "#040a14";
+  if(meta) meta.content=theme === "light" ? "#f8f5ee" : (getComputedStyle(document.body).getPropertyValue("--bg").trim() || "#040a14");
 }
+
 document.addEventListener("DOMContentLoaded",()=>{
-  applyTheme(localStorage.getItem("jarvis_theme")||"glass");
+  const savedTheme = localStorage.getItem("jarvis_theme") || "light";
+  applyTheme(savedTheme);
+  
+  // Header Quick Toggle
+  const quickToggle = document.getElementById("themeQuickToggle");
+  if(quickToggle){
+    quickToggle.addEventListener("click",()=>{
+      const current = document.body.classList.contains("theme-light") ? "light" : "glass";
+      const next = current === "light" ? "glass" : "light";
+      applyTheme(next);
+    });
+  }
+  
+  // Theme choice buttons in header & settings
   document.querySelectorAll(".theme-choice").forEach(b=>{
     b.addEventListener("click",()=>applyTheme(b.dataset.theme));
   });
+  
+  // Settings Appearance accordion toggle
+  const appToggle = document.getElementById("settingsAppearanceToggle");
+  const appPanel = document.getElementById("settingsThemePanel");
+  if(appToggle && appPanel){
+    appToggle.addEventListener("click",()=>{
+      const isOpen = appPanel.classList.toggle("open");
+      appToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      const chev = appToggle.querySelector(".settings-row-chevron");
+      if(chev) chev.textContent = isOpen ? "⌃" : "⌄";
+    });
+    // Ensure open by default in settings
+    appPanel.classList.add("open");
+    appToggle.setAttribute("aria-expanded", "true");
+    const chev = appToggle.querySelector(".settings-row-chevron");
+    if(chev) chev.textContent = "⌃";
+  }
 });
 
 
@@ -4036,14 +4104,8 @@ document.addEventListener("DOMContentLoaded",()=>{
   #page-settings .settings-row-copy small{font-size:10.5px;}
 }
 </style>
-<style id="shyama-v47-dark-clock-region">
-/* V47 — dark-only UI + live timer region */
-body.theme-glass,body.theme-light,body.theme-aurora,body.theme-ocean,body.theme-forest,body.theme-sunset,body.theme-moon{
-  background:radial-gradient(circle at 18% 12%,rgba(42,117,255,.14),transparent 30%),radial-gradient(circle at 82% 78%,rgba(170,70,255,.12),transparent 34%),linear-gradient(135deg,#030817,#0a1230 52%,#100b24)!important;color:#eef4ff!important;
-}
-.top-theme-bar,.theme-choice,.focus-panel-block:has(.focus-bg-options){display:none!important;}
-.focus-bg-options{display:none!important;}
-/* The filled sector grows/shrinks every second with --focus-progress. */
+<style id="shyama-v47-focus-clock-core">
+/* V47 clock progress animation */
 .focus-clock-wrap::before{
   background:conic-gradient(from -90deg,#ff46b5 0%,#9a4dff 22%,#20d9ff 48%,#20d9ff var(--focus-progress,0%),rgba(255,255,255,.08) var(--focus-progress,0%) 100%)!important;
   transition:background .35s linear!important;
@@ -4053,19 +4115,547 @@ body.theme-glass,body.theme-light,body.theme-aurora,body.theme-ocean,body.theme-
 }
 .focus-overlay.stopwatch-mode .focus-clock-wrap::before{animation:none!important;background:conic-gradient(from -90deg,#ff46b5 0%,#9a4dff 22%,#20d9ff 48%,#20d9ff var(--focus-progress,0%),rgba(255,255,255,.08) var(--focus-progress,0%) 100%)!important;}
 </style>
-<script>
-(function enforceDarkOnly(){
-  const forceDark=()=>{
-    try{localStorage.setItem('jarvis_theme','glass');}catch(e){}
-    if(typeof applyTheme==='function') applyTheme('glass');
-    document.body.classList.remove('theme-light','theme-aurora','theme-ocean','theme-forest','theme-sunset','theme-moon');
-    document.body.classList.add('theme-glass');
-    document.querySelectorAll('.top-theme-bar,.settings-theme-panel').forEach(el=>el.remove());
-  };
-  forceDark();
-  window.addEventListener('load',forceDark,{once:true});
-})();
-</script>
+
+<style id="perihelion-classy-patchy-theme">
+/* ==============================================================
+   PERIHELION CLASSY & PATCHY THEME SYSTEM
+   A bespoke archival, tactile bento-patch aesthetic with
+   warm ivory parchment, deep espresso typography, cognac accents,
+   and physical card elevation.
+   ============================================================== */
+
+/* --- Quick Toggle & Top Theme Bar Controls --- */
+.theme-quick-toggle{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.18);border-radius:999px;padding:6px 12px;
+  font-size:11px;font-weight:700;color:inherit;cursor:pointer;transition:all .2s ease;
+  backdrop-filter:blur(10px);
+}
+.theme-quick-toggle:hover{transform:translateY(-1px);border-color:var(--accent);}
+.theme-quick-toggle:active{transform:scale(0.97);}
+
+.top-theme-bar{
+  display:flex!important;align-items:center;gap:10px;margin:4px 0 12px;padding:6px 12px;
+  border-radius:16px;background:rgba(10,24,42,0.55);border:1px solid rgba(255,255,255,0.12);
+  backdrop-filter:blur(14px);overflow-x:auto;scrollbar-width:none;
+}
+.top-theme-bar::-webkit-scrollbar{display:none;}
+.top-theme-scroll{display:flex;gap:6px;align-items:center;}
+.top-theme-label{font-size:9.5px;font-weight:900;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;white-space:nowrap;}
+.theme-choice{
+  display:inline-flex!important;align-items:center;gap:4px;padding:6px 12px!important;
+  border-radius:999px!important;font-size:11px!important;font-weight:700!important;
+  border:1px solid rgba(255,255,255,0.12)!important;background:rgba(255,255,255,0.06)!important;
+  color:var(--text)!important;cursor:pointer;white-space:nowrap;transition:all .18s ease;box-shadow:none!important;
+}
+.theme-choice:hover{border-color:var(--accent)!important;transform:translateY(-1px);}
+.theme-choice.primary{
+  background:var(--accent)!important;color:#fff!important;border-color:var(--accent)!important;
+  box-shadow:0 2px 10px rgba(0,0,0,0.22)!important;
+}
+
+/* Settings appearance panel accordion */
+#page-settings .settings-theme-panel{
+  display:none;padding:14px 18px!important;background:#2d2d2d;border-top:1px solid rgba(255,255,255,0.08);
+}
+#page-settings .settings-theme-panel.open{display:block!important;}
+#page-settings .settings-theme-switch{display:flex;flex-wrap:wrap;gap:8px;padding:0;background:transparent;border:none;}
+
+/* ==============================================================
+   CLASSY LIGHT THEME DEFINITIONS
+   ============================================================== */
+body.theme-light{
+  --bg:#f8f5ee;
+  --bg-subtle:#f2ece0;
+  --panel:#ffffff;
+  --panel-tint:#fdfbf7;
+  --panel-sand:#f5efe3;
+  --border:#ded4c3;
+  --border-strong:#c9bfae;
+  --border-subtle:#ebe3d5;
+  --text:#1d1a16;
+  --text-secondary:#494237;
+  --muted:#736b5f;
+  --accent:#9a6225; /* Classy warm bronze/cognac */
+  --accent-rgb:154,98,37;
+  --accent-deep:#7c4b18;
+  --accent-soft:#fbf5ea;
+  --accent-border:#ebdcc4;
+  --sapphire:#1c4b73;
+  --good:#1a6d4b; /* British racing green / antique emerald */
+  --good-bg:#edf8f2;
+  --good-border:#b8e2cc;
+  --warn:#ad6d14; /* Warm topaz */
+  --warn-bg:#fdf5e9;
+  --warn-border:#f0d5af;
+  --danger:#b23b47; /* Deep crimson / wine */
+  --danger-bg:#fdf0f1;
+  --danger-border:#f1c1c6;
+  --v37-card:#ffffff;
+  --v37-card-soft:#faf6ee;
+  --v37-line:#ded4c3;
+  --v40-panel:#ffffff;
+  --v40-line:#ded4c3;
+  --v40-text:#1d1a16;
+  --v40-muted:#736b5f;
+  --patch-radius:18px;
+}
+
+/* Warm Parchment Luxury Canvas */
+body.theme-light{
+  background-color:#f8f5ee!important;
+  background-image:
+    radial-gradient(circle at 10% 5%,rgba(154,98,37,0.06),transparent 28%),
+    radial-gradient(circle at 92% 12%,rgba(28,75,115,0.05),transparent 32%),
+    radial-gradient(circle at 80% 90%,rgba(26,109,75,0.04),transparent 30%),
+    linear-gradient(135deg,#fcfaf5 0%,#f5f0e6 48%,#eee7d9 100%)!important;
+  background-attachment:fixed!important;
+  color:#1d1a16!important;
+}
+
+/* --- THE PATCH SYSTEM: Tactile, Stitched, Bento-Card Aesthetic --- */
+body.theme-light .top,
+body.theme-light .panel,
+body.theme-light .card,
+body.theme-light .task,
+body.theme-light .day-card,
+body.theme-light .challenge-card,
+body.theme-light .alarm-row,
+body.theme-light .media-item,
+body.theme-light .routine-row,
+body.theme-light .history-row,
+body.theme-light .stat-card,
+body.theme-light .reward-card,
+body.theme-light .shy-quick,
+body.theme-light .shy-quote-bar,
+body.theme-light .shy-challenges,
+body.theme-light .shy-inspiration,
+body.theme-light .shy-dashboard-intro,
+body.theme-light .shy-ai-card,
+body.theme-light .settings-list-group,
+body.theme-light .settings-detail-group,
+body.theme-light .task-folder,
+body.theme-light .current-datetime-panel{
+  background:#ffffff!important;
+  border:1.5px solid #ded4c3!important;
+  border-radius:var(--patch-radius)!important;
+  box-shadow:0 1px 3px rgba(35,25,15,0.03), 0 8px 24px rgba(35,25,15,0.05), inset 0 1px 0 #ffffff!important;
+  color:#1d1a16!important;
+  transition:transform .18s ease,box-shadow .2s ease,border-color .2s ease;
+}
+
+/* Tactile patch hover elevation */
+body.theme-light .panel:hover,
+body.theme-light .card:hover,
+body.theme-light .task:hover,
+body.theme-light .shy-action:hover,
+body.theme-light .day-card:hover,
+body.theme-light .settings-list-group:hover,
+body.theme-light .media-item:hover{
+  border-color:#cbbeac!important;
+  box-shadow:0 3px 8px rgba(35,25,15,0.04), 0 12px 30px rgba(35,25,15,0.08), inset 0 1px 0 #ffffff!important;
+}
+
+/* Classy Header & Navigation */
+body.theme-light .top{
+  background:rgba(255,255,255,0.92)!important;
+  backdrop-filter:blur(16px) saturate(140%)!important;
+  border:1.5px solid #ded4c3!important;
+  padding:10px 14px!important;
+  box-shadow:0 4px 20px rgba(35,25,15,0.05)!important;
+}
+body.theme-light .brand .name{
+  background:linear-gradient(135deg,#1d1a16 0%,#3d3224 100%)!important;
+  -webkit-background-clip:text!important;
+  background-clip:text!important;
+  color:transparent!important;
+  font-weight:900!important;
+  letter-spacing:2.5px!important;
+  text-shadow:none!important;
+  animation:none!important;
+}
+body.theme-light .brand .sub{
+  color:#7a7164!important;
+  font-weight:700!important;
+  letter-spacing:1px!important;
+}
+body.theme-light .shy-date-pill{
+  background:#f5efe3!important;
+  border:1px solid #dcd1bf!important;
+  color:#3b342a!important;
+  border-radius:999px!important;
+}
+body.theme-light .shy-date-pill .time{
+  color:#9a6225!important;
+  font-weight:900!important;
+}
+body.theme-light .shy-profile{
+  background:#f5efe3!important;
+  border:1px solid #dcd1bf!important;
+  color:#9a6225!important;
+}
+body.theme-light .theme-quick-toggle{
+  background:#ffffff;
+  border:1.5px solid #ded4c3;
+  color:#1d1a16;
+  box-shadow:0 2px 6px rgba(35,25,15,0.06);
+}
+body.theme-light .theme-quick-toggle:hover{
+  background:#f7f3ea;
+  border-color:#9a6225;
+}
+
+/* Classy Top Theme Bar in Light Mode */
+body.theme-light .top-theme-bar{
+  background:#fdfbf7!important;
+  border:1.5px solid #ded4c3!important;
+  box-shadow:0 4px 14px rgba(35,25,15,0.04)!important;
+}
+body.theme-light .top-theme-label{color:#736b5f!important;}
+body.theme-light .theme-choice{
+  background:#f4eee2!important;
+  border:1px solid #dcd1bf!important;
+  color:#443c33!important;
+}
+body.theme-light .theme-choice:hover{
+  background:#eae1cf!important;
+  color:#1d1a16!important;
+  border-color:#bfae98!important;
+}
+body.theme-light .theme-choice.primary{
+  background:#9a6225!important;
+  border-color:#83521e!important;
+  color:#ffffff!important;
+  box-shadow:0 2px 8px rgba(154,98,37,0.3)!important;
+}
+
+/* Classy Dashboard Intro Patch */
+body.theme-light .shy-dashboard-intro{
+  background:linear-gradient(135deg,#ffffff 0%,#fbf7ef 100%)!important;
+  border-left:5px solid #9a6225!important;
+  padding:18px 20px!important;
+}
+body.theme-light .shy-dashboard-intro h1{
+  color:#1d1a16!important;
+  font-weight:800!important;
+  letter-spacing:-0.3px!important;
+  background:none!important;
+  -webkit-background-clip:unset!important;
+}
+body.theme-light .shy-dashboard-intro p{color:#6a6256!important;}
+body.theme-light .shy-dashboard-intro .intro-status{
+  background:#f5efe3!important;
+  border:1px solid #dfd4c1!important;
+  border-radius:14px!important;
+  padding:10px 16px!important;
+}
+body.theme-light .shy-dashboard-intro .intro-status b{
+  color:#9a6225!important;
+  font-size:24px!important;
+  font-weight:900!important;
+}
+body.theme-light .shy-dashboard-intro .intro-status span{color:#7b7264!important;}
+
+/* Classy Quote Ribbon Patch */
+body.theme-light .shy-quote-bar{
+  background:#fdfbf7!important;
+  border:1.5px dashed #dcd2c1!important;
+  padding:14px 18px!important;
+}
+body.theme-light .shy-quote-bar .q{
+  font-style:italic!important;
+  color:#2b251d!important;
+  font-size:15px!important;
+  font-weight:600!important;
+}
+body.theme-light .shy-quote-bar .muted{color:#8c8273!important;}
+
+/* Classy Metric Bento Cards */
+body.theme-light #homeCards .card,
+body.theme-light .card{
+  background:#ffffff!important;
+  border:1.5px solid #ded4c3!important;
+  padding:16px 14px!important;
+  border-radius:18px!important;
+}
+body.theme-light .card .val{
+  color:#1d1a16!important;
+  font-size:28px!important;
+  font-weight:900!important;
+  font-feature-settings:"tnum";
+}
+body.theme-light .card .lbl{
+  color:#7b7264!important;
+  font-weight:700!important;
+  letter-spacing:0.7px!important;
+  font-size:11px!important;
+  text-transform:uppercase!important;
+}
+body.theme-light .card .stat-icon{color:#9a6225!important;}
+
+/* Classy Quick Action Tiles */
+body.theme-light .shy-quick{
+  padding:16px!important;
+  background:#ffffff!important;
+}
+body.theme-light .shy-section-head h3{
+  color:#1d1a16!important;
+  font-weight:800!important;
+  background:none!important;
+  -webkit-background-clip:unset!important;
+}
+body.theme-light .shy-section-head span{color:#7b7264!important;}
+body.theme-light .shy-action{
+  border-radius:14px!important;
+  border:1.5px solid #ded4c3!important;
+  box-shadow:0 1px 3px rgba(35,25,15,0.03)!important;
+  font-weight:700!important;
+  transition:all .18s ease!important;
+}
+body.theme-light .shy-action.blue{background:#f1f6fb!important;border-color:#cbdeee!important;color:#1b4b72!important;}
+body.theme-light .shy-action.green{background:#f1f8f4!important;border-color:#c9e4d5!important;color:#195e3e!important;}
+body.theme-light .shy-action.purple{background:#f7f3fb!important;border-color:#dfd4f2!important;color:#4b3079!important;}
+body.theme-light .shy-action.red{background:#fdf2f2!important;border-color:#f7d2d2!important;color:#8c2a29!important;}
+body.theme-light .shy-action.teal{background:#edf7f7!important;border-color:#c6e9e8!important;color:#165b59!important;}
+body.theme-light .shy-action.cyan{background:#fbf5eb!important;border-color:#eedcc6!important;color:#814f1b!important;}
+body.theme-light .shy-action:hover{
+  transform:translateY(-2px)!important;
+  box-shadow:0 6px 16px rgba(35,25,15,0.08)!important;
+}
+
+/* Classy Task List & Task Patches */
+body.theme-light .task{
+  background:#ffffff!important;
+  border:1.5px solid #ded4c3!important;
+  border-radius:14px!important;
+  box-shadow:0 1px 3px rgba(35,25,15,0.03)!important;
+  color:#1d1a16!important;
+  padding:12px 14px!important;
+}
+body.theme-light .task:hover{
+  background:#fdfbf7!important;
+  border-color:#c8bead!important;
+  box-shadow:0 4px 14px rgba(35,25,15,0.06)!important;
+}
+body.theme-light .task .check{
+  border-color:#c8bead!important;
+  background:#faf7f2!important;
+  border-radius:8px!important;
+  color:#1a6d4b!important;
+}
+body.theme-light .task.done{
+  background:#f2f9f5!important;
+  border-color:#bde4cf!important;
+}
+body.theme-light .task.done .check{
+  background:#e4f4ec!important;
+  border-color:#1a6d4b!important;
+}
+body.theme-light .task.now{
+  box-shadow:0 0 0 2px #9a6225 inset,0 4px 14px rgba(154,98,37,0.12)!important;
+  border-color:#9a6225!important;
+  animation:none!important;
+}
+body.theme-light .task .time{
+  background:#f4eee2!important;
+  border:1px solid #e2dacd!important;
+  border-radius:6px!important;
+  padding:3px 7px!important;
+  color:#554e43!important;
+  font-weight:700!important;
+  font-size:11px!important;
+}
+body.theme-light .task .name{
+  color:#1d1a16!important;
+  font-weight:700!important;
+}
+body.theme-light .task .cat{
+  background:#fbf6ec!important;
+  border:1px solid #ebd9c0!important;
+  color:#8c571e!important;
+  border-radius:999px!important;
+  font-weight:700!important;
+  font-size:10px!important;
+}
+body.theme-light .task .xp{
+  color:#ad6d14!important;
+  font-weight:900!important;
+}
+
+/* Classy Timer Dial */
+body.theme-light .timer-display{
+  color:#1d1a16!important;
+  font-weight:900!important;
+  letter-spacing:2px!important;
+  text-shadow:none!important;
+  animation:none!important;
+}
+body.theme-light .today-view-switch button{
+  background:#f4eee2!important;
+  border:1px solid #dfd6c6!important;
+  color:#554e43!important;
+  border-radius:8px!important;
+  padding:5px 10px!important;
+  font-size:11px!important;
+}
+body.theme-light .today-view-switch button.active{
+  background:#9a6225!important;
+  border-color:#83521e!important;
+  color:#ffffff!important;
+}
+
+/* Classy Inputs & Buttons */
+body.theme-light button{
+  font-family:inherit;background:#f7f3ea;border:1.5px solid #dcd1bf;color:#2b251d;
+  border-radius:12px;font-weight:700;box-shadow:0 1px 2px rgba(35,25,15,0.03);
+}
+body.theme-light button:hover{background:#ede6d8;border-color:#c5b8a2;}
+body.theme-light button.primary,
+body.theme-light .page button.primary,
+body.theme-light .primary{
+  background:linear-gradient(135deg,#2b241d 0%,#16120e 100%)!important;
+  color:#faf6ee!important;
+  border:1.5px solid #453c32!important;
+  border-radius:12px!important;
+  box-shadow:0 4px 14px rgba(35,25,15,0.18)!important;
+  text-shadow:none!important;
+  animation:none!important;
+}
+body.theme-light button.primary:hover,
+body.theme-light .page button.primary:hover{
+  background:linear-gradient(135deg,#3d3329 0%,#201a14 100%)!important;
+  box-shadow:0 6px 18px rgba(35,25,15,0.24)!important;
+}
+body.theme-light input,
+body.theme-light select,
+body.theme-light textarea{
+  background:#ffffff!important;
+  border:1.5px solid #d6ccba!important;
+  color:#1d1a16!important;
+  border-radius:10px!important;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,0.04)!important;
+}
+body.theme-light input:focus,
+body.theme-light select:focus,
+body.theme-light textarea:focus{
+  border-color:#9a6225!important;
+  outline:none!important;
+  box-shadow:0 0 0 3px rgba(154,98,37,0.14)!important;
+}
+
+/* Headings in Light Mode */
+body.theme-light h1,
+body.theme-light h2,
+body.theme-light h3,
+body.theme-light h4,
+body.theme-light .page h1,
+body.theme-light .page h2,
+body.theme-light .page h3,
+body.theme-light .page h4{
+  color:#1d1a16!important;
+  background:none!important;
+  -webkit-background-clip:unset!important;
+  font-weight:800!important;
+}
+body.theme-light .eyebrow{
+  color:#9a6225!important;
+  letter-spacing:1.5px!important;
+  font-weight:900!important;
+}
+body.theme-light .muted{color:#736b5f!important;}
+
+/* Classy Bottom Tabs (Nav Bar) */
+body.theme-light nav.tabs{
+  background:rgba(253,250,245,0.94)!important;
+  backdrop-filter:blur(16px)!important;
+  border-top:1.5px solid #ded5c5!important;
+  box-shadow:0 -4px 20px rgba(35,25,15,0.06)!important;
+}
+body.theme-light nav.tabs button{
+  color:#736b5f!important;
+  font-weight:600!important;
+  transition:all .16s ease!important;
+}
+body.theme-light nav.tabs button:hover{color:#1d1a16!important;}
+body.theme-light nav.tabs button.active{
+  color:#8c551c!important;
+  background:#eee6d6!important;
+  border-radius:12px!important;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,0.05)!important;
+  font-weight:800!important;
+}
+body.theme-light nav.tabs button .ic{filter:none!important;}
+
+/* Classy Settings Groups */
+body.theme-light #page-settings{color:#1d1a16!important;}
+body.theme-light #page-settings .settings-section-label{
+  color:#736b5f!important;
+  font-weight:700!important;
+}
+body.theme-light #page-settings .settings-list-group,
+body.theme-light #page-settings .settings-detail-group{
+  background:#ffffff!important;
+  border:1.5px solid #ded4c3!important;
+  box-shadow:0 4px 16px rgba(35,25,15,0.05)!important;
+  border-radius:20px!important;
+}
+body.theme-light #page-settings .settings-list-row,
+body.theme-light #page-settings .settings-info-row,
+body.theme-light #page-settings .settings-primary-row{
+  background:transparent!important;
+  color:#1d1a16!important;
+  border-bottom:1px solid #ebe4d8!important;
+}
+body.theme-light #page-settings .settings-list-row:active{background:#f7f3ea!important;}
+body.theme-light #page-settings .settings-row-copy b{color:#1d1a16!important;font-weight:700!important;}
+body.theme-light #page-settings .settings-row-copy small{color:#736b5f!important;}
+body.theme-light #page-settings .settings-row-icon{
+  background:#f4eee2!important;
+  border:1px solid #ded5c5!important;
+  color:#8c551c!important;
+}
+body.theme-light #page-settings .settings-row-chevron{color:#a49a8c!important;}
+body.theme-light #page-settings .settings-theme-panel{
+  background:#faf7f1!important;
+  border-top:1px solid #ebe4d8!important;
+}
+body.theme-light #page-settings .settings-back-button{
+  background:#ffffff!important;
+  border:1.5px solid #ded5c5!important;
+  color:#1d1a16!important;
+  box-shadow:0 4px 12px rgba(35,25,15,0.06)!important;
+}
+body.theme-light #page-settings .settings-folder-header h1{color:#1d1a16!important;}
+
+/* Classy AI Card Patch */
+body.theme-light .shy-ai-card{
+  background:linear-gradient(135deg,#ffffff 0%,#faf6ee 100%)!important;
+  border:1.5px solid #ded4c3!important;
+  padding:16px 20px!important;
+}
+body.theme-light .shy-ai-card .shy-ai-copy h3{color:#1d1a16!important;}
+body.theme-light .shy-ai-card .shy-ai-copy p{color:#6a6256!important;}
+
+/* Classy Calendar Heatmap */
+body.theme-light .calendar .cell{
+  background:#f5efe3!important;
+  border:1px solid #e0d7c7!important;
+  color:#635b4f!important;
+}
+body.theme-light .calendar .dow{color:#7b7264!important;}
+body.theme-light .heat0{background:#f5efe3!important;}
+body.theme-light .heat1{background:#d0ebd9!important;border-color:#b5ddc2!important;color:#165b3c!important;}
+body.theme-light .heat2{background:#9bd7b0!important;border-color:#81c799!important;color:#10482f!important;}
+body.theme-light .heat3{background:#55b77c!important;border-color:#3fa567!important;color:#ffffff!important;}
+body.theme-light .heat4{background:#1a6d4b!important;border-color:#135539!important;color:#ffffff!important;}
+
+/* Classy Media & Alarms */
+body.theme-light .alarm-row{background:#ffffff!important;border:1.5px solid #ded4c3!important;}
+body.theme-light .pill.on{color:#1a6d4b!important;border-color:#b7e0cb!important;background:#edf8f2!important;}
+body.theme-light .pill.off{color:#a83844!important;border-color:#f1c3c7!important;background:#fdf1f2!important;}
+body.theme-light .spotify-link{color:#1a6d4b!important;}
+body.theme-light .focus-open-btn{background:linear-gradient(135deg,#9a6225 0%,#734515 100%)!important;color:#fff!important;border-color:#9a6225!important;}
+</style>
 
 
 <style id="perihelion-v78-focus-fixes">

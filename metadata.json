@@ -1,0 +1,6 @@
+{
+  "name": "Perihelion - SHYAMA Routine Quest",
+  "description": "Daily quest routine tracker and productivity dashboard",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
