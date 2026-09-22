@@ -1581,7 +1581,7 @@ body.theme-light .page button.primary,body.theme-light .primary{background:linea
     </div>
   </div>
 
-  <!-- STAGE FOR SMOOTH FINGER SWIPE & SLIDING ANIMATIONS -->
+  <!-- APPLICATION PAGES -->
   <div class="pages-stage" id="pagesStage">
 
   <!-- HOME -->
@@ -1886,7 +1886,7 @@ body.theme-light .page button.primary,body.theme-light .primary{background:linea
   </div>
   </div> <!-- /#pagesStage -->
 
-<div class="focus-overlay" id="focusOverlay" data-bg="aurora" style="--focus-accent:#35e7ff;--focus-progress:0%;">
+<div class="focus-overlay" id="focusOverlay" style="--focus-accent:#ff6b00;--focus-progress:0%;">
   <div class="focus-stage">
     <div class="focus-topbar">
       <div><span class="focus-brand-name">Perihelion</span><span class="focus-brand-sub">ROUTINE QUEST</span></div>
@@ -1930,26 +1930,10 @@ body.theme-light .page button.primary,body.theme-light .primary{background:linea
             <span>Custom</span><label><input id="focusCustomHours" type="number" min="0" max="9" value="0" aria-label="Custom hours">h</label><label><input id="focusCustomMinutes" type="number" min="0" max="59" value="30" aria-label="Custom minutes">m</label><button id="focusCustomSet" type="button">Set</button>
           </div>
         </section>
-        <section class="focus-panel-block">
-          <div class="focus-block-head"><span>▧</span><div><h3>Backgrounds</h3><small>A calming place for a focused mind</small></div></div>
-          <div class="focus-bg-options" aria-label="Soothing backgrounds">
-            <button data-focus-bg="aurora" data-accent="#35e7ff" class="active"><span class="bg-swatch aurora"></span>Aurora</button><button data-focus-bg="ocean" data-accent="#58d8ff"><span class="bg-swatch ocean"></span>Ocean</button><button data-focus-bg="forest" data-accent="#43e6aa"><span class="bg-swatch forest"></span>Forest</button><button data-focus-bg="sunset" data-accent="#ff9a76"><span class="bg-swatch sunset"></span>Sunset</button><button data-focus-bg="moon" data-accent="#b8c7ff"><span class="bg-swatch moon"></span>Night</button>
-          </div>
-        </section>
         <section class="focus-spotify"><div class="spotify-focus-icon"><span class="spotify-logo" aria-label="Spotify"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.72 10.36a.86.86 0 0 1-1.18.28c-3.24-1.98-8.2-2.42-12.07-1.32a.86.86 0 1 1-.47-1.65c4.4-1.26 9.87-.71 13.45 1.48.4.24.52.77.27 1.21Zm-1.36 3.1a.72.72 0 0 1-.99.23c-2.7-1.66-6.82-2.14-10.01-1.17a.72.72 0 1 1-.42-1.38c3.65-1.1 8.2-.55 11.2 1.29.34.21.44.66.22 1.03Zm-1.15 2.97a.58.58 0 0 1-.8.19c-2.36-1.44-5.32-1.76-8.81-.96a.58.58 0 1 1-.26-1.13c3.82-.87 7.1-.5 9.68 1.07.27.16.35.56.19.83Z"/></svg></span></div><div><b>Spotify Lofi</b><small>Music for deeper focus</small></div><a href="https://open.spotify.com/playlist/37i9dQZF1E4yhpveBnebcw" target="_blank" rel="noopener noreferrer">Open Spotify ↗</a></section>
       </aside>
     </div>
   </div>
-</div>
-
-<!-- SLEEK FLOATING SWIPE PAGE INDICATOR -->
-<div class="swipe-page-indicator" id="swipePageIndicator" aria-label="Page dots">
-  <button type="button" class="swipe-dot active" data-page="home" aria-label="Home page"></button>
-  <button type="button" class="swipe-dot" data-page="today" aria-label="Today page"></button>
-  <button type="button" class="swipe-dot" data-page="routine" aria-label="Routine page"></button>
-  <button type="button" class="swipe-dot" data-page="stats" aria-label="Stats page"></button>
-  <button type="button" class="swipe-dot" data-page="media" aria-label="Media page"></button>
-  <button type="button" class="swipe-dot" data-page="settings" aria-label="Settings page"></button>
 </div>
 
 <nav class="tabs">
@@ -2748,85 +2732,26 @@ function nowInRoutine(){
   return null;
 }
 
-// ---------- 4. NAVIGATION & AESTHETIC SLIDING PAGE TRANSITIONS ----------
+// ---------- 4. NAVIGATION (FAST, ZERO-LAG, SMOOTH) ----------
 const PAGE_ORDER = ["home", "today", "routine", "stats", "media", "settings"];
-let __isPageTransitioning = false;
-let __pageTransitionTimeout = null;
 
-function getCurrentPageName() {
-  const cur = document.querySelector(".page.active");
-  if (cur && cur.id) {
-    return cur.id.replace("page-", "");
-  }
-  return "home";
-}
-
-function updatePageDots(activeIdx) {
-  const dots = document.querySelectorAll(".swipe-dot");
-  dots.forEach((dot, idx) => {
-    dot.classList.toggle("active", idx === activeIdx);
-  });
-}
-
-function showPage(name, forcedDirection) {
+function showPage(name) {
   if (!PAGE_ORDER.includes(name)) return;
-  const currentName = getCurrentPageName();
   const targetPage = document.getElementById("page-" + name);
   if (!targetPage) return;
 
-  const fromIdx = PAGE_ORDER.indexOf(currentName);
-  const toIdx = PAGE_ORDER.indexOf(name);
-
-  if (currentName === name && targetPage.classList.contains("active")) {
-    updatePageDots(toIdx);
-    return;
-  }
-
-  const direction = forcedDirection || (toIdx > fromIdx ? "forward" : "backward");
-  const currentPage = document.getElementById("page-" + currentName);
-
-  if (__pageTransitionTimeout) {
-    clearTimeout(__pageTransitionTimeout);
-    __pageTransitionTimeout = null;
-  }
-
-  // Clear previous slide animation classes
-  document.querySelectorAll(".page").forEach(p => {
-    p.classList.remove(
-      "page-slide-in-right",
-      "page-slide-in-left",
-      "page-slide-out-left",
-      "page-slide-out-right"
-    );
+  const pages = document.querySelectorAll(".page");
+  pages.forEach(p => {
+    p.classList.remove("active");
   });
 
-  const inClass = direction === "forward" ? "page-slide-in-right" : "page-slide-in-left";
-  const outClass = direction === "forward" ? "page-slide-out-left" : "page-slide-out-right";
-
-  if (currentPage && currentPage !== targetPage) {
-    currentPage.classList.add(outClass);
-  }
-
-  targetPage.classList.add("active", inClass);
-
-  // Smooth reset scroll position to top
-  window.scrollTo({ top: 0, behavior: "instant" });
-
-  __pageTransitionTimeout = setTimeout(() => {
-    document.querySelectorAll(".page").forEach(p => {
-      if (p !== targetPage) {
-        p.classList.remove("active", "page-slide-out-left", "page-slide-out-right");
-      }
-      p.classList.remove("page-slide-in-right", "page-slide-in-left");
-    });
-    __pageTransitionTimeout = null;
-  }, 320);
+  targetPage.classList.add("active");
 
   // Synchronize bottom tabs
   $all("nav.tabs button").forEach(b => b.classList.toggle("active", b.dataset.page === name));
 
-  // Synchronize indicator dots
-  updatePageDots(toIdx);
+  // Instant scroll to top
+  window.scrollTo({ top: 0, behavior: "instant" });
 
   // Page lifecycle hooks
   if (name !== "settings" && typeof closeAllSettingsFolders === "function") closeAllSettingsFolders();
@@ -2846,207 +2771,6 @@ window.showPage = showPage;
 $all("nav.tabs button").forEach(b => {
   b.addEventListener("click", () => showPage(b.dataset.page));
 });
-
-// ---------- 4B. FINGER SWIPE NAVIGATION ENGINE ----------
-function initSwipeNavigation() {
-  const stage = document.getElementById("pagesStage") || document.querySelector(".app") || document.body;
-  if (!stage) return;
-
-  let startX = 0;
-  let startY = 0;
-  let startTime = 0;
-  let isTracking = false;
-  let isHorizontalSwipe = false;
-  let isVerticalScroll = false;
-  let currentDeltaX = 0;
-
-  function isExcluded(target) {
-    if (!target) return false;
-    // Do not intercept if interacting with interactive input controls
-    if (target.closest("input, textarea, select, [contenteditable]")) return true;
-    // Do not swipe if a modal, voice mode, or fullscreen timer is active
-    const modal = document.querySelector(".focus-overlay.open:not(.minimized), #periVoiceMode.open, .shy-ai-drawer.open");
-    if (modal) return true;
-    return false;
-  }
-
-  function triggerBump(direction) {
-    stage.classList.remove("edge-bump-left", "edge-bump-right");
-    void stage.offsetWidth;
-    stage.classList.add(direction === "left" ? "edge-bump-left" : "edge-bump-right");
-    setTimeout(() => {
-      stage.classList.remove("edge-bump-left", "edge-bump-right");
-    }, 400);
-  }
-
-  function handleSwipeNext() {
-    const curIdx = PAGE_ORDER.indexOf(getCurrentPageName());
-    if (curIdx < PAGE_ORDER.length - 1) {
-      showPage(PAGE_ORDER[curIdx + 1], "forward");
-      if (navigator.vibrate) { try { navigator.vibrate(8); } catch(e) {} }
-    } else {
-      triggerBump("left");
-    }
-  }
-
-  function handleSwipePrev() {
-    const curIdx = PAGE_ORDER.indexOf(getCurrentPageName());
-    if (curIdx > 0) {
-      showPage(PAGE_ORDER[curIdx - 1], "backward");
-      if (navigator.vibrate) { try { navigator.vibrate(8); } catch(e) {} }
-    } else {
-      triggerBump("right");
-    }
-  }
-
-  // Touch handlers
-  stage.addEventListener("touchstart", (e) => {
-    if (e.touches.length !== 1) return;
-    if (isExcluded(e.target)) return;
-
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    startTime = Date.now();
-    isTracking = true;
-    isHorizontalSwipe = false;
-    isVerticalScroll = false;
-    currentDeltaX = 0;
-  }, { passive: true });
-
-  stage.addEventListener("touchmove", (e) => {
-    if (!isTracking || e.touches.length !== 1) return;
-    const curX = e.touches[0].clientX;
-    const curY = e.touches[0].clientY;
-    const dx = curX - startX;
-    const dy = curY - startY;
-
-    if (!isHorizontalSwipe && !isVerticalScroll) {
-      if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)) {
-        isVerticalScroll = true;
-      } else if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.15) {
-        isHorizontalSwipe = true;
-      }
-    }
-
-    if (isHorizontalSwipe) {
-      currentDeltaX = dx;
-      const damped = dx * 0.22;
-      stage.style.transform = `translate3d(${damped}px, 0, 0)`;
-      stage.style.transition = "none";
-    }
-  }, { passive: true });
-
-  function endTouch() {
-    if (!isTracking) return;
-    isTracking = false;
-
-    if (isHorizontalSwipe) {
-      stage.style.transition = "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)";
-      stage.style.transform = "translate3d(0, 0, 0)";
-
-      const dt = Math.max(1, Date.now() - startTime);
-      const velocity = Math.abs(currentDeltaX) / dt;
-      const threshold = 40;
-
-      if (Math.abs(currentDeltaX) > threshold || (velocity > 0.28 && Math.abs(currentDeltaX) > 22)) {
-        if (currentDeltaX < 0) {
-          handleSwipeNext();
-        } else {
-          handleSwipePrev();
-        }
-      }
-    }
-    isHorizontalSwipe = false;
-    isVerticalScroll = false;
-  }
-
-  stage.addEventListener("touchend", endTouch, { passive: true });
-  stage.addEventListener("touchcancel", endTouch, { passive: true });
-
-  // Mouse swipe support for desktop/emulator drag
-  let mouseStartX = 0;
-  let mouseStartY = 0;
-  let mouseStartTime = 0;
-  let isMouseDown = false;
-  let isMouseSwipe = false;
-  let mouseDeltaX = 0;
-
-  stage.addEventListener("mousedown", (e) => {
-    if (e.button !== 0) return;
-    if (isExcluded(e.target)) return;
-    if (e.target.closest("button, a")) return;
-
-    mouseStartX = e.clientX;
-    mouseStartY = e.clientY;
-    mouseStartTime = Date.now();
-    isMouseDown = true;
-    isMouseSwipe = false;
-    mouseDeltaX = 0;
-  });
-
-  window.addEventListener("mousemove", (e) => {
-    if (!isMouseDown) return;
-    const dx = e.clientX - mouseStartX;
-    const dy = e.clientY - mouseStartY;
-
-    if (!isMouseSwipe) {
-      if (Math.abs(dx) > 16 && Math.abs(dx) > Math.abs(dy) * 1.3) {
-        isMouseSwipe = true;
-      }
-    }
-
-    if (isMouseSwipe) {
-      mouseDeltaX = dx;
-      stage.style.transform = `translate3d(${dx * 0.18}px, 0, 0)`;
-      stage.style.transition = "none";
-    }
-  });
-
-  window.addEventListener("mouseup", () => {
-    if (!isMouseDown) return;
-    isMouseDown = false;
-    if (isMouseSwipe) {
-      stage.style.transition = "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)";
-      stage.style.transform = "translate3d(0, 0, 0)";
-
-      const dt = Math.max(1, Date.now() - mouseStartTime);
-      const velocity = Math.abs(mouseDeltaX) / dt;
-
-      if (Math.abs(mouseDeltaX) > 45 || (velocity > 0.3 && Math.abs(mouseDeltaX) > 25)) {
-        if (mouseDeltaX < 0) {
-          handleSwipeNext();
-        } else {
-          handleSwipePrev();
-        }
-      }
-    }
-    isMouseSwipe = false;
-  });
-
-  // Keyboard navigation support
-  window.addEventListener("keydown", (e) => {
-    if (e.target && e.target.closest("input, textarea, select, [contenteditable]")) return;
-    if (document.querySelector(".focus-overlay.open:not(.minimized), #periVoiceMode.open")) return;
-    if (e.key === "ArrowRight") {
-      handleSwipeNext();
-    } else if (e.key === "ArrowLeft") {
-      handleSwipePrev();
-    }
-  });
-
-  // Tap on swipe dot indicators
-  document.querySelectorAll(".swipe-dot").forEach(dot => {
-    dot.addEventListener("click", () => {
-      if (dot.dataset.page) showPage(dot.dataset.page);
-    });
-  });
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initSwipeNavigation, { once: true });
-} else {
-  initSwipeNavigation();
-}
 
 // ---------- 5. HOME + TODAY RENDER ----------
 async function refreshTop(){
@@ -3760,14 +3484,6 @@ $("#focusMaxBtn").addEventListener("click",e=>{
     requestAnimationFrame(updateTimerLabel);
   });
 })();
-$all("#focusOverlay [data-focus-bg]").forEach(b=>b.addEventListener("click",()=>{
-  const theme=b.dataset.focusBg;
-  focusOverlay.dataset.bg=theme;
-  focusOverlay.style.setProperty("--focus-accent",b.dataset.accent);
-  $all("#focusOverlay [data-focus-bg]").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");
-  applyTheme(theme);
-}));
 (function buildClockTicks(){
   const clock=$("#focusClock");
   if(!clock) return;
@@ -4529,20 +4245,20 @@ function applyTheme(theme) {
     height = canvas.height = window.innerHeight;
   }, { passive: true });
 
-  const PARTICLE_COUNT = 45;
+  const PARTICLE_COUNT = 24;
   const particles = [];
 
   for (let i = 0; i < PARTICLE_COUNT; i++) {
     particles.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      r: Math.random() * 2.2 + 1.0,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: -(Math.random() * 0.5 + 0.25),
-      alpha: Math.random() * 0.5 + 0.25,
+      r: Math.random() * 2.0 + 1.0,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: -(Math.random() * 0.4 + 0.2),
+      alpha: Math.random() * 0.45 + 0.2,
       pulse: Math.random() * Math.PI,
       pulseSpeed: Math.random() * 0.02 + 0.015,
-      colorShift: (Math.random() - 0.5) * 20
+      colorShift: (Math.random() - 0.5) * 15
     });
   }
 
@@ -4564,42 +4280,19 @@ function applyTheme(theme) {
       if (p.x < -15) p.x = width + 10;
       if (p.x > width + 15) p.x = -10;
 
-      const currentAlpha = Math.max(0.12, Math.min(0.85, p.alpha + Math.sin(p.pulse) * 0.2));
+      const currentAlpha = Math.max(0.12, Math.min(0.80, p.alpha + Math.sin(p.pulse) * 0.18));
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
 
       if (!isLight) {
-        // Dark Mode: glowing luminous orange embers on black
-        ctx.shadowBlur = p.r * 3.5;
-        ctx.shadowColor = "rgba(255, 107, 0, " + (currentAlpha * 0.75) + ")";
-        ctx.fillStyle = "rgba(255, " + Math.floor(115 + p.colorShift) + ", 0, " + currentAlpha + ")";
+        // Dark Mode: glowing luminous orange embers on black (pure alpha, zero-jank)
+        ctx.fillStyle = "rgba(255, " + Math.floor(120 + p.colorShift) + ", 0, " + currentAlpha + ")";
         ctx.fill();
-        ctx.shadowBlur = 0;
       } else {
         // Light Mode: soft amber-orange floating particles on white
-        ctx.shadowBlur = 0;
         ctx.fillStyle = "rgba(255, 107, 0, " + (currentAlpha * 0.28) + ")";
         ctx.fill();
-      }
-    }
-
-    // Connect close particles with delicate filaments in dark mode
-    if (!isLight) {
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 70) {
-            ctx.beginPath();
-            ctx.strokeStyle = "rgba(255, 107, 0, " + ((1 - dist / 70) * 0.12) + ")";
-            ctx.lineWidth = 0.8;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
       }
     }
 
@@ -4775,11 +4468,8 @@ function applyTheme(theme) {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
           if (!isLight) {
-            ctx.shadowBlur = p.r * 3;
-            ctx.shadowColor = "#ff6b00";
             ctx.fillStyle = p.color + currentAlpha + ")";
             ctx.fill();
-            ctx.shadowBlur = 0;
           } else {
             ctx.fillStyle = p.color + (currentAlpha * 0.45) + ")";
             ctx.fill();
@@ -4802,11 +4492,8 @@ function applyTheme(theme) {
           ctx.beginPath();
           ctx.arc(x, y, p.r, 0, Math.PI * 2);
           if (!isLight) {
-            ctx.shadowBlur = p.r * 3.5;
-            ctx.shadowColor = "#ff6b00";
             ctx.fillStyle = p.color + currentAlpha + ")";
             ctx.fill();
-            ctx.shadowBlur = 0;
           } else {
             ctx.fillStyle = p.color + (currentAlpha * 0.48) + ")";
             ctx.fill();
@@ -4831,11 +4518,8 @@ function applyTheme(theme) {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
           if (!isLight) {
-            ctx.shadowBlur = p.r * 2.8;
-            ctx.shadowColor = "#ff6b00";
             ctx.fillStyle = p.color + currentAlpha + ")";
             ctx.fill();
-            ctx.shadowBlur = 0;
           } else {
             ctx.fillStyle = p.color + (currentAlpha * 0.38) + ")";
             ctx.fill();
@@ -5020,10 +4704,7 @@ function applyTheme(theme) {
       ctx.arc(sw.cx, sw.cy, sw.r, 0, Math.PI * 2);
       ctx.strokeStyle = "rgba(255, 107, 0, " + alpha + ")";
       ctx.lineWidth = Math.max(1, 2.5 * (1 - progress));
-      ctx.shadowBlur = 12 * (1 - progress);
-      ctx.shadowColor = "#ff6b00";
       ctx.stroke();
-      ctx.shadowBlur = 0;
     }
 
     // Render & Update Particles emanating from the AI
@@ -5049,10 +4730,7 @@ function applyTheme(theme) {
       ctx.arc(p.x, p.y, p.r * (1 + progress * 0.3), 0, Math.PI * 2);
       ctx.fillStyle = p.color;
       ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
-      ctx.shadowBlur = p.r * 4;
-      ctx.shadowColor = p.color;
       ctx.fill();
-      ctx.shadowBlur = 0;
     }
 
     ctx.globalAlpha = 1;
@@ -5859,15 +5537,11 @@ body.theme-dark .focus-spotify{
 }
 
 /* ==============================================================
-   CLEAN & AESTHETIC HORIZONTAL PAGE SLIDING TRANSITIONS
+   CLEAN, FAST & SMOOTH PAGE SYSTEM
    ============================================================== */
 .pages-stage{
-  position:relative;
   width:100%;
   min-height:calc(100vh - 165px);
-  overflow-x:clip;
-  touch-action:pan-y pinch-zoom;
-  will-change:transform;
 }
 
 .page{
@@ -5878,175 +5552,12 @@ body.theme-dark .focus-spotify{
 
 .page.active{
   display:block;
+  animation:pageInstantFade 0.12s cubic-bezier(0, 0, 0.2, 1);
 }
 
-/* Forward and Backward Slide Animations */
-@keyframes pageSlideInRight{
-  0%{
-    opacity:0;
-    transform:translate3d(48px, 0, 0);
-  }
-  100%{
-    opacity:1;
-    transform:translate3d(0, 0, 0);
-  }
-}
-
-@keyframes pageSlideInLeft{
-  0%{
-    opacity:0;
-    transform:translate3d(-48px, 0, 0);
-  }
-  100%{
-    opacity:1;
-    transform:translate3d(0, 0, 0);
-  }
-}
-
-@keyframes pageSlideOutLeft{
-  0%{
-    opacity:1;
-    transform:translate3d(0, 0, 0);
-  }
-  100%{
-    opacity:0;
-    transform:translate3d(-48px, 0, 0);
-  }
-}
-
-@keyframes pageSlideOutRight{
-  0%{
-    opacity:1;
-    transform:translate3d(0, 0, 0);
-  }
-  100%{
-    opacity:0;
-    transform:translate3d(48px, 0, 0);
-  }
-}
-
-.page.page-slide-in-right{
-  display:block !important;
-  animation:pageSlideInRight 0.30s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.page.page-slide-in-left{
-  display:block !important;
-  animation:pageSlideInLeft 0.30s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.page.page-slide-out-left{
-  display:block !important;
-  position:absolute !important;
-  top:0 !important;
-  left:0 !important;
-  width:100% !important;
-  pointer-events:none !important;
-  z-index:0 !important;
-  animation:pageSlideOutLeft 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.page.page-slide-out-right{
-  display:block !important;
-  position:absolute !important;
-  top:0 !important;
-  left:0 !important;
-  width:100% !important;
-  pointer-events:none !important;
-  z-index:0 !important;
-  animation:pageSlideOutRight 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Rubber-band edge bounce feedback at limits */
-@keyframes edgeBumpLeft{
-  0%{transform:translate3d(0, 0, 0);}
-  35%{transform:translate3d(-20px, 0, 0);}
-  70%{transform:translate3d(6px, 0, 0);}
-  100%{transform:translate3d(0, 0, 0);}
-}
-
-@keyframes edgeBumpRight{
-  0%{transform:translate3d(0, 0, 0);}
-  35%{transform:translate3d(20px, 0, 0);}
-  70%{transform:translate3d(-6px, 0, 0);}
-  100%{transform:translate3d(0, 0, 0);}
-}
-
-.pages-stage.edge-bump-left{
-  animation:edgeBumpLeft 0.38s cubic-bezier(0.2, 0.9, 0.3, 1);
-}
-.pages-stage.edge-bump-right{
-  animation:edgeBumpRight 0.38s cubic-bezier(0.2, 0.9, 0.3, 1);
-}
-
-/* ==============================================================
-   FLOATING SWIPE PAGE INDICATOR DOTS
-   ============================================================== */
-.swipe-page-indicator{
-  position:fixed;
-  bottom:64px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:5px 12px;
-  border-radius:999px;
-  background:rgba(8,8,12,0.85);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  border:1px solid rgba(255,107,0,0.30);
-  box-shadow:0 6px 20px rgba(0,0,0,0.6), 0 0 12px rgba(255,107,0,0.18);
-  z-index:88;
-  pointer-events:auto;
-  transition:all .25s ease;
-}
-.swipe-dot{
-  width:6px;
-  height:6px;
-  border-radius:999px;
-  background:rgba(255,255,255,0.22);
-  border:none;
-  padding:0;
-  cursor:pointer;
-  transition:all .28s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.swipe-dot:hover{
-  background:rgba(255,107,0,0.65);
-  transform:scale(1.25);
-}
-.swipe-dot.active{
-  width:20px;
-  background:#ff6b00;
-  box-shadow:0 0 10px rgba(255,107,0,0.9);
-}
-
-body.theme-light .swipe-page-indicator{
-  background:rgba(255,255,255,0.9);
-  border:1px solid #ded4c3;
-  box-shadow:0 4px 16px rgba(0,0,0,0.1);
-}
-body.theme-light .swipe-dot{
-  background:#ded4c3;
-}
-body.theme-light .swipe-dot.active{
-  background:#ff6b00;
-  box-shadow:0 0 8px rgba(255,107,0,0.5);
-}
-
-@media(max-width:480px){
-  .swipe-page-indicator{
-    bottom:58px;
-    padding:4px 10px;
-    gap:6px;
-  }
-  .swipe-dot{
-    width:5px;
-    height:5px;
-  }
-  .swipe-dot.active{
-    width:16px;
-  }
+@keyframes pageInstantFade{
+  0%{opacity:0.88;}
+  100%{opacity:1;}
 }
 
 /* ==============================================================
