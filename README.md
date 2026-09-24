@@ -1,4 +1,4 @@
-# 🌑 SHYAMA Routine Quest
+# 🌑 Perihelion Routine Quest
 
 **My Personal Routine, Study & Discipline App**
 
